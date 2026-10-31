@@ -2,6 +2,18 @@
 
 Experiments using [LiquidAI/d1-2B](https://huggingface.co/LiquidAI/d1-2B) as a System 1 decision model for DeepSeek Harness Browser Use and Computer Use.
 
+## Repository
+
+Published at [github.com/Alyosha28/dsh-cu](https://github.com/Alyosha28/dsh-cu) with the
+`dsh-plugin` GitHub topic. The repository contains the installable packages, so a
+clone is enough:
+
+```bash
+git clone https://github.com/Alyosha28/dsh-cu.git
+cd dsh-cu && npm install --include=dev && npm run build
+npm run install:plugin -- --profile=dsh-cu
+```
+
 ## Install as a DSH plugin
 
 The packages target DeepSeek Harness **0.2.1-rc.5** (`engines.dsh: >=0.2.1-rc.5 <0.3.0`) and cordis `~4.0.5`, the versions the desktop application runs. A different runtime is refused by the Harness compatibility gate with an explicit message instead of loading a mismatched plugin.
