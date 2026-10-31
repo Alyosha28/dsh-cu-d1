@@ -21,7 +21,9 @@ const PACKAGES = ['dsh-cu-core', 'dsh-browser-use-d1', 'dsh-computer-use-d1', 'd
 
 async function appRunning(): Promise<boolean> {
   try {
-    const { stdout } = await run('pgrep', ['-f', 'DeepSeek Harness.app/Contents/MacOS/DeepSeek Harness'])
+    // A pattern without spaces: macOS pgrep -f does not match this app's
+    // full path when the pattern itself contains spaces.
+    const { stdout } = await run('pgrep', ['-f', 'MacOS/DeepSeek'])
     return stdout.trim() !== ''
   } catch {
     return false
