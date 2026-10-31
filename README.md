@@ -5,7 +5,7 @@ Experiments using [LiquidAI/d1-2B](https://huggingface.co/LiquidAI/d1-2B) as a S
 ## Repository
 
 [![dsh-plugin](https://img.shields.io/badge/GitHub%20topic-dsh--plugin-2563eb)](https://github.com/topics/dsh-plugin)
-[github.com/Alyosha28/dsh-cu](https://github.com/Alyosha28/dsh-cu) · MIT
+[github.com/Alyosha28/dsh-cu-d1](https://github.com/Alyosha28/dsh-cu-d1) · MIT
 
 This repository is an installable DSH plugin, not a directory: `@dsh-cu/bundle`
 declares `dsh.bundle.patch`, `@dsh-cu/client` declares `dsh.client`, and every
@@ -13,7 +13,7 @@ package declares `engines.dsh`. The plugin path is a profile, so the concrete
 install is:
 
 ```bash
-git clone https://github.com/Alyosha28/dsh-cu.git
+git clone https://github.com/Alyosha28/dsh-cu-d1.git
 cd dsh-cu
 npm install --include=dev && npm run build
 

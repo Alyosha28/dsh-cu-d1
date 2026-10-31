@@ -26,11 +26,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alyosha28/dsh-cu.git"
+    "url": "git+https://github.com/Alyosha28/dsh-cu-d1.git"
   },
-  "homepage": "https://github.com/Alyosha28/dsh-cu#readme",
+  "homepage": "https://github.com/Alyosha28/dsh-cu-d1#readme",
   "bugs": {
-    "url": "https://github.com/Alyosha28/dsh-cu/issues"
+    "url": "https://github.com/Alyosha28/dsh-cu-d1/issues"
   },
   "keywords": [
     "dsh-plugin",
