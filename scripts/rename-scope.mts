@@ -19,10 +19,11 @@ const args = new Map(process.argv.slice(2).map(arg => {
   return [key, value]
 }))
 const to = args.get('to')
+const from = args.get('from') ?? '@dsh-cu'
 const apply = args.has('apply')
 
-if (to === undefined || !/^@[a-z\d][a-z\d._-]*$/u.test(to)) {
-  process.stderr.write('usage: node scripts/rename-scope.mts --to=@scope (--apply)\n')
+if (to === undefined || !/^@[a-z\d][a-z\d._-]*$/u.test(to) || !/^@[a-z\d][a-z\d._-]*$/u.test(from)) {
+  process.stderr.write('usage: node scripts/rename-scope.mts --to=@scope [--from=@old-scope] (--apply)\n')
   process.exit(2)
 }
 const prefix = 'dsh-cu-'
@@ -51,13 +52,13 @@ for (const entry of await readdir(packagesDir, { withFileTypes: true })) {
     continue
   }
   const name = JSON.parse(await readFile(manifestPath, 'utf8')).name as string
-  if (!name.startsWith('@dsh-cu/')) continue
-  const local = name.slice('@dsh-cu/'.length)
+  if (!name.startsWith(`${from}/`)) continue
+  const local = name.slice(from.length + 1)
   renames.push([name, `${to}/${local.startsWith(prefix) ? local : prefix + local}`])
 }
 
 if (renames.length === 0) {
-  process.stderr.write('nothing to rename: no @dsh-cu/* packages found\n')
+  process.stderr.write(`nothing to rename: no ${from}/* packages found\n`)
   process.exit(1)
 }
 
