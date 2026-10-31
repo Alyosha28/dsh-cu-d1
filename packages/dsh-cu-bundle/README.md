@@ -1,4 +1,4 @@
-# @alyosha28/dsh-cu-bundle
+# @albaincompleta/dsh-cu-bundle
 
 A DSH profile layer that mounts the D1 providers over a stock profile.
 
@@ -6,11 +6,11 @@ The bundle itself has no runtime code. Its `cordis.patch.yml` inserts:
 
 | Entry | Purpose |
 |---|---|
-| `dsh-cu-client` | `@alyosha28/dsh-cu-client`: the browser half that renders DSH-CU tool cards in the DSH client |
+| `dsh-cu-client` | `@albaincompleta/dsh-cu-client`: the browser half that renders DSH-CU tool cards in the DSH client |
 | `browser-use-registry` | The single browser-use registration slot (`@deepseek-ai/dsh-browser-use`) |
-| `dsh-cu-browser` | `@alyosha28/dsh-cu-browser-use-d1` in launch mode, headless off macOS, locale `zh` |
+| `dsh-cu-browser` | `@albaincompleta/dsh-cu-browser-use-d1` in launch mode, headless off macOS, locale `zh` |
 | `computer-use-registry` | `@deepseek-ai/dsh-computer-use`, disabled |
-| `dsh-cu-computer` | `@alyosha28/dsh-cu-computer-use-d1`, disabled (needs macOS Accessibility and Screen Recording) |
+| `dsh-cu-computer` | `@albaincompleta/dsh-cu-computer-use-d1`, disabled (needs macOS Accessibility and Screen Recording) |
 
 ## Install
 
@@ -24,7 +24,7 @@ dsh plugin --profile dsh-cu add \
 
 # 2. Add the bundle to the profile's layer list.
 #    ~/.dsh/profiles/dsh-cu/package.json
-#    "dsh": { "profile": { "bundles": ["@deepseek-ai/dsh-base", "@alyosha28/dsh-cu-bundle"] } }
+#    "dsh": { "profile": { "bundles": ["@deepseek-ai/dsh-base", "@albaincompleta/dsh-cu-bundle"] } }
 
 # 3. Compose and verify without starting a browser or a model.
 dsh --profile dsh-cu --dump-config | grep dsh-cu

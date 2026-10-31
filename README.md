@@ -7,8 +7,8 @@ Experiments using [LiquidAI/d1-2B](https://huggingface.co/LiquidAI/d1-2B) as a S
 [![dsh-plugin](https://img.shields.io/badge/GitHub%20topic-dsh--plugin-2563eb)](https://github.com/topics/dsh-plugin)
 [github.com/Alyosha28/dsh-cu-d1](https://github.com/Alyosha28/dsh-cu-d1) · MIT
 
-This repository is an installable DSH plugin, not a directory: `@alyosha28/dsh-cu-bundle`
-declares `dsh.bundle.patch`, `@alyosha28/dsh-cu-client` declares `dsh.client`, and every
+This repository is an installable DSH plugin, not a directory: `@albaincompleta/dsh-cu-bundle`
+declares `dsh.bundle.patch`, `@albaincompleta/dsh-cu-client` declares `dsh.client`, and every
 package declares `engines.dsh`. The plugin path is a profile, so the concrete
 install is:
 
@@ -17,7 +17,7 @@ git clone https://github.com/Alyosha28/dsh-cu-d1.git
 cd dsh-cu
 npm install --include=dev && npm run build
 
-# One command: links the packages, mounts @alyosha28/dsh-cu-bundle, runs the doctor.
+# One command: links the packages, mounts @albaincompleta/dsh-cu-bundle, runs the doctor.
 npm run install:plugin -- --profile=dsh-cu
 
 # Equivalent by hand:
@@ -44,12 +44,12 @@ npm run install:plugin -- --profile=dsh-cu
 
 # Or run each step by hand:
 #   dsh plugin --profile dsh-cu add link:$PWD/packages/dsh-cu-bundle ... 
-#   add "@alyosha28/dsh-cu-bundle" to ~/.dsh/profiles/dsh-cu/package.json
+#   add "@albaincompleta/dsh-cu-bundle" to ~/.dsh/profiles/dsh-cu/package.json
 #   npm run plugin:doctor -- --profile=dsh-cu
 ```
 
 The plugin is consumed at the profile level, not inside the desktop application:
-any profile that lists `@alyosha28/dsh-cu-bundle` mounts it, whether that profile is booted
+any profile that lists `@albaincompleta/dsh-cu-bundle` mounts it, whether that profile is booted
 by the CLI (`dsh --profile dsh-cu …`) or shipped another way. Installing into the
 Electron-owned `desktop` profile is optional and not required for the plugin to
 be a DSH plugin; if you ever do it, quit DSH first so the running app cannot
@@ -85,9 +85,9 @@ D1_DECISION_TOKEN=test-token npm run test:live:d1
 The real ordinary application matrix covers fresh TextEdit documents and a resettable Calculator, including dynamic AX actions, Skill capture/rerun/approval/replay, stale-input recovery, multiwindow and occlusion availability, active-run stop, and sensitive-data persistence. Run three independent rounds and aggregate their timing evidence:
 
 ```bash
-DSH_CU_REAL_APPS=1 DSH_CU_REAL_APP_ROUND=1 npm run test:e2e --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/real-app-matrix.e2e.ts
-DSH_CU_REAL_APPS=1 DSH_CU_REAL_APP_ROUND=2 npm run test:e2e --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/real-app-matrix.e2e.ts
-DSH_CU_REAL_APPS=1 DSH_CU_REAL_APP_ROUND=3 npm run test:e2e --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/real-app-matrix.e2e.ts
+DSH_CU_REAL_APPS=1 DSH_CU_REAL_APP_ROUND=1 npm run test:e2e --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/real-app-matrix.e2e.ts
+DSH_CU_REAL_APPS=1 DSH_CU_REAL_APP_ROUND=2 npm run test:e2e --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/real-app-matrix.e2e.ts
+DSH_CU_REAL_APPS=1 DSH_CU_REAL_APP_ROUND=3 npm run test:e2e --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/real-app-matrix.e2e.ts
 uv run python -m dsh_cu_decision.real_app_acceptance
 ```
 
@@ -96,9 +96,9 @@ These rounds use a deterministic decision fixture through the D1 Provider contra
 The third-party matrix covers LibreOffice Writer, WPS Writer, Visual Studio Code, and Chrome. LibreOffice and Chrome use independent AX readback; WPS and Visual Studio Code use independent macOS Vision OCR readback. A controlled foreground anchor and a 20 ms process monitor verify that execution does not switch the frontmost application. Run three independent rounds and aggregate their evidence:
 
 ```bash
-DSH_CU_THIRD_PARTY_APPS=1 DSH_CU_THIRD_PARTY_ROUND=1 npm run test:e2e --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/third-party-apps.e2e.ts
-DSH_CU_THIRD_PARTY_APPS=1 DSH_CU_THIRD_PARTY_ROUND=2 npm run test:e2e --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/third-party-apps.e2e.ts
-DSH_CU_THIRD_PARTY_APPS=1 DSH_CU_THIRD_PARTY_ROUND=3 npm run test:e2e --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/third-party-apps.e2e.ts
+DSH_CU_THIRD_PARTY_APPS=1 DSH_CU_THIRD_PARTY_ROUND=1 npm run test:e2e --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/third-party-apps.e2e.ts
+DSH_CU_THIRD_PARTY_APPS=1 DSH_CU_THIRD_PARTY_ROUND=2 npm run test:e2e --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/third-party-apps.e2e.ts
+DSH_CU_THIRD_PARTY_APPS=1 DSH_CU_THIRD_PARTY_ROUND=3 npm run test:e2e --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/third-party-apps.e2e.ts
 uv run python -m dsh_cu_decision.third_party_acceptance
 ```
 
@@ -110,7 +110,7 @@ Reports are written to `results/third-party/` and `results/THIRD_PARTY_ACCEPTANC
 - Local Browser Use control with real Chrome DOM snapshots and Playwright.
 - A TypeScript DSH Browser Use Provider using official `SessionResources`, with standard direct-tool execution and independent structured verification.
 - A read-only `browser_observe` path that returns the current element table for planning and postcondition writing without D1 or input.
-- DSH-CU tools render as first-class cards inside the DSH client: `@alyosha28/dsh-cu-client` declares `dsh.client`, the client module scanner serves its bundle, and each tool result shows a status chip, a one-line summary, and an expandable payload in the transcript.
+- DSH-CU tools render as first-class cards inside the DSH client: `@albaincompleta/dsh-cu-client` declares `dsh.client`, the client module scanner serves its bundle, and each tool result shows a status chip, a one-line summary, and an expandable payload in the transcript.
 - The controlled tab is marked while a run is active: a title prefix (`● DSH-CU 控制中 · `) and a favicon dot stay visible in the browser tab strip, survive navigation, and clear on finish, stop, failure, and takeover.
 - A menu-bar item (`◉ DSH-CU`) appears for the duration of a native run and of a visible browser run, with the target in its tooltip and a localized "stop" action. It is an accessory status item: no Dock icon, no activation, no focus change.
 - Direct `browser_navigate`, `browser_tabs`, `browser_upload`, and `browser_downloads` tools: open a URL, list/select/open/close tabs, upload local files into one file input, and collect page downloads without a decision call. Selecting a tab moves the provider's owned page, its indicator, and every later subgoal to that tab. Upload requires a per-call approval naming every path and refuses relative paths, missing files, directories, and non-file inputs before prompting.
@@ -169,10 +169,10 @@ The indicators are driven by execution adapters rather than model output. Local 
 Run the focused visible-control checks:
 
 ```bash
-npm test --workspace @alyosha28/dsh-cu-browser-use-d1 -- tests/indicator.spec.ts
-npm run test:e2e --workspace @alyosha28/dsh-cu-browser-use-d1 -- tests/visible-browser.e2e.ts
-npm run test:e2e --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/indicator.e2e.ts
-npm test --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/provider.spec.ts -t "preserves continuous foreground input"
+npm test --workspace @albaincompleta/dsh-cu-browser-use-d1 -- tests/indicator.spec.ts
+npm run test:e2e --workspace @albaincompleta/dsh-cu-browser-use-d1 -- tests/visible-browser.e2e.ts
+npm run test:e2e --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/indicator.e2e.ts
+npm test --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/provider.spec.ts -t "preserves continuous foreground input"
 ```
 
 These checks inspect real macOS windows, exercise all three controls through Accessibility, verify foreground and system-pointer preservation, confirm continuous foreground typing during dynamic and Skill execution, and cover normal cleanup and forced helper termination. Evidence is recorded in [`results/VISIBLE_CONTROL_ACCEPTANCE.md`](results/VISIBLE_CONTROL_ACCEPTANCE.md).

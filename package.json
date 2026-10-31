@@ -6,14 +6,14 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspace @alyosha28/dsh-cu-core && npm run build --workspace @alyosha28/dsh-cu-testkit && npm run build --workspace @alyosha28/dsh-cu-browser-use-d1 && npm run build --workspace @alyosha28/dsh-cu-computer-use-d1",
+    "build": "npm run build --workspace @albaincompleta/dsh-cu-core && npm run build --workspace @albaincompleta/dsh-cu-testkit && npm run build --workspace @albaincompleta/dsh-cu-browser-use-d1 && npm run build --workspace @albaincompleta/dsh-cu-computer-use-d1",
     "test": "npm test --workspaces --if-present",
     "test:live:browser": "tsx benchmarks/official-public-browser.mts",
     "test:live:d1": "tsx benchmarks/live-public-d1.mts",
-    "test:live:native": "npm run test:e2e --workspace @alyosha28/dsh-cu-computer-use-d1 -- tests/official-real-app.e2e.ts",
+    "test:live:native": "npm run test:e2e --workspace @albaincompleta/dsh-cu-computer-use-d1 -- tests/official-real-app.e2e.ts",
     "test:plugin": "node scripts/plugin-dsh.mts",
     "plugin:doctor": "node scripts/plugin-doctor.mts",
-    "test:unit": "npm test --workspace @alyosha28/dsh-cu-core && npm test --workspace @alyosha28/dsh-cu-browser-use-d1",
+    "test:unit": "npm test --workspace @albaincompleta/dsh-cu-core && npm test --workspace @albaincompleta/dsh-cu-browser-use-d1",
     "install:plugin": "node scripts/install-plugin.mts",
     "install:desktop": "node scripts/install-desktop-profile.mts",
     "publish:plugin": "node scripts/publish-packages.mts"

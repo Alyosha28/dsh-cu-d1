@@ -2,9 +2,9 @@
 
 ## Delivered
 
-- `@alyosha28/dsh-cu-core` now owns shared observation, decision, action validation, task policy, subgoal input, and the loopback decision client.
-- `@alyosha28/dsh-cu-browser-use-d1` provides standard-preset Browser Use subgoals with bounded loops and independent verification.
-- `@alyosha28/dsh-cu-computer-use-d1` provides standard-preset macOS subgoals through the **official CUA tool**, official application authorization, native snapshots, and per-Agent operation serialization.
+- `@albaincompleta/dsh-cu-core` now owns shared observation, decision, action validation, task policy, subgoal input, and the loopback decision client.
+- `@albaincompleta/dsh-cu-browser-use-d1` provides standard-preset Browser Use subgoals with bounded loops and independent verification.
+- `@albaincompleta/dsh-cu-computer-use-d1` provides standard-preset macOS subgoals through the **official CUA tool**, official application authorization, native snapshots, and per-Agent operation serialization.
 - Shared contract: `benchmarks/computer-subgoal-v1.schema.json`, including `goal`, `verify`, `maxSteps`, `policy`, and structured `inputs`.
 
 ## Native execution

@@ -4,7 +4,7 @@ import type { Browser, Page } from 'playwright'
 import { Config } from '../src/config.ts'
 import { runBrowserSubgoal } from '../src/controller.ts'
 import type { D1DecisionClient } from '../src/decision.ts'
-import { RunController } from '@alyosha28/dsh-cu-core/run-controller'
+import { RunController } from '@albaincompleta/dsh-cu-core/run-controller'
 import { CHROME } from './fixtures.ts'
 
 let browser: Browser

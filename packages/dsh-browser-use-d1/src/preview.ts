@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url'
 import { createInterface } from 'node:readline'
 import type { Page } from 'playwright'
 import { z } from 'zod'
-import type { ActivityEvent, ControlAction } from '@alyosha28/dsh-cu-core/activity'
-import { compileSwiftHelper } from '@alyosha28/dsh-cu-core/helper-cache'
+import type { ActivityEvent, ControlAction } from '@albaincompleta/dsh-cu-core/activity'
+import { compileSwiftHelper } from '@albaincompleta/dsh-cu-core/helper-cache'
 import { BrowserControlIndicator, DEFAULT_PANEL_STRINGS, type BrowserRunIndicator, type PanelStrings, type RunOutcome } from './indicator.ts'
 
 const helperEvent = z.object({

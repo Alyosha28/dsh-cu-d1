@@ -1,5 +1,5 @@
 {
-  "name": "@alyosha28/dsh-cu-bundle",
+  "name": "@albaincompleta/dsh-cu-bundle",
   "version": "0.2.8",
   "description": "DSH profile bundle that mounts the D1 Browser Use and Computer Use providers with their required registries",
   "type": "module",
@@ -55,9 +55,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@alyosha28/dsh-cu-browser-use-d1": "0.2.8",
-    "@alyosha28/dsh-cu-client": "0.2.8",
-    "@alyosha28/dsh-cu-computer-use-d1": "0.2.8",
-    "@alyosha28/dsh-cu-core": "0.2.8"
+    "@albaincompleta/dsh-cu-browser-use-d1": "0.2.8",
+    "@albaincompleta/dsh-cu-client": "0.2.8",
+    "@albaincompleta/dsh-cu-computer-use-d1": "0.2.8",
+    "@albaincompleta/dsh-cu-core": "0.2.8"
   }
 }

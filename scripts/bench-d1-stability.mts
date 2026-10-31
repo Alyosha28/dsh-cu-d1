@@ -1,4 +1,4 @@
-import { D1DecisionClient } from '@alyosha28/dsh-cu-core/decision'
+import { D1DecisionClient } from '@albaincompleta/dsh-cu-core/decision'
 import { execFile } from 'node:child_process'
 import { mkdtemp, readFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'

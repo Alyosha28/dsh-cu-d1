@@ -6,19 +6,19 @@ import {
   EXTRACT_MAX_VALUES,
   extractInputSchema,
   normalizeText,
-} from '@alyosha28/dsh-cu-core/extract'
+} from '@albaincompleta/dsh-cu-core/extract'
 import type {
   ExtractField,
   ExtractFieldEvidence,
   ExtractLocator,
   ExtractResult,
-} from '@alyosha28/dsh-cu-core/extract'
-import type { ExecutionHandle } from '@alyosha28/dsh-cu-core/run-controller'
+} from '@albaincompleta/dsh-cu-core/extract'
+import type { ExecutionHandle } from '@albaincompleta/dsh-cu-core/run-controller'
 import type { ResolvedConfig } from './config.ts'
 import { navigationUrl } from './dom.ts'
 import { locatorFor } from './locators.ts'
 import { readPageTitle } from './tab-marker.ts'
-import { uiStrings } from '@alyosha28/dsh-cu-core/locale'
+import { uiStrings } from '@albaincompleta/dsh-cu-core/locale'
 
 
 async function readRawValue(

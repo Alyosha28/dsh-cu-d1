@@ -1,13 +1,13 @@
-import { validateDecision } from '@alyosha28/dsh-cu-core/actions'
-import { checkPagePolicy, checkTargetAmbiguity, taskPolicySchema } from '@alyosha28/dsh-cu-core/policy'
-import { assertSkillScope, decisionForSkillStep, SkillError, verificationForSkill } from '@alyosha28/dsh-cu-core/skills'
-import type { VerifiedSkill } from '@alyosha28/dsh-cu-core/skills'
+import { validateDecision } from '@albaincompleta/dsh-cu-core/actions'
+import { checkPagePolicy, checkTargetAmbiguity, taskPolicySchema } from '@albaincompleta/dsh-cu-core/policy'
+import { assertSkillScope, decisionForSkillStep, SkillError, verificationForSkill } from '@albaincompleta/dsh-cu-core/skills'
+import type { VerifiedSkill } from '@albaincompleta/dsh-cu-core/skills'
 import type { ComputerSubgoalInput, RunState } from './controller.ts'
 import { executeNative, hasPendingState, isUncertainNativePaste, parseAxElements, readNativeState, verifyNative } from './controller.ts'
 import type { NativeCaller } from './controller.ts'
-import type { RunBudget } from '@alyosha28/dsh-cu-core/budget'
-import type { ActivitySink } from '@alyosha28/dsh-cu-core/activity'
-import type { ExecutionHandle } from '@alyosha28/dsh-cu-core/run-controller'
+import type { RunBudget } from '@albaincompleta/dsh-cu-core/budget'
+import type { ActivitySink } from '@albaincompleta/dsh-cu-core/activity'
+import type { ExecutionHandle } from '@albaincompleta/dsh-cu-core/run-controller'
 import type { ResolvedConfig } from './config.ts'
 
 
@@ -77,7 +77,7 @@ export async function runNativeSkill(
       }
       await indicator?.activity({ phase: 'observing', step: stepIndex + 1, maxSteps, route: 'skill' })
       const nativeState = await readNativeState(caller, params, signal)
-      const observation: import('@alyosha28/dsh-cu-core/types').Observation = {
+      const observation: import('@albaincompleta/dsh-cu-core/types').Observation = {
         snapshot_id: nativeState.snapshotId,
         version: 0,
         url: `app://${nativeState.pid}/${selected.windowId}`,

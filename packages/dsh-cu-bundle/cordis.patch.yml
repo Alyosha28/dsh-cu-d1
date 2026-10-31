@@ -1,4 +1,4 @@
-# @alyosha28/dsh-cu-bundle — profile layer that inserts the D1 providers.
+# @albaincompleta/dsh-cu-bundle — profile layer that inserts the D1 providers.
 #
 # Install order: this layer runs after the profile's earlier bundles, so the
 # registries it inserts come after the core services (`tools`, `agents`,
@@ -18,11 +18,11 @@
     # Client half: this entry's package declares dsh.client, so the DSH client
     # module scanner serves its browser bundle and the tool cards load.
     - id: dsh-cu-client
-      name: "@alyosha28/dsh-cu-client"
+      name: "@albaincompleta/dsh-cu-client"
     - id: browser-use-registry
       name: "@deepseek-ai/dsh-browser-use"
     - id: dsh-cu-browser
-      name: "@alyosha28/dsh-cu-browser-use-d1"
+      name: "@albaincompleta/dsh-cu-browser-use-d1"
       config:
         mode: launch
         headless: !!js process.env.DSH_CU_HEADLESS === '1' || process.platform !== 'darwin'
@@ -35,7 +35,7 @@
       name: "@deepseek-ai/dsh-computer-use"
       disabled: true
     - id: dsh-cu-computer
-      name: "@alyosha28/dsh-cu-computer-use-d1"
+      name: "@albaincompleta/dsh-cu-computer-use-d1"
       disabled: true
       config:
         locale: zh

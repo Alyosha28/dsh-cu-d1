@@ -14,7 +14,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
 import { z } from 'zod'
-import { executeToolFixture } from '@alyosha28/dsh-cu-testkit'
+import { executeToolFixture } from '@albaincompleta/dsh-cu-testkit'
 import { ToolCallId } from '@deepseek-ai/dsh-llm'
 import { HELPER, pathGrant } from '../packages/dsh-computer-use-d1/tests/fixtures.ts'
 

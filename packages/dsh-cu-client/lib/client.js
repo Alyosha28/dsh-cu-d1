@@ -1,5 +1,5 @@
 window.__ModuleLoader__.load({
-  id: '@alyosha28/dsh-cu-client',
+  id: '@albaincompleta/dsh-cu-client',
   factory: (require) => {
     var module = { exports: {} }
     var exports = module.exports

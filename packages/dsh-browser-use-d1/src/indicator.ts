@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto'
 import type { CDPSession, Page } from 'playwright'
 import { z } from 'zod'
-import type { ActivityEvent, ActivitySink, ControlAction } from '@alyosha28/dsh-cu-core/activity'
-import { uiStrings, type PanelStrings } from '@alyosha28/dsh-cu-core/locale'
-import type { RunStatus } from '@alyosha28/dsh-cu-core/contract'
+import type { ActivityEvent, ActivitySink, ControlAction } from '@albaincompleta/dsh-cu-core/activity'
+import { uiStrings, type PanelStrings } from '@albaincompleta/dsh-cu-core/locale'
+import type { RunStatus } from '@albaincompleta/dsh-cu-core/contract'
 import { TabMarker } from './tab-marker.ts'
 
 const controlEvent = z.object({

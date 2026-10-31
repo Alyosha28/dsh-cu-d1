@@ -61,9 +61,9 @@ PASS  invalid config fails closed — captureSkills without skillStorePath
 - 桌面应用实际是 `@deepseek-ai/dsh-desktop-runtime` **0.2.1-rc.5**（asar 内 `dsh-agent`、`dsh-tools`、`app-boot` 均为 0.2.1-rc.5，cordis 4.0.5）。
 - Harness 有兼容性门禁：bundle 的 `engines.dsh` 或 `@deepseek-ai/dsh*` peer 不满足运行版本时，直接 `skipping profile bundle`，插件不会加载。
 
-因此把全部依赖、peer、`engines.dsh`、loader/include 版本对齐到 0.2.1-rc.5，并把测试工具链换成 `@alyosha28/dsh-cu-testkit`（0.2.1 只有单次 `tools.execute`）。之后：
+因此把全部依赖、peer、`engines.dsh`、loader/include 版本对齐到 0.2.1-rc.5，并把测试工具链换成 `@albaincompleta/dsh-cu-testkit`（0.2.1 只有单次 `tools.execute`）。之后：
 
-- `dsh plugin --profile dsh-cu-install add link:...` + `@alyosha28/dsh-cu-bundle` 进 `bundles` → `--dump-config` 出现两个插件条目，无 skip。
+- `dsh plugin --profile dsh-cu-install add link:...` + `@albaincompleta/dsh-cu-bundle` 进 `bundles` → `--dump-config` 出现两个插件条目，无 skip。
 - `dsh --profile dsh-cu-install --json "ok"` → 完整跑完一轮。
 - `DSH_CU_HEADLESS=1 dsh ... "Use browser_observe once"` → 模型真的调用 `browser_observe`，返回 `status: success`。
 - `npm run plugin:doctor -- --profile=dsh-cu-install` → 全部 PASS。

@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 import { Config } from '../src/config.ts'
 import { checkPagePolicy, checkTargetAmbiguity, isCredentialInput, isSignInAction } from '../src/policy.ts'
-import { needsConsequentialApproval, needsLoginApproval } from '@alyosha28/dsh-cu-core/policy-approvals'
+import { needsConsequentialApproval, needsLoginApproval } from '@albaincompleta/dsh-cu-core/policy-approvals'
 import type { Observation } from '../src/dom.ts'
 
 const observation: Observation = {

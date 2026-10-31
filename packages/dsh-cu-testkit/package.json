@@ -1,5 +1,5 @@
 {
-  "name": "@alyosha28/dsh-cu-testkit",
+  "name": "@albaincompleta/dsh-cu-testkit",
   "version": "0.2.8",
   "private": true,
   "description": "Tool-execution fixture for DSH-CU tests, matching the DSH 0.2.1 tool registry",

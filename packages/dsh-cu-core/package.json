@@ -1,5 +1,5 @@
 {
-  "name": "@alyosha28/dsh-cu-core",
+  "name": "@albaincompleta/dsh-cu-core",
   "version": "0.2.8",
   "type": "module",
   "main": "dist/index.js",

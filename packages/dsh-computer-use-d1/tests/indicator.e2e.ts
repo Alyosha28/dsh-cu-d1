@@ -8,7 +8,7 @@ import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
 import { setTimeout as delay } from 'node:timers/promises'
 import { NativeControlIndicator } from '../src/indicator.ts'
-import type { ControlAction } from '@alyosha28/dsh-cu-core/activity'
+import type { ControlAction } from '@albaincompleta/dsh-cu-core/activity'
 import { ROOT } from './fixtures.ts'
 
 const execFileAsync = promisify(execFile)

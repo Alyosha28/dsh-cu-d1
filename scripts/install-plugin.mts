@@ -1,5 +1,5 @@
 /**
- * Installs @alyosha28/dsh-cu-bundle into a DSH profile and verifies the result.
+ * Installs @albaincompleta/dsh-cu-bundle into a DSH profile and verifies the result.
  *
  * It only touches the profile's package manifest through the same `dsh plugin`
  * command a person would run, backs the manifest up first, and ends with the
@@ -72,18 +72,18 @@ async function main(): Promise<void> {
 
   manifest = JSON.parse(await readFile(manifestPath, 'utf8')) as Manifest
   const bundles = manifest.dsh?.profile?.bundles ?? []
-  if (!bundles.includes('@alyosha28/dsh-cu-bundle')) {
+  if (!bundles.includes('@albaincompleta/dsh-cu-bundle')) {
     if (dryRun) {
-      process.stdout.write(`would add @alyosha28/dsh-cu-bundle to dsh.profile.bundles (now: ${bundles.join(', ') || 'empty'})\n`)
+      process.stdout.write(`would add @albaincompleta/dsh-cu-bundle to dsh.profile.bundles (now: ${bundles.join(', ') || 'empty'})\n`)
     } else {
       manifest.dsh = manifest.dsh ?? {}
       manifest.dsh.profile = manifest.dsh.profile ?? {}
-      manifest.dsh.profile.bundles = [...bundles, '@alyosha28/dsh-cu-bundle']
+      manifest.dsh.profile.bundles = [...bundles, '@albaincompleta/dsh-cu-bundle']
       await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
       process.stdout.write(`bundles: ${manifest.dsh.profile.bundles.join(', ')}\n`)
     }
   } else {
-    process.stdout.write('bundles: @alyosha28/dsh-cu-bundle already mounted\n')
+    process.stdout.write('bundles: @albaincompleta/dsh-cu-bundle already mounted\n')
   }
 
   if (dryRun) {

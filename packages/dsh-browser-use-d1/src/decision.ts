@@ -1,1 +1,1 @@
-export * from '@alyosha28/dsh-cu-core/decision'
+export * from '@albaincompleta/dsh-cu-core/decision'

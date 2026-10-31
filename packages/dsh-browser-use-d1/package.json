@@ -1,5 +1,5 @@
 {
-  "name": "@alyosha28/dsh-cu-browser-use-d1",
+  "name": "@albaincompleta/dsh-cu-browser-use-d1",
   "version": "0.2.8",
   "description": "D1 System 1 Browser Use provider for DeepSeek Harness standard tool sessions",
   "type": "module",
@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@alyosha28/dsh-cu-core": "0.2.8",
+    "@albaincompleta/dsh-cu-core": "0.2.8",
     "@deepseek-ai/cordis-plugin-include": "^1.0.10",
     "@deepseek-ai/cordis-plugin-loader": "^1.0.6",
     "@deepseek-ai/dsh-experimental-browser-use-playwright-mcp": "^0.2.1-rc.5",
@@ -57,7 +57,7 @@
     "@deepseek-ai/dsh-session-projection": "0.2.1-rc.5",
     "@deepseek-ai/dsh-system-prompt": "0.2.1-rc.5",
     "@deepseek-ai/dsh-tools": "0.2.1-rc.5",
-    "@alyosha28/dsh-cu-testkit": "0.2.8",
+    "@albaincompleta/dsh-cu-testkit": "0.2.8",
     "tsx": "^4.20.0"
   },
   "engines": {

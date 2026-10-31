@@ -51,7 +51,7 @@ async function main(): Promise<void> {
   const command = ['add', ...PACKAGES]
   if (dryRun) {
     process.stdout.write(`would run: pnpm ${command.join(' ')}\n`)
-    process.stdout.write('would add @alyosha28/dsh-cu-bundle to dsh.profile.bundles\n')
+    process.stdout.write('would add @albaincompleta/dsh-cu-bundle to dsh.profile.bundles\n')
     return
   }
 
@@ -62,10 +62,10 @@ async function main(): Promise<void> {
 
   manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
   const bundles = manifest.dsh?.profile?.bundles ?? []
-  if (!bundles.includes('@alyosha28/dsh-cu-bundle')) {
+  if (!bundles.includes('@albaincompleta/dsh-cu-bundle')) {
     manifest.dsh = manifest.dsh ?? {}
     manifest.dsh.profile = manifest.dsh.profile ?? {}
-    manifest.dsh.profile.bundles = [...bundles, '@alyosha28/dsh-cu-bundle']
+    manifest.dsh.profile.bundles = [...bundles, '@albaincompleta/dsh-cu-bundle']
     await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
   }
   process.stdout.write(`bundles: ${(manifest.dsh.profile.bundles ?? []).join(', ')}\n`)

@@ -1,5 +1,5 @@
 {
-  "name": "@alyosha28/dsh-cu-client",
+  "name": "@albaincompleta/dsh-cu-client",
   "version": "0.2.8",
   "description": "DSH client half of the DSH-CU plugin: tool cards for its browser and native tools",
   "type": "module",

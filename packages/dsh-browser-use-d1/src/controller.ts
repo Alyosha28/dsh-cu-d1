@@ -12,30 +12,30 @@ import {
   verifyAll,
 } from './dom.ts'
 import { checkPagePolicy, checkTargetAmbiguity, taskPolicySchema } from './policy.ts'
-import { selectSkill, SkillError } from '@alyosha28/dsh-cu-core/skills'
-import type { SkillStore } from '@alyosha28/dsh-cu-core/skill-store'
+import { selectSkill, SkillError } from '@albaincompleta/dsh-cu-core/skills'
+import type { SkillStore } from '@albaincompleta/dsh-cu-core/skill-store'
 import { runBrowserSkill } from './skill-runner.ts'
-import { createCandidateFromTrajectory } from '@alyosha28/dsh-cu-core/skill-builder'
-import type { CapturedInput } from '@alyosha28/dsh-cu-core/skill-builder'
-import type { ExecutionHandle } from '@alyosha28/dsh-cu-core/run-controller'
-import type { ApprovalGateway } from '@alyosha28/dsh-cu-core/approvals'
+import { createCandidateFromTrajectory } from '@albaincompleta/dsh-cu-core/skill-builder'
+import type { CapturedInput } from '@albaincompleta/dsh-cu-core/skill-builder'
+import type { ExecutionHandle } from '@albaincompleta/dsh-cu-core/run-controller'
+import type { ApprovalGateway } from '@albaincompleta/dsh-cu-core/approvals'
 import {
   actionApprovalContext, needsConsequentialApproval, needsLoginApproval,
   requestConsequentialApproval, requestLoginApproval,
-} from '@alyosha28/dsh-cu-core/policy-approvals'
-import { uiStrings } from '@alyosha28/dsh-cu-core/locale'
-import { RunBudget } from '@alyosha28/dsh-cu-core/budget'
+} from '@albaincompleta/dsh-cu-core/policy-approvals'
+import { uiStrings } from '@albaincompleta/dsh-cu-core/locale'
+import { RunBudget } from '@albaincompleta/dsh-cu-core/budget'
 import { randomUUID } from 'node:crypto'
-import type { ActivitySink } from '@alyosha28/dsh-cu-core/activity'
+import type { ActivitySink } from '@albaincompleta/dsh-cu-core/activity'
 import type { BrowserRunIndicator } from './indicator.ts'
 import type { RunOutcome } from './indicator.ts'
 
 
-import { subgoalInput } from '@alyosha28/dsh-cu-core/contract'
-import type { RunStatus, SubgoalInput } from '@alyosha28/dsh-cu-core/contract'
+import { subgoalInput } from '@albaincompleta/dsh-cu-core/contract'
+import type { RunStatus, SubgoalInput } from '@albaincompleta/dsh-cu-core/contract'
 
-export { subgoalInput } from '@alyosha28/dsh-cu-core/contract'
-export type { SubgoalInput } from '@alyosha28/dsh-cu-core/contract'
+export { subgoalInput } from '@albaincompleta/dsh-cu-core/contract'
+export type { SubgoalInput } from '@albaincompleta/dsh-cu-core/contract'
 
 interface TraceEntry {
   [key: string]: unknown
@@ -377,7 +377,7 @@ function outcome(result: RunState): RunOutcome {
 export interface BrowserObserveResult {
   status: 'success' | 'paused' | 'stopped' | 'takeover'
   reason: string
-  observation?: import('@alyosha28/dsh-cu-core/types').Observation
+  observation?: import('@albaincompleta/dsh-cu-core/types').Observation
 }
 
 /** Reads the owned page for the caller without invoking D1 or dispatching input. */

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { navigationUrl } from './dom.ts'
 import { readPageTitle } from './tab-marker.ts'
-import { uiStrings } from '@alyosha28/dsh-cu-core/locale'
+import { uiStrings } from '@albaincompleta/dsh-cu-core/locale'
 import type { ResolvedConfig } from './config.ts'
 import type { Page } from 'playwright'
 

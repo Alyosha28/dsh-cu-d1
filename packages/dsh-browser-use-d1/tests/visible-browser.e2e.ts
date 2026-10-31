@@ -9,7 +9,7 @@ import { chromium } from 'playwright'
 import type { Browser } from 'playwright'
 import { PreviewBrowserIndicator } from '../src/preview.ts'
 import { BrowserDom } from '../src/dom.ts'
-import type { ControlAction } from '@alyosha28/dsh-cu-core/activity'
+import type { ControlAction } from '@albaincompleta/dsh-cu-core/activity'
 import { CHROME } from './fixtures.ts'
 
 const execFileAsync = promisify(execFile)

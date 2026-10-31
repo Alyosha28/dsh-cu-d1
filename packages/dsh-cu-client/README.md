@@ -1,4 +1,4 @@
-# @alyosha28/dsh-cu-client
+# @albaincompleta/dsh-cu-client
 
 The browser half of DSH-CU: it renders every DSH-CU tool result as a card in the
 DSH client transcript instead of raw JSON.
@@ -41,10 +41,10 @@ locale service, so an English UI still shows the Chinese tool labels.
 ## Verify
 
 ```bash
-npm test --workspace @alyosha28/dsh-cu-client            # registration + rendering, no browser
+npm test --workspace @albaincompleta/dsh-cu-client            # registration + rendering, no browser
 node scripts/web-card-smoke.mjs <dsh-web-url>  # real dsh web session, asserts the card
 ```
 
 The smoke script boots nothing by itself: start a web profile that mounts
-`@alyosha28/dsh-cu-bundle` (`dsh --profile dsh-cu --no-open --port 0` with the web-app
+`@albaincompleta/dsh-cu-bundle` (`dsh --profile dsh-cu --no-open --port 0` with the web-app
 bundle) and pass the printed URL.

@@ -1,4 +1,4 @@
-# @alyosha28/dsh-cu-computer-use-d1
+# @albaincompleta/dsh-cu-computer-use-d1
 
 D1 macOS Computer Use provider for DeepSeek Harness, using the official CUA application/window API for authorization, observation, and input.
 
