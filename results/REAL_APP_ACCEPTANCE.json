@@ -1,0 +1,249 @@
+{
+  "createdAt": "2026-10-29T21:08:11.452136+00:00",
+  "decisionSource": "deterministic decision fixture through the D1 provider contract",
+  "rounds": [
+    {
+      "round": 1,
+      "runId": "1-1793308016275",
+      "decisionSource": "deterministic decision fixture through the D1 provider contract",
+      "applications": [
+        "macOS TextEdit",
+        "macOS Calculator"
+      ],
+      "total": 9,
+      "passed": 9,
+      "failed": 0,
+      "blocked": 0,
+      "launchRecoveries": 0,
+      "elapsedMs": 19029
+    },
+    {
+      "round": 2,
+      "runId": "2-1793308041647",
+      "decisionSource": "deterministic decision fixture through the D1 provider contract",
+      "applications": [
+        "macOS TextEdit",
+        "macOS Calculator"
+      ],
+      "total": 9,
+      "passed": 9,
+      "failed": 0,
+      "blocked": 0,
+      "launchRecoveries": 0,
+      "elapsedMs": 18630
+    },
+    {
+      "round": 3,
+      "runId": "3-1793308066517",
+      "decisionSource": "deterministic decision fixture through the D1 provider contract",
+      "applications": [
+        "macOS TextEdit",
+        "macOS Calculator"
+      ],
+      "total": 9,
+      "passed": 9,
+      "failed": 0,
+      "blocked": 0,
+      "launchRecoveries": 0,
+      "elapsedMs": 18952
+    }
+  ],
+  "cases": {
+    "calculator.dynamic_ax": {
+      "application": "Calculator",
+      "category": "dynamic",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 2813,
+        "medianMs": 2894,
+        "meanMs": 2868,
+        "p95Ms": 2897,
+        "varianceMs2": 1514
+      }
+    },
+    "calculator.skill_lifecycle": {
+      "application": "Calculator",
+      "category": "skill",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 4362,
+        "medianMs": 4393,
+        "meanMs": 4384.666666666667,
+        "p95Ms": 4399,
+        "varianceMs2": 262.8888888888889
+      }
+    },
+    "calculator.stale_recovery": {
+      "application": "Calculator",
+      "category": "stale",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 493,
+        "medianMs": 526,
+        "meanMs": 517.3333333333334,
+        "p95Ms": 533,
+        "varianceMs2": 304.22222222222223
+      }
+    },
+    "privacy.persisted_stores": {
+      "application": "Shared",
+      "category": "privacy",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 6,
+        "medianMs": 6,
+        "meanMs": 6,
+        "p95Ms": 6,
+        "varianceMs2": 0
+      }
+    },
+    "textedit.dynamic_ax": {
+      "application": "TextEdit",
+      "category": "dynamic",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 1051,
+        "medianMs": 1077,
+        "meanMs": 1076,
+        "p95Ms": 1100,
+        "varianceMs2": 400.6666666666667
+      }
+    },
+    "textedit.multiwindow_guard": {
+      "application": "TextEdit",
+      "category": "windowing",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 6816,
+        "medianMs": 6899,
+        "meanMs": 6876,
+        "p95Ms": 6913,
+        "varianceMs2": 1832.6666666666667
+      }
+    },
+    "textedit.occluded_window": {
+      "application": "TextEdit",
+      "category": "occlusion",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 1071,
+        "medianMs": 1084,
+        "meanMs": 1081.6666666666667,
+        "p95Ms": 1090,
+        "varianceMs2": 62.888888888888886
+      }
+    },
+    "textedit.skill_lifecycle": {
+      "application": "TextEdit",
+      "category": "skill",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 1341,
+        "medianMs": 1376,
+        "meanMs": 1372.3333333333333,
+        "p95Ms": 1400,
+        "varianceMs2": 586.8888888888889
+      }
+    },
+    "textedit.stop_active_run": {
+      "application": "TextEdit",
+      "category": "control",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "blockedReasons": [],
+      "timing": {
+        "minMs": 677,
+        "medianMs": 691,
+        "meanMs": 688.3333333333334,
+        "p95Ms": 697,
+        "varianceMs2": 70.22222222222223
+      }
+    }
+  },
+  "totals": {
+    "rounds": 3,
+    "scenarioRuns": 27,
+    "passed": 27,
+    "failed": 0,
+    "blocked": 0
+  },
+  "release": {
+    "controlledRealAppExperiments": "accepted",
+    "supervisedOwnedSingleWindow": "accepted",
+    "realAppMultiwindow": "accepted",
+    "realAppOcclusion": "accepted",
+    "sensitiveDataRetention": "accepted",
+    "unattendedProduction": "not_accepted",
+    "generalNativeReliability": "not_accepted"
+  }
+}

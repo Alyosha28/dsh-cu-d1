@@ -1,0 +1,63 @@
+{
+  "startedAt": "2026-10-29T11:15:30.177Z",
+  "finishedAt": "2026-10-29T11:15:40.875Z",
+  "browser": "Google Chrome",
+  "site": "https://www.wikipedia.org/",
+  "model": "LiquidAI/d1-2B local",
+  "scriptedDecision": false,
+  "operation": "search Alan Turing",
+  "isError": false,
+  "result": {
+    "status": "success",
+    "reason": "independently_verified_after_action",
+    "decisionRequests": 4,
+    "route": "d1",
+    "modelForwardCalls": 4,
+    "textExtractionCalls": 0,
+    "actionsExecuted": 2,
+    "staleDecisions": 2,
+    "decisionLatencyMs": 5671.348668009159,
+    "inputTokens": 11443,
+    "outputTokens": 0,
+    "trace": [
+      {
+        "snapshotId": "s1",
+        "operation": "TYPE_TEXT",
+        "target": "e11",
+        "targetName": "Search Wikipedia",
+        "confidence": 0.6367013220240177,
+        "requestLatencyMs": 1654.3789590068627,
+        "dispatched": false,
+        "stale": "dom_changed"
+      },
+      {
+        "snapshotId": "s2",
+        "operation": "TYPE_TEXT",
+        "target": "e11",
+        "targetName": "Search Wikipedia",
+        "confidence": 0.5405460548683011,
+        "requestLatencyMs": 1324.1364169953158,
+        "dispatched": true
+      },
+      {
+        "snapshotId": "s3",
+        "operation": "CLICK",
+        "target": "e13",
+        "targetName": "Search",
+        "confidence": 0.7075332395516064,
+        "requestLatencyMs": 1299.6494170074584,
+        "dispatched": false,
+        "stale": "dom_changed"
+      },
+      {
+        "snapshotId": "s4",
+        "operation": "CLICK",
+        "target": "e14",
+        "targetName": "Search",
+        "confidence": 0.7312387242718374,
+        "requestLatencyMs": 1393.1838749995222,
+        "dispatched": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "ambiguous": {
+    "status": "escalated",
+    "reason": "window_selection_required",
+    "decisionRequests": 0,
+    "route": "d1",
+    "modelForwardCalls": 0,
+    "textExtractionCalls": 0,
+    "actionsExecuted": 0,
+    "staleDecisions": 0,
+    "decisionLatencyMs": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "trace": [],
+    "details": {
+      "windows": [
+        {
+          "windowId": 23857,
+          "title": "DSH Workflow Secondary"
+        },
+        {
+          "windowId": 23855,
+          "title": "DSH Workflow Fixture"
+        }
+      ],
+      "recovery": "Provide windowId from this list; the run will use only that window."
+    }
+  },
+  "selected": {
+    "status": "success",
+    "reason": "independently_verified_after_action",
+    "decisionRequests": 2,
+    "route": "d1",
+    "modelForwardCalls": 2,
+    "textExtractionCalls": 0,
+    "actionsExecuted": 2,
+    "staleDecisions": 0,
+    "decisionLatencyMs": 2,
+    "inputTokens": 20,
+    "outputTokens": 0,
+    "trace": [
+      {
+        "snapshotId": "B7E6B917-A473-420E-9A8E-2F977AF852D9:snapshot:3",
+        "operation": "TYPE_TEXT",
+        "target": "1",
+        "targetName": "Report path",
+        "targetIdentifier": "dsh-workflow-path",
+        "confidence": 0.99,
+        "requestLatencyMs": 1,
+        "dispatched": true
+      },
+      {
+        "snapshotId": "B7E6B917-A473-420E-9A8E-2F977AF852D9:snapshot:10",
+        "operation": "CLICK",
+        "target": "2",
+        "targetName": "Import report",
+        "targetIdentifier": "dsh-workflow-import",
+        "confidence": 0.99,
+        "requestLatencyMs": 1,
+        "dispatched": true
+      }
+    ],
+    "windowTitle": "DSH Workflow Fixture"
+  },
+  "picked": {
+    "status": "success",
+    "reason": "independently_verified",
+    "decisionRequests": 0,
+    "route": "d1",
+    "modelForwardCalls": 0,
+    "textExtractionCalls": 0,
+    "actionsExecuted": 0,
+    "staleDecisions": 0,
+    "decisionLatencyMs": 0,
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "trace": [],
+    "windowTitle": "DSH Workflow Fixture"
+  }
+}

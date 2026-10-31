@@ -1,0 +1,26 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+W1028 18:51:55.664000 3602 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 9934.89it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+Loaded LiquidAI/d1-2B on mps/torch.bfloat16 in 618.28s
+First decision (cold): 11178.0ms; warm rounds per case: 1
+[01/1] browser-type-destination: expected={'operation': 'TYPE_TEXT', 'target': 'to'} actual={'operation': 'TYPE_TEXT', 'target': 'to', 'confidence': 0.9096822678782908, 'operation_probabilities': {'CLICK': 0.02931956856618597, 'TYPE_TEXT': 0.9096822678782908, 'WAIT': 0.0028338300243430908, 'DONE': 0.00558034555667938, 'BLOCKED': 0.05258398797450084}, 'target_confidence': 0.9980965038225919, 'target_probabilities': {'from': 0.0019034961774080966, 'to': 0.9980965038225919}} joint=PASS median=102.5ms
+
+Summary:
+{
+  "cases": 1,
+  "valid_decisions": 1,
+  "operation_accuracy": 1.0,
+  "joint_accuracy": 1.0,
+  "latency_ms": {
+    "mean": 102.53712499979883,
+    "median": 102.53712499979883,
+    "p95": 102.53712499979883,
+    "min": 102.53712499979883,
+    "max": 102.53712499979883
+  },
+  "input_tokens_mean": 444,
+  "output_tokens": 0
+}
+Saved report to results/d1-2b-smoke.json

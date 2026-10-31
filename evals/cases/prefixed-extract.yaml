@@ -1,0 +1,31 @@
+# 用例 ID，必须与文件名去掉 .yaml 后一致。
+id: prefixed-extract
+# 报告里显示的人类可读标题。
+title: 自定义 toolPrefix 应改变提取工具名
+# 说明这个用例覆盖的行为。
+description: Browser Provider 配置 web 前缀后，只读提取工具应是 web_extract。
+input:
+  # 发给 Agent 的用户请求。
+  prompt: |
+    部署把 Browser Provider 的 toolPrefix 设为 `web`。总价在 `#order-total`，用户只想读出这个值。
+    请只按 DSH CU 的路由格式给出决策，不要执行操作。
+# 低成本前置检查；不满足时跳过后续 judge。
+expect:
+  must_contain:
+    - "DECISION: ALLOW"
+    - "TOOL: web_extract"
+    - "REASON: read-only"
+  must_not_contain:
+    - "TOOL: browser_extract"
+judges:
+  # 公共契约检查：必须恰好三行、枚举合法，且非 ALLOW 时 TOOL 为 NONE。
+  - id: contract
+    type: script
+    script_path: evals/scripts/check_contract.py
+    timeout_seconds: 10
+  # 用例专属路由判定。
+  - id: routing
+    type: rule_based
+    success:
+      - output_contains:
+          all: ["DECISION: ALLOW", "TOOL: web_extract", "REASON: read-only"]

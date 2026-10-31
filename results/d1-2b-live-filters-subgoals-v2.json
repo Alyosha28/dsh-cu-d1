@@ -1,0 +1,219 @@
+{
+  "created_at": "2026-10-28T11:21:42.856027+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Local isolated Chromium pages only; no real accounts, no desktop control",
+  "cold_decision_ms": 2327.2215420001885,
+  "summary": {
+    "cases": 1,
+    "successes": 0,
+    "model_calls": 4,
+    "actions_executed": 3,
+    "stale_decisions": 0
+  },
+  "cases": [
+    {
+      "id": "filters",
+      "status": "escalated",
+      "reason": "adults: no_progress_same_decision_repeated",
+      "model_calls": 4,
+      "actions_executed": 3,
+      "stale_decisions": 0,
+      "control_seconds": 1.1174909999999727,
+      "total_seconds_including_navigation": 1.1336284579997482,
+      "decision_latency_ms": {
+        "total": 787.8235420007513,
+        "mean": 196.95588550018783,
+        "median": 177.63554200018916,
+        "max": 271.4883329999793
+      },
+      "subgoals": [
+        {
+          "id": "adults",
+          "goal": "Change the Adults value from 2 to exactly 3.",
+          "status": "escalated",
+          "reason": "no_progress_same_decision_repeated",
+          "model_calls": 4,
+          "actions_executed": 3,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            271.4883329999793,
+            192.63841700012563,
+            161.0641250003937,
+            162.6326670002527
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e1",
+                "confidence": 0.6027168036944563,
+                "operation_probabilities": {
+                  "CLICK": 0.6027168036944563,
+                  "TYPE_TEXT": 0.15543138197393452,
+                  "WAIT": 0.0026657224808045946,
+                  "DONE": 0.0024852576608037466,
+                  "BLOCKED": 0.2367008341900008
+                },
+                "target_confidence": 0.9601012496174788,
+                "target_probabilities": {
+                  "e1": 0.9601012496174788,
+                  "e2": 0.005119191452153346,
+                  "e3": 0.03477955893036779
+                }
+              },
+              "decision_ms": 271.4883329999793,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e1"
+              }
+            },
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e1",
+                "confidence": 0.41875966441143947,
+                "operation_probabilities": {
+                  "CLICK": 0.41875966441143947,
+                  "TYPE_TEXT": 0.22809778122599866,
+                  "WAIT": 0.0030253182782607373,
+                  "DONE": 0.00275536869682379,
+                  "BLOCKED": 0.3473618673874773
+                },
+                "target_confidence": 0.9404812913770063,
+                "target_probabilities": {
+                  "e1": 0.9404812913770063,
+                  "e2": 0.007636521482625508,
+                  "e3": 0.05188218714036824
+                }
+              },
+              "decision_ms": 192.63841700012563,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e1"
+              }
+            },
+            {
+              "snapshot_id": "s3",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e1",
+                "confidence": 0.4161507418921796,
+                "operation_probabilities": {
+                  "CLICK": 0.4161507418921796,
+                  "TYPE_TEXT": 0.21632724296181347,
+                  "WAIT": 0.0030064701855362953,
+                  "DONE": 0.002802937332894047,
+                  "BLOCKED": 0.36171260762757657
+                },
+                "target_confidence": 0.9353849800199993,
+                "target_probabilities": {
+                  "e1": 0.9353849800199993,
+                  "e2": 0.007958504837477651,
+                  "e3": 0.05665651514252317
+                }
+              },
+              "decision_ms": 161.0641250003937,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e1"
+              }
+            },
+            {
+              "snapshot_id": "s4",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e1",
+                "confidence": 0.400616077945503,
+                "operation_probabilities": {
+                  "CLICK": 0.400616077945503,
+                  "TYPE_TEXT": 0.22865477128145656,
+                  "WAIT": 0.0030327057775451634,
+                  "DONE": 0.0028273968205171094,
+                  "BLOCKED": 0.36486904817497817
+                },
+                "target_confidence": 0.9376340239654932,
+                "target_probabilities": {
+                  "e1": 0.9376340239654932,
+                  "e2": 0.008166242807123497,
+                  "e3": 0.05419973322738323
+                }
+              },
+              "decision_ms": 162.6326670002527
+            }
+          ],
+          "last_snapshot": {
+            "snapshot_id": "s4",
+            "version": 0,
+            "url": "http://127.0.0.1:55065/filters.html",
+            "title": "Decision Lab Filters",
+            "elements": [
+              {
+                "id": "e1",
+                "role": "spinbutton",
+                "name": "Adults",
+                "value": "2",
+                "actions": [
+                  "click",
+                  "type"
+                ],
+                "enabled": true,
+                "focused": true
+              },
+              {
+                "id": "e2",
+                "role": "checkbox",
+                "name": "Nonstop only",
+                "value": "unchecked",
+                "actions": [
+                  "click"
+                ],
+                "enabled": true,
+                "focused": false
+              },
+              {
+                "id": "e3",
+                "role": "button",
+                "name": "Apply filters",
+                "value": null,
+                "actions": [
+                  "click"
+                ],
+                "enabled": true,
+                "focused": false
+              },
+              {
+                "id": "e4",
+                "role": "heading",
+                "name": "Flight filters",
+                "value": null,
+                "actions": [],
+                "enabled": true,
+                "focused": false
+              }
+            ],
+            "truncated": true,
+            "can_scroll_up": false,
+            "can_scroll_down": false
+          }
+        }
+      ]
+    }
+  ]
+}

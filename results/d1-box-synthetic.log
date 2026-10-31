@@ -1,0 +1,37 @@
+W1028 23:04:54.519000 38609 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 9427.45it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+[01/11] simple-search: PASS found=1.000 confidence=0.997 iou=0.9726562500000001 center_error=0.8944271909999159 median=193.3ms
+[02/11] retina-search: PASS found=1.000 confidence=0.999 iou=0.9895199999999997 center_error=0.19999999999998863 median=632.3ms
+[03/11] dialog-save: PASS found=1.000 confidence=0.992 iou=0.9707330775915786 center_error=1.1892854997855153 median=510.3ms
+[04/11] small-checkbox: PASS found=1.000 confidence=0.994 iou=0.8116883116883117 center_error=1.341044369139228 median=391.4ms
+[05/11] london-uk-option: PASS found=0.999 confidence=0.994 iou=0.9740463333913946 center_error=1.3124404748406466 median=271.5ms
+[06/11] chinese-save: PASS found=0.719 confidence=0.864 iou=0.9865781783963151 center_error=0.6726812023536779 median=269.9ms
+[07/11] dense-export: PASS found=1.000 confidence=0.994 iou=0.975946372239747 center_error=0.30000000000001137 median=487.3ms
+[08/11] canvas-download: PASS found=1.000 confidence=0.983 iou=0.9896067226890749 center_error=0.20000000000004547 median=369.0ms
+[09/11] workspace-save: PASS found=1.000 confidence=0.992 iou=0.9802346135304519 center_error=0.781024967590683 median=270.3ms
+[10/11] absent-delete: PASS found=0.003 confidence=0.000 iou=None center_error=None median=191.7ms
+[11/11] absent-submit: PASS found=0.014 confidence=0.000 iou=None center_error=None median=191.9ms
+
+{
+  "cases": 11,
+  "correct": 11,
+  "present_cases": 9,
+  "present_center_inside": 9,
+  "present_iou_0_5": 9,
+  "negative_cases": 2,
+  "negative_correct": 2,
+  "median_iou": 0.975946372239747,
+  "median_center_error_px": 0.781024967590683,
+  "latency_ms": {
+    "mean": 496.7817412121583,
+    "median": 368.8980420010921,
+    "p95": 750.9724001989521,
+    "min": 191.53141700007836,
+    "max": 4678.15441699895
+  },
+  "input_tokens_mean": 940,
+  "output_tokens": 0
+}
+Saved report to /Users/albaincompleta/DSH_CU/results/d1-box-synthetic.json

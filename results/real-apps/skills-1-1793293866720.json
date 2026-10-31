@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "skill_6857af8ab7af014c",
+      "version": 1,
+      "verifiedAt": "2026-10-29T17:11:08.592Z",
+      "match": {
+        "windowTitle": "未命名2"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "6857af8ab7af014ceb01828bec82dcf13ab366e4d9e92e655a1db35ec5b1d513",
+      "history": [
+        {
+          "id": "18c4424b-75f6-4431-b985-0b37ceb16ca5",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T17:11:08.592Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    },
+    {
+      "id": "skill_a862e5e7a5964ba1",
+      "version": 1,
+      "verifiedAt": "2026-10-29T17:11:13.874Z",
+      "match": {
+        "windowTitle": "计算器"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "15"
+        }
+      ],
+      "steps": [
+        {
+          "type": "click",
+          "target": "7"
+        },
+        {
+          "type": "click",
+          "target": "加"
+        },
+        {
+          "type": "click",
+          "target": "8"
+        },
+        {
+          "type": "click",
+          "target": "等于"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "a862e5e7a5964ba1a2cc1588bb4904619638e1b9db70e67478ffc022e9ff3aa2",
+      "history": [
+        {
+          "id": "50223286-dfd9-4c7e-8a98-9b95931bb02e",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T17:11:13.874Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dsh-cu.local/schemas/computer-subgoal-v1.json",
+  "title": "DSH Computer Use subgoal and safety contract v1",
+  "type": "object",
+  "required": ["goal", "verify"],
+  "additionalProperties": false,
+  "properties": {
+    "goal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000,
+      "description": "One narrow, bounded UI subgoal; not an open-ended desktop task"
+    },
+    "url": {
+      "type": "string",
+      "description": "Optional initial HTTP(S) browser URL without embedded credentials"
+    },
+    "verify": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "description": "Independent postconditions evaluated by the Provider, never by D1",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["type", "text"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {"const": "text_visible"},
+              "text": {"type": "string", "minLength": 1}
+            }
+          },
+          {
+            "type": "object",
+            "required": ["type", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {"const": "url_contains"},
+              "value": {"type": "string", "minLength": 1}
+            }
+          },
+          {
+            "type": "object",
+            "required": ["type", "label", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {"const": "input_value"},
+              "label": {"type": "string", "minLength": 1},
+              "value": {"type": "string"}
+            }
+          },
+          {
+            "type": "object",
+            "required": ["type", "label", "checked"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {"const": "checkbox"},
+              "label": {"type": "string", "minLength": 1},
+              "checked": {"type": "boolean"}
+            }
+          }
+        ]
+      }
+    },
+    "maxSteps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 50,
+      "description": "Caller-requested decision budget; the Provider may apply a smaller cap"
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": {"type": "string"},
+      "description": "Literal values keyed by an observed element's accessible name or identifier; used instead of model text extraction"
+    },
+    "skillId": {
+      "type": "string",
+      "description": "Optional explicit verified Skill to execute before D1; unknown IDs escalate instead of silently falling back"
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "credentialsAvailable": {
+          "type": "boolean",
+          "description": "False explicitly blocks credential-dependent UI before model inference"
+        },
+        "allowLogin": {
+          "type": "boolean",
+          "description": "Must be true before a password UI can be operated; omission requests confirmation"
+        },
+        "risk": {
+          "enum": ["read_only", "reversible", "consequential"],
+          "default": "reversible"
+        },
+        "allowConsequential": {
+          "type": "boolean",
+          "description": "Must be true for consequential tasks until interactive approval is mounted"
+        }
+      }
+    }
+  },
+  "x-result-status": [
+    "success",
+    "blocked",
+    "escalated",
+    "confirmation_required"
+  ],
+  "x-required-stops": [
+    "credentials_unavailable",
+    "login_requires_approval",
+    "consequential_action_requires_approval",
+    "ambiguous_target",
+    "async_result_timeout",
+    "premature_done_rejected_by_verifier",
+    "no_progress_same_decision_repeated"
+  ]
+}

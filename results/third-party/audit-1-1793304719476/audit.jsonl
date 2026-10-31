@@ -1,0 +1,2 @@
+{"id":"f7b3bb47-36af-4f36-8846-d665fc19c1b9","at":"2026-10-29T20:12:03.601Z","agentId":"third-party-1-1793304719476","runId":"8c2bc11f-7590-44bd-a104-24177f939ed5","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"8d1441bd-4e3b-4c64-a605-8faa01e55e2f","at":"2026-10-29T20:12:03.922Z","agentId":"third-party-1-1793304719476","runId":"8c2bc11f-7590-44bd-a104-24177f939ed5","kind":"run_finished","detail":{"status":"success","reason":"independently_verified_after_action","route":"d1"}}

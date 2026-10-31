@@ -1,0 +1,22 @@
+W1029 03:33:37.830000 7861 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 8604.08it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+Model ready on mps; cold decision 2312.8ms
+
+Case delayed-timeout
+  Subgoal timeout: Load the results and stop only when the text Delayed results are ready is visible.
+    step 1: CLICK target=e1 text=None confidence=0.808 (126.9ms)
+    => escalated: async_result_timeout
+  => escalated: timeout: async_result_timeout; calls=1, actions=1, control=5.79s
+
+{
+  "cases": 1,
+  "successes": 0,
+  "expectations_met": 1,
+  "model_calls": 1,
+  "text_extraction_calls": 0,
+  "actions_executed": 1,
+  "stale_decisions": 0
+}
+Saved report to results/P5_ASYNC_TIMEOUT.json

@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-10-31T10:27:36.697Z",
+  "entry": "/Users/albaincompleta/DSH_CU/packages/dsh-browser-use-d1/dist/index.js",
+  "checks": [
+    {
+      "name": "plugin entry imports",
+      "ok": true,
+      "detail": "/Users/albaincompleta/DSH_CU/packages/dsh-browser-use-d1/dist/index.js"
+    },
+    {
+      "name": "browser-use provider registered",
+      "ok": true,
+      "detail": "d1-system-one"
+    },
+    {
+      "name": "tools registered",
+      "ok": true,
+      "detail": "d1_browser_subgoal, browser_observe, browser_extract, browser_downloads, browser_upload, browser_navigate, browser_tabs, browser_control, browser_skill_publish"
+    },
+    {
+      "name": "browser_extract reads a real page",
+      "ok": true,
+      "detail": "{\"data\":{\"heading\":\"Book a flight\",\"search\":\"Search flights\",\"from\":\"\"},\"empty\":[\"from\"],\"reason\":\"extracted_with_empty_fields\"}"
+    },
+    {
+      "name": "blank field reported as empty, not missing",
+      "ok": true,
+      "detail": "{\"from\":\"\",\"empty\":[\"from\"]}"
+    },
+    {
+      "name": "browser_observe reads the owned page",
+      "ok": true,
+      "detail": "5 elements at http://127.0.0.1:53236/flights.html"
+    },
+    {
+      "name": "browser_control returns a page token URL",
+      "ok": true,
+      "detail": "http://127.0.0.1:53249#token=<page-token>"
+    },
+    {
+      "name": "invalid config fails closed",
+      "ok": true,
+      "detail": "captureSkills without skillStorePath"
+    }
+  ]
+}

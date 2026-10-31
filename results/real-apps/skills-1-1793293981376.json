@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "skill_5c1e69697266d49f",
+      "version": 1,
+      "verifiedAt": "2026-10-29T17:13:03.755Z",
+      "match": {
+        "windowTitle": "未命名6"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "5c1e69697266d49ff649dd1c7fc3e6cce320a528275bf554ab2ef03705e76f23",
+      "history": [
+        {
+          "id": "00372f0c-9f28-499f-881f-5b5d0a090f64",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T17:13:03.755Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    }
+  ]
+}

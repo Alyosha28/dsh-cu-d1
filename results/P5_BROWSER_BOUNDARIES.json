@@ -1,0 +1,212 @@
+{
+  "created_at": "2026-10-28T19:31:40.205886+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Local isolated Chromium pages only; no real accounts, no desktop control",
+  "cold_decision_ms": 2389.2309999973804,
+  "config": {
+    "text_strategy": "speculative"
+  },
+  "summary": {
+    "cases": 2,
+    "successes": 1,
+    "expectations_met": 2,
+    "model_calls": 3,
+    "text_extraction_calls": 0,
+    "actions_executed": 3,
+    "stale_decisions": 0
+  },
+  "cases": [
+    {
+      "id": "delayed-timeout",
+      "status": "escalated",
+      "expected_status": "escalated",
+      "expectation_met": true,
+      "reason": "timeout: step_budget_exhausted",
+      "model_calls": 2,
+      "text_extraction_calls": 0,
+      "actions_executed": 2,
+      "stale_decisions": 0,
+      "control_seconds": 1.6874131669974304,
+      "total_seconds_including_navigation": 1.7020115419982176,
+      "decision_latency_ms": {
+        "total": 337.82733300176915,
+        "mean": 168.91366650088457,
+        "median": 168.91366650088457,
+        "max": 179.52187500122818
+      },
+      "subgoals": [
+        {
+          "id": "timeout",
+          "goal": "Load the results and stop only when the text Delayed results are ready is visible.",
+          "status": "escalated",
+          "reason": "step_budget_exhausted",
+          "model_calls": 2,
+          "text_extraction_calls": 0,
+          "actions_executed": 2,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            179.52187500122818,
+            158.30545800054097
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 2,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e1",
+                "confidence": 0.7895023332452775,
+                "operation_probabilities": {
+                  "CLICK": 0.7895023332452775,
+                  "WAIT": 0.1467942679830931,
+                  "DONE": 0.008686018021519321,
+                  "BLOCKED": 0.05501738075011006
+                },
+                "target_confidence": 1.0,
+                "target_probabilities": {
+                  "e1": 1.0
+                }
+              },
+              "decision_ms": 179.52187500122818,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e1"
+              }
+            },
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 0,
+              "element_count": 3,
+              "decision": {
+                "operation": "WAIT",
+                "target": null,
+                "confidence": 0.48061167996236426,
+                "operation_probabilities": {
+                  "CLICK": 0.38046607939444443,
+                  "WAIT": 0.48061167996236426,
+                  "DONE": 0.009050277550023666,
+                  "BLOCKED": 0.12987196309316754
+                }
+              },
+              "decision_ms": 158.30545800054097,
+              "execution": {
+                "dispatched": true,
+                "operation": "WAIT"
+              }
+            }
+          ],
+          "last_snapshot": {
+            "snapshot_id": "s2",
+            "version": 0,
+            "url": "http://127.0.0.1:59438/slow-results.html",
+            "title": "Slow results",
+            "elements": [
+              {
+                "id": "e1",
+                "role": "button",
+                "name": "Load results",
+                "value": null,
+                "actions": [
+                  "click"
+                ],
+                "enabled": true,
+                "focused": true
+              },
+              {
+                "id": "e2",
+                "role": "heading",
+                "name": "Results",
+                "value": null,
+                "actions": [],
+                "enabled": true,
+                "focused": false
+              },
+              {
+                "id": "e3",
+                "role": "status",
+                "name": "Loading results",
+                "value": null,
+                "actions": [],
+                "enabled": true,
+                "focused": false
+              }
+            ],
+            "truncated": false,
+            "can_scroll_up": false,
+            "can_scroll_down": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "workspace-save",
+      "status": "success",
+      "expected_status": "success",
+      "expectation_met": true,
+      "reason": "all_subgoals_independently_verified",
+      "model_calls": 1,
+      "text_extraction_calls": 0,
+      "actions_executed": 1,
+      "stale_decisions": 0,
+      "control_seconds": 0.1962792910017015,
+      "total_seconds_including_navigation": 0.20786924999993062,
+      "decision_latency_ms": {
+        "total": 157.66191700095078,
+        "mean": 157.66191700095078,
+        "median": 157.66191700095078,
+        "max": 157.66191700095078
+      },
+      "subgoals": [
+        {
+          "id": "workspace",
+          "goal": "Click Save in Workspace.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "text_extraction_calls": 0,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            157.66191700095078
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e2",
+                "confidence": 0.7522261722102127,
+                "operation_probabilities": {
+                  "CLICK": 0.7522261722102127,
+                  "WAIT": 0.05492759808486784,
+                  "DONE": 0.007715644952214065,
+                  "BLOCKED": 0.18513058475270536
+                },
+                "target_confidence": 0.5116810042046667,
+                "target_probabilities": {
+                  "e1": 0.4883189957953333,
+                  "e2": 0.5116810042046667
+                }
+              },
+              "decision_ms": 157.66191700095078,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e2"
+              }
+            }
+          ],
+          "last_snapshot": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DSH Report Download Fixture</title>
+  <style>
+    body { font: 18px system-ui; max-width: 720px; margin: 40px auto; }
+    button { padding: 12px 18px; font-size: 18px; }
+    #status { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Quarterly report</h1>
+  <p>Safe synthetic CSV: two cities, total amount 300.</p>
+  <button id="download" type="button">Download report</button>
+  <div id="status" role="status" hidden>Report downloaded</div>
+  <script>
+    document.getElementById('download').addEventListener('click', () => {
+      const blob = new Blob(['city,amount\nZürich,100\nLondon,200\n'], {type: 'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = 'report.csv';
+      anchor.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      document.getElementById('status').hidden = false;
+    });
+  </script>
+</body>
+</html>

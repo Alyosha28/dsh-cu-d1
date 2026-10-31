@@ -1,0 +1,163 @@
+{
+  "created_at": "2026-10-28T15:14:54.077419+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41"
+  },
+  "scope": "Only a newly compiled disposable AppKit fixture; no user application or data",
+  "execute_authorized": true,
+  "capabilities": {
+    "browser": false,
+    "coordinateSpace": "window-points",
+    "methods": [
+      "activate",
+      "click",
+      "drag",
+      "findApps",
+      "getApp",
+      "getCapabilities",
+      "getState",
+      "hover",
+      "listApps",
+      "listWindows",
+      "paste",
+      "performSecondaryAction",
+      "pressKey",
+      "screenshot",
+      "scroll",
+      "selectText",
+      "setValue",
+      "show",
+      "typeText"
+    ],
+    "permissions": {
+      "accessibility": true,
+      "screenRecording": true
+    },
+    "platform": "macos",
+    "sessionLocked": false
+  },
+  "official_source": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+  "window": {
+    "windowId": 1975,
+    "bounds": {
+      "height": 532,
+      "width": 420,
+      "x": 221,
+      "y": 350
+    },
+    "title": "DSH CUA primary fixture"
+  },
+  "screenshot": {
+    "pixelWidth": 840,
+    "pixelHeight": 1064,
+    "bounds": {
+      "height": 532,
+      "width": 420,
+      "x": 221,
+      "y": 350
+    },
+    "coordinateSpace": "window-points",
+    "mimeType": "image/png"
+  },
+  "ax_target": {
+    "actions": [
+      "AXPress"
+    ],
+    "bounds": [
+      250,
+      484,
+      202,
+      34
+    ],
+    "description": null,
+    "enabled": true,
+    "identifier": "dsh-cua-test-button",
+    "index": 3,
+    "role": "AXButton",
+    "selected": null,
+    "selectedRange": null,
+    "selectedText": null,
+    "selectionWritable": null,
+    "title": "Increment primary",
+    "value": null,
+    "valueWritable": null
+  },
+  "expected_box": {
+    "left": 0.06904761904761905,
+    "top": 0.2518796992481203,
+    "right": 0.55,
+    "bottom": 0.3157894736842105
+  },
+  "answer": {
+    "type": "box",
+    "box": {
+      "top": 0.262,
+      "bottom": 0.306,
+      "left": 0.07200000000000001,
+      "right": 0.548
+    },
+    "found": 1.0,
+    "confidence": 0.9937422611343204
+  },
+  "evaluation": {
+    "present_expected": true,
+    "correct": true,
+    "center_inside": true,
+    "iou": 0.6813813861386139,
+    "center_error_px": 0.4370080090799744,
+    "predicted_center_px": [
+      260.40000000000003,
+      302.17600000000004
+    ],
+    "expected_center_px": [
+      260.0,
+      302.0
+    ],
+    "predicted_box": {
+      "top": 0.262,
+      "bottom": 0.306,
+      "left": 0.07200000000000001,
+      "right": 0.548
+    },
+    "found": 1.0,
+    "confidence": 0.9937422611343204,
+    "missed": false
+  },
+  "decision_ms": 5570.680541999536,
+  "usage": {
+    "input_tokens": 952,
+    "output_tokens": 0
+  },
+  "actions": [
+    {
+      "path": "visual_box",
+      "window_point": [
+        130.20000000000002,
+        151.08800000000002
+      ],
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "independently_verified_count": 1
+    },
+    {
+      "path": "stale_ax_snapshot",
+      "error": {
+        "code": "STALE_SNAPSHOT",
+        "message": "Snapshot expired; read fresh getAXState"
+      },
+      "independently_verified_count": 1
+    },
+    {
+      "path": "fresh_ax_element",
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "independently_verified_count": 2
+    }
+  ],
+  "status": "success"
+}

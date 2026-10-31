@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "skill_6857af8ab7af014c",
+      "version": 1,
+      "verifiedAt": "2026-10-29T16:49:31.277Z",
+      "match": {
+        "windowTitle": "未命名2"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "6857af8ab7af014ceb01828bec82dcf13ab366e4d9e92e655a1db35ec5b1d513",
+      "history": [
+        {
+          "id": "30c38984-db84-4a95-adc4-06b7c0b21c69",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T16:49:31.277Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    },
+    {
+      "id": "skill_c27a788707b7342c",
+      "version": 1,
+      "verifiedAt": "unverified",
+      "match": {
+        "windowTitle": "未命名5"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "state": "candidate",
+      "candidateHash": "c27a788707b7342c89a35ec2be9d0cb590879642e855cf4c52ef794532f02b0b",
+      "history": []
+    },
+    {
+      "id": "skill_a862e5e7a5964ba1",
+      "version": 1,
+      "verifiedAt": "unverified",
+      "match": {
+        "windowTitle": "计算器"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "15"
+        }
+      ],
+      "steps": [
+        {
+          "type": "click",
+          "target": "7"
+        },
+        {
+          "type": "click",
+          "target": "加"
+        },
+        {
+          "type": "click",
+          "target": "8"
+        },
+        {
+          "type": "click",
+          "target": "等于"
+        }
+      ],
+      "state": "candidate",
+      "candidateHash": "a862e5e7a5964ba1a2cc1588bb4904619638e1b9db70e67478ffc022e9ff3aa2",
+      "history": []
+    },
+    {
+      "id": "skill_b17c05d9af2cab68",
+      "version": 1,
+      "verifiedAt": "unverified",
+      "state": "candidate",
+      "candidateHash": "b17c05d9af2cab68ddf9fa88432e925d39d40acf4a0b8b75fc81e6b1ab1ce81a",
+      "match": {
+        "windowTitle": "未命名4"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "history": []
+    }
+  ]
+}

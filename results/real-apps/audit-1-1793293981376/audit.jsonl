@@ -1,0 +1,9 @@
+{"id":"1cf3b8f8-de03-46ed-918f-319b423f6a34","at":"2026-10-29T17:13:03.185Z","agentId":"real-app-matrix-1","runId":"d88a2fed-fe2e-4247-92c3-831d988a5be9","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"bb6ad449-4dd5-46fd-a3d6-1683122fb8e4","at":"2026-10-29T17:13:03.307Z","agentId":"real-app-matrix-1","runId":"d88a2fed-fe2e-4247-92c3-831d988a5be9","kind":"run_finished","detail":{"status":"success","reason":"independently_verified_after_action","route":"d1"}}
+{"id":"7474c472-d9e0-498f-b480-a1b93dd5a6e3","at":"2026-10-29T17:13:04.095Z","agentId":"real-app-matrix-1","runId":"7e6a67e2-2c80-4851-81bc-982d2ff1a20a","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"23ac3291-d615-446a-a352-9f110c3f880f","at":"2026-10-29T17:13:04.199Z","agentId":"real-app-matrix-1","runId":"7e6a67e2-2c80-4851-81bc-982d2ff1a20a","kind":"run_finished","detail":{"status":"success","reason":"independently_verified_after_action","route":"skill"}}
+{"id":"81011275-05b0-45b0-aeeb-b7e3d6469040","at":"2026-10-29T17:13:05.364Z","agentId":"real-app-matrix-1","runId":"c420f880-a258-4e2e-b5c7-01fa9adc0978","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"f1ad1e25-a3e7-4e18-aa6c-6c9501fc4396","at":"2026-10-29T17:13:07.855Z","agentId":"real-app-matrix-1","runId":"c420f880-a258-4e2e-b5c7-01fa9adc0978","kind":"run_finished","detail":{"status":"blocked","reason":"decision_model_selected_blocked","route":"d1"}}
+{"id":"3d1bf235-f033-4f72-a289-6ae93b81db74","at":"2026-10-29T17:13:08.242Z","agentId":"real-app-matrix-1","runId":"d2c99692-d9e5-4d40-8dd5-387aa7c07a2c","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"3163589d-4e7b-4958-a1fe-77c78c27a0a8","at":"2026-10-29T17:13:08.319Z","agentId":"real-app-matrix-1","runId":"d2c99692-d9e5-4d40-8dd5-387aa7c07a2c","kind":"run_stopped"}
+{"id":"f5b3c999-842f-4358-8c1d-d60e8c391e8a","at":"2026-10-29T17:13:08.345Z","agentId":"real-app-matrix-1","kind":"run_resumed"}

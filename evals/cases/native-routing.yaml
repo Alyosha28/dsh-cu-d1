@@ -1,0 +1,32 @@
+# 用例 ID，必须与文件名去掉 .yaml 后一致。
+id: native-routing
+# 报告里显示的人类可读标题。
+title: macOS 应用操作应路由到 native 子目标
+# 说明这个用例覆盖的行为。
+description: 已授权且窗口明确的 macOS 原生表单操作，应选择 computer_subgoal 而不是浏览器工具。
+input:
+  # 发给 Agent 的用户请求。
+  prompt: |
+    用户已经授权访问 macOS 上的一个原生应用窗口（windowId 明确），要往已明确的 Report path 输入框填写 /tmp/report.csv，
+    并用 input_value 断言验证该输入框的值等于 /tmp/report.csv。
+    请判断应该走 DSH CU 的哪条路径。只按 DSH CU 的路由格式给出决策，不要执行操作。
+# 低成本前置检查；不满足时跳过后续 judge。
+expect:
+  must_contain:
+    - "DECISION: ALLOW"
+    - "TOOL: computer_subgoal"
+    - "REASON: native"
+  must_not_contain:
+    - "TOOL: browser_extract"
+judges:
+  # 公共契约检查：必须恰好三行、枚举合法，且非 ALLOW 时 TOOL 为 NONE。
+  - id: contract
+    type: script
+    script_path: evals/scripts/check_contract.py
+    timeout_seconds: 10
+  # 用例专属路由判定。
+  - id: routing
+    type: rule_based
+    success:
+      - output_contains:
+          all: ["DECISION: ALLOW", "TOOL: computer_subgoal", "REASON: native"]

@@ -1,0 +1,75 @@
+{
+  "summary": {
+    "round": 1,
+    "runId": "1-1793307430933",
+    "decisionSource": "deterministic decision fixture through the D1 provider contract",
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "blocked": 0
+  },
+  "cases": [
+    {
+      "id": "libreoffice.writer_ax",
+      "application": "LibreOffice",
+      "status": "passed",
+      "elapsedMs": 3157,
+      "detail": {
+        "independentlyReadBack": true,
+        "readback": "ax",
+        "explicitActivationCalls": 0,
+        "showCalls": 0,
+        "foregroundPreserved": true
+      }
+    },
+    {
+      "id": "wps.writer_visual",
+      "application": "wpsoffice",
+      "status": "passed",
+      "elapsedMs": 6648,
+      "detail": {
+        "independentlyReadBack": true,
+        "readback": "screenshot",
+        "explicitActivationCalls": 0,
+        "showCalls": 0,
+        "foregroundPreserved": true
+      }
+    },
+    {
+      "id": "vscode.editor_visual",
+      "application": "Visual Studio Code",
+      "status": "passed",
+      "elapsedMs": 7467,
+      "detail": {
+        "independentlyReadBack": true,
+        "readback": "screenshot",
+        "explicitActivationCalls": 0,
+        "showCalls": 0,
+        "foregroundPreserved": true
+      }
+    },
+    {
+      "id": "chrome.editor_ax",
+      "application": "Google Chrome",
+      "status": "passed",
+      "elapsedMs": 5728,
+      "detail": {
+        "independentlyReadBack": true,
+        "readback": "ax",
+        "explicitActivationCalls": 0,
+        "showCalls": 0,
+        "foregroundPreserved": true
+      }
+    },
+    {
+      "id": "privacy.persisted_stores",
+      "application": "Shared",
+      "status": "passed",
+      "elapsedMs": 4,
+      "detail": {
+        "allowlistedAudit": true,
+        "retentionDays": 7
+      }
+    }
+  ]
+}

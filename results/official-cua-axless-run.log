@@ -1,0 +1,154 @@
+[cua-screenshot] {"requestId":"8","elapsedMs":0.000375,"stage":"helper.received"}
+[cua-screenshot] {"stage":"worker.begin","elapsedMs":0.035583,"requestId":"8"}
+[cua-screenshot] {"stage":"screen-permission.begin","elapsedMs":0.220208,"requestId":"8"}
+[cua-screenshot] {"requestId":"8","stage":"screen-permission.end","elapsedMs":4.138208}
+[cua-screenshot] {"elapsedMs":4.144291,"requestId":"8","stage":"geometry.before.begin"}
+[cua-screenshot] {"elapsedMs":4.145166,"requestId":"8","stage":"window-info.begin"}
+[cua-screenshot] {"elapsedMs":6.95125,"requestId":"8","stage":"window-info.end"}
+[cua-screenshot] {"elapsedMs":6.961041,"requestId":"8","stage":"ax-geometry.begin"}
+[cua-screenshot] {"elapsedMs":7.05875,"requestId":"8","stage":"ax-geometry.end"}
+[cua-screenshot] {"elapsedMs":7.0655,"requestId":"8","stage":"window-info.begin"}
+[cua-screenshot] {"elapsedMs":8.538875,"requestId":"8","stage":"window-info.end"}
+[cua-screenshot] {"elapsedMs":8.556708,"requestId":"8","stage":"geometry.before.end"}
+[cua-screenshot] {"elapsedMs":8.582125,"requestId":"8","stage":"worker.end"}
+[cua-screenshot] {"elapsedMs":8.644625,"requestId":"8","stage":"shareable-content.begin"}
+[cua-screenshot] {"elapsedMs":30.819458,"requestId":"8","stage":"shareable-content.end"}
+[cua-screenshot] {"elapsedMs":30.853875,"requestId":"8","stage":"capture-config.begin"}
+[cua-screenshot] {"elapsedMs":30.910291,"requestId":"8","stage":"capture-config.end"}
+[cua-screenshot] {"elapsedMs":30.912291,"requestId":"8","stage":"capture-image.begin"}
+[cua-screenshot] {"elapsedMs":80.768041,"requestId":"8","stage":"capture-image.end"}
+[cua-screenshot] {"elapsedMs":80.779291,"requestId":"8","stage":"png-encode.queued"}
+[cua-screenshot] {"elapsedMs":80.797291,"requestId":"8","stage":"png-encode.begin"}
+[cua-screenshot] {"elapsedMs":82.905,"requestId":"8","stage":"png-encode.end"}
+[cua-screenshot] {"elapsedMs":82.956875,"requestId":"8","stage":"postflight.begin"}
+[cua-screenshot] {"elapsedMs":86.498041,"requestId":"8","stage":"geometry.after.begin"}
+[cua-screenshot] {"elapsedMs":86.503041,"requestId":"8","stage":"window-info.begin"}
+[cua-screenshot] {"elapsedMs":87.955541,"requestId":"8","stage":"window-info.end"}
+[cua-screenshot] {"elapsedMs":87.962916,"requestId":"8","stage":"ax-geometry.begin"}
+[cua-screenshot] {"elapsedMs":88.102208,"requestId":"8","stage":"ax-geometry.end"}
+[cua-screenshot] {"elapsedMs":88.107791,"requestId":"8","stage":"window-info.begin"}
+[cua-screenshot] {"elapsedMs":91.559583,"requestId":"8","stage":"window-info.end"}
+[cua-screenshot] {"elapsedMs":91.565041,"requestId":"8","stage":"geometry.after.end"}
+[cua-screenshot] {"elapsedMs":91.566208,"requestId":"8","stage":"base64.begin"}
+[cua-screenshot] {"elapsedMs":91.576666,"requestId":"8","stage":"base64.end"}
+[cua-screenshot] {"elapsedMs":91.57725,"requestId":"8","stage":"postflight.end"}
+[cua-screenshot] {"elapsedMs":91.618375,"requestId":"8","stage":"response.encode.begin"}
+[cua-screenshot] {"elapsedMs":91.668791,"requestId":"8","stage":"response.encode.end"}
+[cua-screenshot] {"elapsedMs":91.673416,"requestId":"8","stage":"response.write.begin"}
+W1028 23:18:08.974000 42126 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 8680.89it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+[cua-screenshot] {"elapsedMs":91.917833,"requestId":"8","stage":"response.write.end"}
+{
+  "created_at": "2026-10-28T15:18:04.750037+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41"
+  },
+  "scope": "Official disposable AX-less AppKit fixture only; no user application or data",
+  "actions": [
+    {
+      "path": "ax_first",
+      "model_calls": 0,
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "independently_verified_count": 1
+    },
+    {
+      "path": "visual_fallback",
+      "window_point": [
+        180.0,
+        127.30600000000001
+      ],
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "independently_verified_count": 2
+    },
+    {
+      "path": "resized_window_guard",
+      "error": {
+        "code": "WINDOW_CHANGED",
+        "message": "Window size changed since observation; read getAXState or take a screenshot before coordinate input"
+      },
+      "independently_verified_count": 2
+    }
+  ],
+  "capabilities": {
+    "browser": false,
+    "coordinateSpace": "window-points",
+    "methods": [
+      "activate",
+      "click",
+      "drag",
+      "findApps",
+      "getApp",
+      "getCapabilities",
+      "getState",
+      "hover",
+      "listApps",
+      "listWindows",
+      "paste",
+      "performSecondaryAction",
+      "pressKey",
+      "screenshot",
+      "scroll",
+      "selectText",
+      "setValue",
+      "show",
+      "typeText"
+    ],
+    "permissions": {
+      "accessibility": true,
+      "screenRecording": true
+    },
+    "platform": "macos",
+    "sessionLocked": false
+  },
+  "axless_snapshot": {
+    "snapshotId": "A66EC662-0A21-4947-B48C-57AA0F7FDB59:snapshot:3",
+    "elements": []
+  },
+  "screenshot": {
+    "pixelWidth": 720,
+    "pixelHeight": 424,
+    "bounds": {
+      "height": 212,
+      "width": 360,
+      "x": 221,
+      "y": 650
+    },
+    "coordinateSpace": "window-points",
+    "mimeType": "image/png"
+  },
+  "answer": {
+    "type": "box",
+    "box": {
+      "top": 0.545,
+      "bottom": 0.656,
+      "left": 0.111,
+      "right": 0.889
+    },
+    "found": 1.0,
+    "confidence": 0.9846427841522876
+  },
+  "ground_truth": {
+    "buttonPoint": [
+      180,
+      127
+    ],
+    "prediction_contains_fixture_point": true,
+    "center_error_points": 0.3060000000000116
+  },
+  "decision_ms": 5343.909500001246,
+  "usage": {
+    "input_tokens": 382,
+    "output_tokens": 0
+  },
+  "status": "success",
+  "official_source": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3"
+}

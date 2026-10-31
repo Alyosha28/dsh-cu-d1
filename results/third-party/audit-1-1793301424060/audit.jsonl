@@ -1,0 +1,4 @@
+{"id":"e2eae653-0031-48c5-b590-3a23fecf8ef6","at":"2026-10-29T19:17:06.665Z","agentId":"third-party-1-1793301424060","runId":"4af959fa-28de-45cf-b1de-8a329466595c","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"b0851d9b-4029-4b6e-9399-20673bac89ac","at":"2026-10-29T19:17:07.023Z","agentId":"third-party-1-1793301424060","runId":"4af959fa-28de-45cf-b1de-8a329466595c","kind":"run_finished","detail":{"status":"success","reason":"independently_verified_after_action","route":"d1"}}
+{"id":"deea63dc-b426-4440-9abb-c4d6ed24812b","at":"2026-10-29T19:17:09.854Z","agentId":"third-party-1-1793301424060","runId":"4fa7b1b5-be85-4ea0-915c-a9a7a79332f6","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"1e2cdfc2-97d3-434a-b660-62a7c5c41f6b","at":"2026-10-29T19:17:09.929Z","agentId":"third-party-1-1793301424060","runId":"4fa7b1b5-be85-4ea0-915c-a9a7a79332f6","kind":"run_finished","detail":{"status":"escalated","reason":"tool_execution_failed"}}

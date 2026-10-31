@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "skill_e0175427edd41402",
+      "version": 1,
+      "verifiedAt": "unverified",
+      "match": {
+        "windowTitle": "未命名50"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "state": "candidate",
+      "candidateHash": "e0175427edd41402b35a5808a57dda7a3c1ee79de32ec5d6df83776413bf0cec",
+      "history": []
+    },
+    {
+      "id": "skill_a862e5e7a5964ba1",
+      "version": 1,
+      "verifiedAt": "2026-10-29T17:36:38.625Z",
+      "match": {
+        "windowTitle": "计算器"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "15"
+        }
+      ],
+      "steps": [
+        {
+          "type": "click",
+          "target": "7"
+        },
+        {
+          "type": "click",
+          "target": "加"
+        },
+        {
+          "type": "click",
+          "target": "8"
+        },
+        {
+          "type": "click",
+          "target": "等于"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "a862e5e7a5964ba1a2cc1588bb4904619638e1b9db70e67478ffc022e9ff3aa2",
+      "history": [
+        {
+          "id": "c35dd889-b3a4-4abe-abf1-e9b9f88c00a2",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T17:36:38.625Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    }
+  ]
+}

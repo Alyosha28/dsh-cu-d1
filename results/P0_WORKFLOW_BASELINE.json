@@ -1,0 +1,80 @@
+{
+  "created_at": "2026-10-28T15:57:11.327539+00:00",
+  "scope": "Synthetic browser CSV download and disposable native CSV importer; no user files or accounts",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41"
+  },
+  "browser_download": {
+    "status": "success",
+    "elapsed_ms": 741.3464159999421,
+    "rows": 2,
+    "total": 300
+  },
+  "capabilities": {
+    "browser": false,
+    "coordinateSpace": "window-points",
+    "methods": [
+      "activate",
+      "click",
+      "drag",
+      "findApps",
+      "getApp",
+      "getCapabilities",
+      "getState",
+      "hover",
+      "listApps",
+      "listWindows",
+      "paste",
+      "performSecondaryAction",
+      "pressKey",
+      "screenshot",
+      "scroll",
+      "selectText",
+      "setValue",
+      "show",
+      "typeText"
+    ],
+    "permissions": {
+      "accessibility": true,
+      "screenRecording": true
+    },
+    "platform": "macos",
+    "sessionLocked": false
+  },
+  "native": {
+    "ax": {
+      "path": "ax_first",
+      "model_calls": 0,
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "verified": {
+        "rows": 2,
+        "total": 300,
+        "status": "Import complete"
+      },
+      "elapsed_ms": 233.1609170014417
+    },
+    "visual": {
+      "path": "visual_fallback",
+      "model_calls": 2,
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "decision_ms": [
+        5419.317957999738,
+        299.5177920001879
+      ],
+      "verified": {
+        "rows": 2,
+        "total": 300,
+        "status": "Import complete"
+      },
+      "elapsed_ms": 6091.706125000201
+    }
+  },
+  "status": "success"
+}

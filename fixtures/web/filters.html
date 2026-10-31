@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Decision Lab Filters</title>
+  <style>
+    body { font: 18px system-ui; max-width: 720px; margin: 40px auto; }
+    label { display: block; margin: 18px 0 6px; font-weight: 600; }
+    input[type=number] { padding: 10px; width: 160px; }
+    input[type=checkbox] { width: 20px; height: 20px; vertical-align: middle; }
+    button { padding: 10px 16px; margin-top: 20px; }
+    #summary { margin-top: 28px; padding: 16px; border: 1px solid #aaa; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <h1>Flight filters</h1>
+  <label for="adults">Adults</label>
+  <input id="adults" type="number" min="1" max="9" value="2">
+  <label for="nonstop">
+    <input id="nonstop" type="checkbox"> Nonstop only
+  </label>
+  <button id="apply" type="button">Apply filters</button>
+  <section id="summary" data-summary hidden>
+    <h2>Available flights</h2>
+    <p id="summary-text"></p>
+    <div data-result>Direct flight · 09:20–10:15</div>
+  </section>
+  <script>
+    document.getElementById('apply').addEventListener('click', () => {
+      const adults = document.getElementById('adults').value;
+      const nonstop = document.getElementById('nonstop').checked;
+      document.getElementById('summary-text').textContent =
+        `${adults} adults${nonstop ? ' · Nonstop only' : ' · Stops allowed'}`;
+      document.getElementById('summary').hidden = false;
+    });
+  </script>
+</body>
+</html>

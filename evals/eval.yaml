@@ -1,0 +1,41 @@
+# skill-up 评测配置版本；不要修改这个值。
+schema_version: v1alpha1
+
+environment:
+  # 纯决策评测不需要沙箱。
+  type: none
+
+skills:
+  # 只安装 Skill 正文，避免把整个仓库复制进评测环境。
+  - source: local_path
+    path: .
+    include: [SKILL.md]
+
+engine:
+  # 使用本机已登录的 Claude Code。
+  name: claude_code
+
+cases:
+  # 十二个用例覆盖工具选择、拒绝/升级、控制、发布和动态前缀。
+  files:
+    - evals/cases/extract-read-only.yaml
+    - evals/cases/ambiguous-target.yaml
+    - evals/cases/cross-origin-skill.yaml
+    - evals/cases/consequential-approval.yaml
+    - evals/cases/missing-verify.yaml
+    - evals/cases/native-routing.yaml
+    - evals/cases/control-stop.yaml
+    - evals/cases/approval-granted.yaml
+    - evals/cases/prefixed-extract.yaml
+    - evals/cases/publish-approved.yaml
+    - evals/cases/publish-without-approval.yaml
+    - evals/cases/extract-ambiguous.yaml
+  defaults:
+    timeout_seconds: 120
+    max_turns: 3
+  # 串行运行，避免本机登录态并发限流。
+  parallelism: 1
+
+report:
+  # 生成机器可读结果和人工查看的 HTML。
+  formats: [json, html]

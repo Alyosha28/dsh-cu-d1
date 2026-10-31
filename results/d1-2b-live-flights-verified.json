@@ -1,0 +1,238 @@
+{
+  "created_at": "2026-10-28T11:26:59.377190+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Local isolated Chromium pages only; no real accounts, no desktop control",
+  "cold_decision_ms": 2086.641750000126,
+  "summary": {
+    "cases": 1,
+    "successes": 1,
+    "model_calls": 4,
+    "actions_executed": 4,
+    "stale_decisions": 0
+  },
+  "cases": [
+    {
+      "id": "flights",
+      "status": "success",
+      "reason": "all_subgoals_independently_verified",
+      "model_calls": 4,
+      "actions_executed": 4,
+      "stale_decisions": 0,
+      "control_seconds": 1.5676365419999456,
+      "total_seconds_including_navigation": 1.5805171250003696,
+      "decision_latency_ms": {
+        "total": 1104.3038339994382,
+        "mean": 276.07595849985955,
+        "median": 273.8085834998856,
+        "max": 295.88874999990367
+      },
+      "subgoals": [
+        {
+          "id": "origin",
+          "goal": "Enter Zürich into the From field.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            260.7979169997634
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 5,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e1",
+                "confidence": 0.7691085880287505,
+                "operation_probabilities": {
+                  "CLICK": 0.1498438821269721,
+                  "TYPE_TEXT": 0.7691085880287505,
+                  "WAIT": 0.0016875403357314298,
+                  "DONE": 0.0014667872813075048,
+                  "BLOCKED": 0.07789320222723838
+                },
+                "target_confidence": 0.984987083761446,
+                "target_probabilities": {
+                  "e1": 0.984987083761446,
+                  "e2": 0.012467657709529137,
+                  "e3": 0.002545258529024925
+                },
+                "text": "Zürich",
+                "text_found": 0.9992250992574476,
+                "text_span": [
+                  19,
+                  25
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 260.7979169997634,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e1"
+              }
+            }
+          ],
+          "last_snapshot": null
+        },
+        {
+          "id": "destination",
+          "goal": "Enter London into the To field.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            265.1439169999321
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 2,
+              "element_count": 6,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e3",
+                "confidence": 0.9241913961271477,
+                "operation_probabilities": {
+                  "CLICK": 0.018666934846274928,
+                  "TYPE_TEXT": 0.9241913961271477,
+                  "WAIT": 0.002075755800683536,
+                  "DONE": 0.0016432282114495946,
+                  "BLOCKED": 0.05342268501444409
+                },
+                "target_confidence": 0.9943648118867005,
+                "target_probabilities": {
+                  "e1": 0.0036480827408506816,
+                  "e3": 0.9943648118867005,
+                  "e4": 0.0019871053724489726
+                },
+                "text": "London",
+                "text_found": 0.9844019391357762,
+                "text_span": [
+                  19,
+                  25
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 265.1439169999321,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e3"
+              }
+            }
+          ],
+          "last_snapshot": null
+        },
+        {
+          "id": "date",
+          "goal": "Enter 2026-11-01 into the Departure date field.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            282.473249999839
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s3",
+              "snapshot_version": 5,
+              "element_count": 8,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e6",
+                "confidence": 0.9697780915619143,
+                "operation_probabilities": {
+                  "CLICK": 0.0025652020143276328,
+                  "TYPE_TEXT": 0.9697780915619143,
+                  "WAIT": 0.001272583942058196,
+                  "DONE": 0.0010556105854701715,
+                  "BLOCKED": 0.02532851189622969
+                },
+                "target_confidence": 0.9927113951496648,
+                "target_probabilities": {
+                  "e1": 0.0026879429602238184,
+                  "e3": 0.004600661890111334,
+                  "e6": 0.9927113951496648
+                },
+                "text": "2026-11-01",
+                "text_found": 0.9808100278234433,
+                "text_span": [
+                  19,
+                  29
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 282.473249999839,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e6"
+              }
+            }
+          ],
+          "last_snapshot": null
+        },
+        {
+          "id": "search",
+          "goal": "Find one-way flights from Zürich to London on 2026-11-01. Use the visible form and stop only when matching flight results are visible.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            295.88874999990367
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s4",
+              "snapshot_version": 7,
+              "element_count": 8,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e7",
+                "confidence": 0.625309778713622,
+                "operation_probabilities": {
+                  "CLICK": 0.625309778713622,
+                  "TYPE_TEXT": 0.10589112173952439,
+                  "WAIT": 0.018355732302406554,
+                  "DONE": 0.046739625319178205,
+                  "BLOCKED": 0.20370374192526886
+                },
+                "target_confidence": 0.47675396702159323,
+                "target_probabilities": {
+                  "e1": 0.00962953699567964,
+                  "e2": 0.16273979984785386,
+                  "e3": 0.00856773878396502,
+                  "e4": 0.32804159205860856,
+                  "e5": 0.0036944012030292375,
+                  "e6": 0.01057296408927035,
+                  "e7": 0.47675396702159323
+                }
+              },
+              "decision_ms": 295.88874999990367,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e7"
+              }
+            }
+          ],
+          "last_snapshot": null
+        }
+      ]
+    }
+  ]
+}

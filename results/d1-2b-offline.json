@@ -1,0 +1,518 @@
+{
+  "created_at": "2026-10-28T11:29:53.585570+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41"
+  },
+  "runtime": {
+    "device": "mps",
+    "dtype": "torch.bfloat16",
+    "torch": "2.14.1",
+    "python": "3.11.16",
+    "platform": "macOS-26.7-arm64-arm-64bit",
+    "load_seconds": 1.093789416999698,
+    "cold_first_decision_ms": 2795.839958000215,
+    "warm_rounds_per_case": 3
+  },
+  "summary": {
+    "cases": 12,
+    "valid_decisions": 12,
+    "operation_accuracy": 0.8333333333333334,
+    "joint_accuracy": 0.8333333333333334,
+    "latency_ms": {
+      "mean": 137.8956551111009,
+      "median": 138.4651874998326,
+      "p95": 190.2004064997982,
+      "min": 56.2719580002522,
+      "max": 265.91929200003506
+    },
+    "input_tokens_mean": 515.0833333333334,
+    "output_tokens": 0
+  },
+  "by_modality": {
+    "browser": {
+      "cases": 9,
+      "valid_decisions": 9,
+      "operation_accuracy": 0.7777777777777778,
+      "joint_accuracy": 0.7777777777777778,
+      "latency_ms": {
+        "mean": 137.89084262959847,
+        "median": 140.19666700005473,
+        "p95": 193.03583759974572,
+        "min": 56.2719580002522,
+        "max": 265.91929200003506
+      },
+      "input_tokens_mean": 514,
+      "output_tokens": 0
+    },
+    "desktop": {
+      "cases": 3,
+      "valid_decisions": 3,
+      "operation_accuracy": 1.0,
+      "joint_accuracy": 1.0,
+      "latency_ms": {
+        "mean": 137.91009255560817,
+        "median": 123.45170900016456,
+        "p95": 177.28387539991672,
+        "min": 115.37070800022775,
+        "max": 184.7194590000072
+      },
+      "input_tokens_mean": 518.3333333333334,
+      "output_tokens": 0
+    }
+  },
+  "cases": [
+    {
+      "id": "browser-open-origin",
+      "modality": "browser",
+      "expected": {
+        "operation": "CLICK",
+        "target": "from"
+      },
+      "decision": {
+        "operation": "TYPE_TEXT",
+        "target": "to",
+        "confidence": 0.5577075186570132,
+        "operation_probabilities": {
+          "CLICK": 0.28991256711829744,
+          "TYPE_TEXT": 0.5577075186570132,
+          "WAIT": 0.00599412740864699,
+          "DONE": 0.00912823999792926,
+          "BLOCKED": 0.13725754681811297
+        },
+        "target_confidence": 0.7084603092882742,
+        "target_probabilities": {
+          "from": 0.2915396907117257,
+          "to": 0.7084603092882742
+        },
+        "text": "Zürich",
+        "text_found": 0.9579303700987827,
+        "text_span": [
+          58,
+          64
+        ],
+        "text_path": "/goal"
+      },
+      "error": null,
+      "operation_correct": false,
+      "joint_correct": false,
+      "latency_ms": [
+        142.26695800016387,
+        140.19666700005473,
+        139.85020799964332
+      ],
+      "usage": {
+        "input_tokens": 625,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-type-destination",
+      "modality": "browser",
+      "expected": {
+        "operation": "TYPE_TEXT",
+        "target": "to"
+      },
+      "decision": {
+        "operation": "TYPE_TEXT",
+        "target": "to",
+        "confidence": 0.9218306962679284,
+        "operation_probabilities": {
+          "CLICK": 0.02297697206849717,
+          "TYPE_TEXT": 0.9218306962679284,
+          "WAIT": 0.002169507622837974,
+          "DONE": 0.002169507622837974,
+          "BLOCKED": 0.050853316417898434
+        },
+        "target_confidence": 0.9972996335668377,
+        "target_probabilities": {
+          "from": 0.002700366433162206,
+          "to": 0.9972996335668377
+        },
+        "text": "London",
+        "text_found": 0.9874294496861074,
+        "text_span": [
+          18,
+          24
+        ],
+        "text_path": "/goal"
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        183.8356670000394,
+        142.36945899983766,
+        140.74316699998235
+      ],
+      "usage": {
+        "input_tokens": 626,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-pick-suggestion",
+      "modality": "browser",
+      "expected": {
+        "operation": "CLICK",
+        "target": "london-uk"
+      },
+      "decision": {
+        "operation": "CLICK",
+        "target": "london-uk",
+        "confidence": 0.9348383851178348,
+        "operation_probabilities": {
+          "CLICK": 0.9348383851178348,
+          "TYPE_TEXT": 0.005102331968938098,
+          "WAIT": 0.002652340357481031,
+          "DONE": 0.03896104512879504,
+          "BLOCKED": 0.018445897426951127
+        },
+        "target_confidence": 0.9961698871913928,
+        "target_probabilities": {
+          "to": 0.003328595263905361,
+          "london-uk": 0.9961698871913928,
+          "london-ca": 0.00050151754470185
+        }
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        175.04841700019824,
+        123.72095799992167,
+        124.09966699988217
+      ],
+      "usage": {
+        "input_tokens": 535,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-submit-search",
+      "modality": "browser",
+      "expected": {
+        "operation": "CLICK",
+        "target": "search"
+      },
+      "decision": {
+        "operation": "CLICK",
+        "target": "search",
+        "confidence": 0.6634890769266802,
+        "operation_probabilities": {
+          "CLICK": 0.6634890769266802,
+          "TYPE_TEXT": 0.005141425165915114,
+          "WAIT": 0.005141425165915114,
+          "DONE": 0.27303350341833227,
+          "BLOCKED": 0.05319456932315707
+        },
+        "target_confidence": 0.9778458876827744,
+        "target_probabilities": {
+          "from": 0.007577398980864304,
+          "to": 0.014576713336361246,
+          "search": 0.9778458876827744
+        }
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        172.59645800004364,
+        149.39754199986055,
+        150.92791600000055
+      ],
+      "usage": {
+        "input_tokens": 660,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-results-done",
+      "modality": "browser",
+      "expected": {
+        "operation": "DONE",
+        "target": null
+      },
+      "decision": {
+        "operation": "DONE",
+        "target": null,
+        "confidence": 0.70221943922678,
+        "operation_probabilities": {
+          "CLICK": 0.13056552742671695,
+          "WAIT": 0.0537292392877152,
+          "DONE": 0.70221943922678,
+          "BLOCKED": 0.1134857940587878
+        }
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        137.0801670000219,
+        95.1948749998337,
+        95.14279099994383
+      ],
+      "usage": {
+        "input_tokens": 407,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-scroll-results",
+      "modality": "browser",
+      "expected": {
+        "operation": "SCROLL_DOWN",
+        "target": null
+      },
+      "decision": {
+        "operation": "SCROLL_DOWN",
+        "target": null,
+        "confidence": 0.9256581977027548,
+        "operation_probabilities": {
+          "CLICK": 0.007007329757212261,
+          "SCROLL_DOWN": 0.9256581977027548,
+          "WAIT": 0.00638206472359814,
+          "DONE": 0.020528305080273552,
+          "BLOCKED": 0.04042410273616119
+        }
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        122.00237500019284,
+        86.27516599972296,
+        85.9915840001122
+      ],
+      "usage": {
+        "input_tokens": 356,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-wait-loading",
+      "modality": "browser",
+      "expected": {
+        "operation": "WAIT",
+        "target": null
+      },
+      "decision": {
+        "operation": "WAIT",
+        "target": null,
+        "confidence": 0.8950414680575206,
+        "operation_probabilities": {
+          "WAIT": 0.8950414680575206,
+          "DONE": 0.014311194026441902,
+          "BLOCKED": 0.09064733791603768
+        }
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        265.91929200003506,
+        56.2719580002522,
+        56.6181249996589
+      ],
+      "usage": {
+        "input_tokens": 208,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-blocked-login",
+      "modality": "browser",
+      "expected": {
+        "operation": "BLOCKED",
+        "target": null
+      },
+      "decision": {
+        "operation": "CLICK",
+        "target": "sign-in",
+        "confidence": 0.6616939957656895,
+        "operation_probabilities": {
+          "CLICK": 0.6616939957656895,
+          "TYPE_TEXT": 0.03099491463274834,
+          "WAIT": 0.02822923397960578,
+          "DONE": 0.006787049064431081,
+          "BLOCKED": 0.27229480655752514
+        },
+        "target_confidence": 0.6480332150208549,
+        "target_probabilities": {
+          "email": 0.3068078429112136,
+          "password": 0.0451589420679316,
+          "sign-in": 0.6480332150208549
+        }
+      },
+      "error": null,
+      "operation_correct": false,
+      "joint_correct": false,
+      "latency_ms": [
+        194.92612499971074,
+        134.79850000021543,
+        135.60004200007825
+      ],
+      "usage": {
+        "input_tokens": 589,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-chinese-type",
+      "modality": "browser",
+      "expected": {
+        "operation": "TYPE_TEXT",
+        "target": "to"
+      },
+      "decision": {
+        "operation": "TYPE_TEXT",
+        "target": "to",
+        "confidence": 0.9671240908772247,
+        "operation_probabilities": {
+          "CLICK": 0.0046965093094820725,
+          "TYPE_TEXT": 0.9671240908772247,
+          "WAIT": 0.0014601023450737016,
+          "DONE": 0.0014601023450737016,
+          "BLOCKED": 0.025259195123145554
+        },
+        "target_confidence": 0.9984925395693106,
+        "target_probabilities": {
+          "from": 0.0015074604306892663,
+          "to": 0.9984925395693106
+        },
+        "text": "北京",
+        "text_found": 0.9893499944747752,
+        "text_span": [
+          24,
+          26
+        ],
+        "text_path": "/goal"
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        188.62516699982734,
+        140.9580829999868,
+        142.5954169999386
+      ],
+      "usage": {
+        "input_tokens": 620,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "desktop-click-save",
+      "modality": "desktop",
+      "expected": {
+        "operation": "CLICK",
+        "target": "save"
+      },
+      "decision": {
+        "operation": "CLICK",
+        "target": "save",
+        "confidence": 0.8955559142503198,
+        "operation_probabilities": {
+          "CLICK": 0.8955559142503198,
+          "TYPE_TEXT": 0.006320495067327516,
+          "WAIT": 0.010324182908713017,
+          "DONE": 0.030960221979649087,
+          "BLOCKED": 0.05683918579399046
+        },
+        "target_confidence": 0.9819548237847071,
+        "target_probabilities": {
+          "editor": 0.01242927631336714,
+          "save": 0.9819548237847071,
+          "close": 0.005615899901925664
+        }
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        184.7194590000072,
+        123.37683300029312,
+        123.45170900016456
+      ],
+      "usage": {
+        "input_tokens": 534,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "desktop-type-filename",
+      "modality": "desktop",
+      "expected": {
+        "operation": "TYPE_TEXT",
+        "target": "filename"
+      },
+      "decision": {
+        "operation": "TYPE_TEXT",
+        "target": "filename",
+        "confidence": 0.9038508175991838,
+        "operation_probabilities": {
+          "CLICK": 0.013162491897100894,
+          "TYPE_TEXT": 0.9038508175991838,
+          "WAIT": 0.0032394244068286227,
+          "DONE": 0.0038150717878272108,
+          "BLOCKED": 0.07593219430905944
+        },
+        "target_confidence": 1.0,
+        "target_probabilities": {
+          "filename": 1.0
+        },
+        "text": "report-final.txt",
+        "text_found": 0.9987366732457217,
+        "text_span": [
+          18,
+          34
+        ],
+        "text_path": "/goal"
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        166.13049999978102,
+        123.54262500002733,
+        123.40704100006405
+      ],
+      "usage": {
+        "input_tokens": 530,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "desktop-saved-done",
+      "modality": "desktop",
+      "expected": {
+        "operation": "DONE",
+        "target": null
+      },
+      "decision": {
+        "operation": "DONE",
+        "target": null,
+        "confidence": 0.880681731502296,
+        "operation_probabilities": {
+          "CLICK": 0.03421917509813753,
+          "TYPE_TEXT": 0.013128290768906788,
+          "WAIT": 0.029742845103034436,
+          "DONE": 0.880681731502296,
+          "BLOCKED": 0.042227957527625266
+        }
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        165.28295800026171,
+        115.90899999964677,
+        115.37070800022775
+      ],
+      "usage": {
+        "input_tokens": 491,
+        "output_tokens": 0
+      }
+    }
+  ]
+}

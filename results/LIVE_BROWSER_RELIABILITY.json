@@ -1,0 +1,288 @@
+{
+  "finishedAt": "2026-10-29T11:20:27.566Z",
+  "browser": "Google Chrome",
+  "model": "LiquidAI/d1-2B local",
+  "scriptedDecision": false,
+  "network": "live public sites",
+  "summary": [
+    {
+      "id": "example-domain-link",
+      "passed": 3,
+      "total": 3,
+      "actions": [
+        1,
+        1,
+        1
+      ],
+      "stale": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "wikipedia-search",
+      "passed": 3,
+      "total": 3,
+      "actions": [
+        2,
+        2,
+        2
+      ],
+      "stale": [
+        2,
+        1,
+        1
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "iteration": 1,
+      "id": "example-domain-link",
+      "startedAt": "2026-10-29T11:19:55.729Z",
+      "isError": false,
+      "result": {
+        "status": "success",
+        "reason": "independently_verified_after_action",
+        "decisionRequests": 1,
+        "route": "d1",
+        "modelForwardCalls": 1,
+        "textExtractionCalls": 0,
+        "actionsExecuted": 1,
+        "staleDecisions": 0,
+        "decisionLatencyMs": 416.6937499976484,
+        "inputTokens": 426,
+        "outputTokens": 0,
+        "trace": [
+          {
+            "snapshotId": "s1",
+            "operation": "CLICK",
+            "target": "f0-e1",
+            "targetName": "Learn more",
+            "confidence": 0.9782947132467429,
+            "requestLatencyMs": 416.6937499976484,
+            "dispatched": true
+          }
+        ]
+      }
+    },
+    {
+      "iteration": 1,
+      "id": "wikipedia-search",
+      "startedAt": "2026-10-29T11:20:00.759Z",
+      "isError": false,
+      "result": {
+        "status": "success",
+        "reason": "independently_verified_after_action",
+        "decisionRequests": 4,
+        "route": "d1",
+        "modelForwardCalls": 4,
+        "textExtractionCalls": 0,
+        "actionsExecuted": 2,
+        "staleDecisions": 2,
+        "decisionLatencyMs": 8047.84404199745,
+        "inputTokens": 14270,
+        "outputTokens": 0,
+        "trace": [
+          {
+            "snapshotId": "s1",
+            "operation": "TYPE_TEXT",
+            "target": "f0-e12",
+            "targetName": "Search Wikipedia",
+            "confidence": 0.5773353695600865,
+            "requestLatencyMs": 2013.3314580016304,
+            "dispatched": false,
+            "stale": "dom_changed"
+          },
+          {
+            "snapshotId": "s2",
+            "operation": "TYPE_TEXT",
+            "target": "f0-e12",
+            "targetName": "Search Wikipedia",
+            "confidence": 0.6563850670788806,
+            "requestLatencyMs": 1971.8073749972973,
+            "dispatched": true
+          },
+          {
+            "snapshotId": "s3",
+            "operation": "CLICK",
+            "target": "f0-e14",
+            "targetName": "Search",
+            "confidence": 0.8115167105576624,
+            "requestLatencyMs": 2002.4414590006927,
+            "dispatched": false,
+            "stale": "dom_changed"
+          },
+          {
+            "snapshotId": "s4",
+            "operation": "CLICK",
+            "target": "f0-e16",
+            "targetName": "Search",
+            "confidence": 0.8222300068951865,
+            "requestLatencyMs": 2060.26374999783,
+            "dispatched": true
+          }
+        ]
+      }
+    },
+    {
+      "iteration": 2,
+      "id": "example-domain-link",
+      "startedAt": "2026-10-29T11:20:12.475Z",
+      "isError": false,
+      "result": {
+        "status": "success",
+        "reason": "independently_verified_after_action",
+        "decisionRequests": 1,
+        "route": "d1",
+        "modelForwardCalls": 1,
+        "textExtractionCalls": 0,
+        "actionsExecuted": 1,
+        "staleDecisions": 0,
+        "decisionLatencyMs": 257.7527499961434,
+        "inputTokens": 426,
+        "outputTokens": 0,
+        "trace": [
+          {
+            "snapshotId": "s1",
+            "operation": "CLICK",
+            "target": "f0-e1",
+            "targetName": "Learn more",
+            "confidence": 0.9783393995122863,
+            "requestLatencyMs": 257.7527499961434,
+            "dispatched": true
+          }
+        ]
+      }
+    },
+    {
+      "iteration": 2,
+      "id": "wikipedia-search",
+      "startedAt": "2026-10-29T11:20:12.898Z",
+      "isError": false,
+      "result": {
+        "status": "success",
+        "reason": "independently_verified_after_action",
+        "decisionRequests": 3,
+        "route": "d1",
+        "modelForwardCalls": 3,
+        "textExtractionCalls": 0,
+        "actionsExecuted": 2,
+        "staleDecisions": 1,
+        "decisionLatencyMs": 5121.9005409948295,
+        "inputTokens": 10871,
+        "outputTokens": 0,
+        "trace": [
+          {
+            "snapshotId": "s1",
+            "operation": "TYPE_TEXT",
+            "target": "f0-e12",
+            "targetName": "Search Wikipedia",
+            "confidence": 0.6607398080247038,
+            "requestLatencyMs": 1736.2092080002185,
+            "dispatched": true
+          },
+          {
+            "snapshotId": "s2",
+            "operation": "CLICK",
+            "target": "f0-e14",
+            "targetName": "Search",
+            "confidence": 0.8172490532414683,
+            "requestLatencyMs": 1641.5665829990758,
+            "dispatched": false,
+            "stale": "dom_changed"
+          },
+          {
+            "snapshotId": "s3",
+            "operation": "CLICK",
+            "target": "f0-e16",
+            "targetName": "Search",
+            "confidence": 0.8197923821074902,
+            "requestLatencyMs": 1744.1247499955352,
+            "dispatched": true
+          }
+        ]
+      }
+    },
+    {
+      "iteration": 3,
+      "id": "example-domain-link",
+      "startedAt": "2026-10-29T11:20:19.722Z",
+      "isError": false,
+      "result": {
+        "status": "success",
+        "reason": "independently_verified_after_action",
+        "decisionRequests": 1,
+        "route": "d1",
+        "modelForwardCalls": 1,
+        "textExtractionCalls": 0,
+        "actionsExecuted": 1,
+        "staleDecisions": 0,
+        "decisionLatencyMs": 237.09516700182576,
+        "inputTokens": 426,
+        "outputTokens": 0,
+        "trace": [
+          {
+            "snapshotId": "s1",
+            "operation": "CLICK",
+            "target": "f0-e1",
+            "targetName": "Learn more",
+            "confidence": 0.9783393995122863,
+            "requestLatencyMs": 237.09516700182576,
+            "dispatched": true
+          }
+        ]
+      }
+    },
+    {
+      "iteration": 3,
+      "id": "wikipedia-search",
+      "startedAt": "2026-10-29T11:20:20.120Z",
+      "isError": false,
+      "result": {
+        "status": "success",
+        "reason": "independently_verified_after_action",
+        "decisionRequests": 3,
+        "route": "d1",
+        "modelForwardCalls": 3,
+        "textExtractionCalls": 0,
+        "actionsExecuted": 2,
+        "staleDecisions": 1,
+        "decisionLatencyMs": 5119.114000000991,
+        "inputTokens": 10871,
+        "outputTokens": 0,
+        "trace": [
+          {
+            "snapshotId": "s1",
+            "operation": "TYPE_TEXT",
+            "target": "f0-e12",
+            "targetName": "Search Wikipedia",
+            "confidence": 0.6607398080247038,
+            "requestLatencyMs": 1732.8841669950634,
+            "dispatched": true
+          },
+          {
+            "snapshotId": "s2",
+            "operation": "CLICK",
+            "target": "f0-e14",
+            "targetName": "Search",
+            "confidence": 0.8172490532414683,
+            "requestLatencyMs": 1658.6155830009375,
+            "dispatched": false,
+            "stale": "dom_changed"
+          },
+          {
+            "snapshotId": "s3",
+            "operation": "CLICK",
+            "target": "f0-e16",
+            "targetName": "Search",
+            "confidence": 0.8197923821074902,
+            "requestLatencyMs": 1727.61425000499,
+            "dispatched": true
+          }
+        ]
+      }
+    }
+  ]
+}

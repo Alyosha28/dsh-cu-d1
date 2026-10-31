@@ -1,0 +1,624 @@
+{
+  "created_at": "2026-10-28T15:05:12.571959+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Synthetic images only; no screenshots of user applications and no input dispatched",
+  "summary": {
+    "cases": 11,
+    "correct": 11,
+    "present_cases": 9,
+    "present_center_inside": 9,
+    "present_iou_0_5": 9,
+    "negative_cases": 2,
+    "negative_correct": 2,
+    "median_iou": 0.975946372239747,
+    "median_center_error_px": 0.781024967590683,
+    "latency_ms": {
+      "mean": 496.7817412121583,
+      "median": 368.8980420010921,
+      "p95": 750.9724001989521,
+      "min": 191.53141700007836,
+      "max": 4678.15441699895
+    },
+    "input_tokens_mean": 940,
+    "output_tokens": 0
+  },
+  "cases": [
+    {
+      "id": "simple-search",
+      "instruction": "Where is the blue Search button?",
+      "image": "fixtures/visual/simple-search.png",
+      "image_size": [
+        800,
+        600
+      ],
+      "expected_box": {
+        "left": 0.125,
+        "top": 0.16666666666666666,
+        "right": 0.375,
+        "bottom": 0.3
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.166,
+          "bottom": 0.302,
+          "left": 0.126,
+          "right": 0.376
+        },
+        "found": 1.0,
+        "confidence": 0.9974744551663177
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9726562500000001,
+        "center_error_px": 0.8944271909999159,
+        "predicted_center_px": [
+          200.8,
+          140.39999999999998
+        ],
+        "expected_center_px": [
+          200.0,
+          140.0
+        ],
+        "predicted_box": {
+          "top": 0.166,
+          "bottom": 0.302,
+          "left": 0.126,
+          "right": 0.376
+        },
+        "found": 1.0,
+        "confidence": 0.9974744551663177,
+        "missed": false
+      },
+      "latency_ms": [
+        4678.15441699895,
+        193.30475000060687,
+        192.1282089988381
+      ],
+      "usage": {
+        "input_tokens": 568,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "retina-search",
+      "instruction": "Where is the blue Search button?",
+      "image": "fixtures/visual/retina-search.png",
+      "image_size": [
+        1600,
+        1200
+      ],
+      "expected_box": {
+        "left": 0.125,
+        "top": 0.16666666666666666,
+        "right": 0.375,
+        "bottom": 0.3
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.167,
+          "bottom": 0.3,
+          "left": 0.126,
+          "right": 0.374
+        },
+        "found": 1.0,
+        "confidence": 0.9993405521823163
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9895199999999997,
+        "center_error_px": 0.19999999999998863,
+        "predicted_center_px": [
+          400.0,
+          280.2
+        ],
+        "expected_center_px": [
+          400.0,
+          280.0
+        ],
+        "predicted_box": {
+          "top": 0.167,
+          "bottom": 0.3,
+          "left": 0.126,
+          "right": 0.374
+        },
+        "found": 1.0,
+        "confidence": 0.9993405521823163,
+        "missed": false
+      },
+      "latency_ms": [
+        928.97287499909,
+        631.8234999998822,
+        632.3054169988609
+      ],
+      "usage": {
+        "input_tokens": 1703,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "dialog-save",
+      "instruction": "Where is the Save button in the save dialog?",
+      "image": "fixtures/visual/dialog-save.png",
+      "image_size": [
+        1280,
+        800
+      ],
+      "expected_box": {
+        "left": 0.625,
+        "top": 0.725,
+        "right": 0.765625,
+        "bottom": 0.825
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.726,
+          "bottom": 0.8260000000000001,
+          "left": 0.626,
+          "right": 0.766
+        },
+        "found": 1.0,
+        "confidence": 0.9918761641183218
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9707330775915786,
+        "center_error_px": 1.1892854997855153,
+        "predicted_center_px": [
+          890.8799999999999,
+          620.8000000000001
+        ],
+        "expected_center_px": [
+          890.0,
+          619.9999999999999
+        ],
+        "predicted_box": {
+          "top": 0.726,
+          "bottom": 0.8260000000000001,
+          "left": 0.626,
+          "right": 0.766
+        },
+        "found": 1.0,
+        "confidence": 0.9918761641183218,
+        "missed": false
+      },
+      "latency_ms": [
+        518.0616659999941,
+        510.29483300044376,
+        389.3735830006335
+      ],
+      "usage": {
+        "input_tokens": 1096,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "small-checkbox",
+      "instruction": "Where is the Nonstop only checkbox itself, not its text label?",
+      "image": "fixtures/visual/small-checkbox.png",
+      "image_size": [
+        1280,
+        800
+      ],
+      "expected_box": {
+        "left": 0.078125,
+        "top": 0.375,
+        "right": 0.096875,
+        "bottom": 0.405
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.374,
+          "bottom": 0.40700000000000003,
+          "left": 0.078,
+          "right": 0.099
+        },
+        "found": 1.0,
+        "confidence": 0.9937422611343204
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.8116883116883117,
+        "center_error_px": 1.341044369139228,
+        "predicted_center_px": [
+          113.28,
+          312.40000000000003
+        ],
+        "expected_center_px": [
+          112.0,
+          312.0
+        ],
+        "predicted_box": {
+          "top": 0.374,
+          "bottom": 0.40700000000000003,
+          "left": 0.078,
+          "right": 0.099
+        },
+        "found": 1.0,
+        "confidence": 0.9937422611343204,
+        "missed": false
+      },
+      "latency_ms": [
+        421.46408400003565,
+        390.83737500004645,
+        391.37324999865086
+      ],
+      "usage": {
+        "input_tokens": 1101,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "london-uk-option",
+      "instruction": "Where is the London, United Kingdom option?",
+      "image": "fixtures/visual/london-uk-option.png",
+      "image_size": [
+        1000,
+        700
+      ],
+      "expected_box": {
+        "left": 0.15,
+        "top": 0.35714285714285715,
+        "right": 0.85,
+        "bottom": 0.4714285714285714
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.357,
+          "bottom": 0.47400000000000003,
+          "left": 0.151,
+          "right": 0.851
+        },
+        "found": 0.9994841142438006,
+        "confidence": 0.9937422611343204
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9740463333913946,
+        "center_error_px": 1.3124404748406466,
+        "predicted_center_px": [
+          501.0,
+          290.84999999999997
+        ],
+        "expected_center_px": [
+          500.0,
+          290.0
+        ],
+        "predicted_box": {
+          "top": 0.357,
+          "bottom": 0.47400000000000003,
+          "left": 0.151,
+          "right": 0.851
+        },
+        "found": 0.9994841142438006,
+        "confidence": 0.9937422611343204,
+        "missed": false
+      },
+      "latency_ms": [
+        313.79070799994224,
+        271.4786249998724,
+        271.1060000001453
+      ],
+      "usage": {
+        "input_tokens": 777,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "chinese-save",
+      "instruction": "蓝色“保存”按钮在哪里？",
+      "image": "fixtures/visual/chinese-save.png",
+      "image_size": [
+        1000,
+        700
+      ],
+      "expected_box": {
+        "left": 0.1,
+        "top": 0.17142857142857143,
+        "right": 0.32,
+        "bottom": 0.3142857142857143
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.17200000000000001,
+          "bottom": 0.315,
+          "left": 0.1,
+          "right": 0.321
+        },
+        "found": 0.7192748994617599,
+        "confidence": 0.8641150032762275
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9865781783963151,
+        "center_error_px": 0.6726812023536779,
+        "predicted_center_px": [
+          210.50000000000003,
+          170.45
+        ],
+        "expected_center_px": [
+          210.00000000000003,
+          170.0
+        ],
+        "predicted_box": {
+          "top": 0.17200000000000001,
+          "bottom": 0.315,
+          "left": 0.1,
+          "right": 0.321
+        },
+        "found": 0.7192748994617599,
+        "confidence": 0.8641150032762275,
+        "missed": false
+      },
+      "latency_ms": [
+        272.55262499966193,
+        269.9452500000916,
+        269.7541249999631
+      ],
+      "usage": {
+        "input_tokens": 777,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "dense-export",
+      "instruction": "Where is the Export button?",
+      "image": "fixtures/visual/dense-export.png",
+      "image_size": [
+        1440,
+        900
+      ],
+      "expected_box": {
+        "left": 0.8194444444444444,
+        "top": 0.1111111111111111,
+        "right": 0.9305555555555556,
+        "bottom": 0.17222222222222222
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.111,
+          "bottom": 0.17300000000000001,
+          "left": 0.8200000000000001,
+          "right": 0.93
+        },
+        "found": 1.0,
+        "confidence": 0.9937422611343204
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.975946372239747,
+        "center_error_px": 0.30000000000001137,
+        "predicted_center_px": [
+          1260.0,
+          127.80000000000001
+        ],
+        "expected_center_px": [
+          1260.0,
+          127.5
+        ],
+        "predicted_box": {
+          "top": 0.111,
+          "bottom": 0.17300000000000001,
+          "left": 0.8200000000000001,
+          "right": 0.93
+        },
+        "found": 1.0,
+        "confidence": 0.9937422611343204,
+        "missed": false
+      },
+      "latency_ms": [
+        602.6745420003863,
+        487.32291700071073,
+        483.9599589995487
+      ],
+      "usage": {
+        "input_tokens": 1352,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "canvas-download",
+      "instruction": "Where is the Download button for this chart?",
+      "image": "fixtures/visual/canvas-download.png",
+      "image_size": [
+        1200,
+        800
+      ],
+      "expected_box": {
+        "left": 0.7916666666666666,
+        "top": 0.8125,
+        "right": 0.9333333333333333,
+        "bottom": 0.9
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.8130000000000001,
+          "bottom": 0.9,
+          "left": 0.792,
+          "right": 0.933
+        },
+        "found": 1.0,
+        "confidence": 0.9828743269226758
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9896067226890749,
+        "center_error_px": 0.20000000000004547,
+        "predicted_center_px": [
+          1035.0,
+          685.2
+        ],
+        "expected_center_px": [
+          1035.0,
+          685.0
+        ],
+        "predicted_box": {
+          "top": 0.8130000000000001,
+          "bottom": 0.9,
+          "left": 0.792,
+          "right": 0.933
+        },
+        "found": 1.0,
+        "confidence": 0.9828743269226758,
+        "missed": false
+      },
+      "latency_ms": [
+        402.263750000202,
+        368.8980420010921,
+        368.9941659995384
+      ],
+      "usage": {
+        "input_tokens": 1045,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "workspace-save",
+      "instruction": "Where is the Save button in the Workspace section, not the Document section?",
+      "image": "fixtures/visual/workspace-save.png",
+      "image_size": [
+        1000,
+        700
+      ],
+      "expected_box": {
+        "left": 0.1,
+        "top": 0.5,
+        "right": 0.3,
+        "bottom": 0.6142857142857143
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.501,
+          "bottom": 0.615,
+          "left": 0.1,
+          "right": 0.301
+        },
+        "found": 1.0,
+        "confidence": 0.9918761641183218
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9802346135304519,
+        "center_error_px": 0.781024967590683,
+        "predicted_center_px": [
+          200.5,
+          390.6
+        ],
+        "expected_center_px": [
+          200.0,
+          390.0
+        ],
+        "predicted_box": {
+          "top": 0.501,
+          "bottom": 0.615,
+          "left": 0.1,
+          "right": 0.301
+        },
+        "found": 1.0,
+        "confidence": 0.9918761641183218,
+        "missed": false
+      },
+      "latency_ms": [
+        402.77154199975485,
+        270.30562500112865,
+        270.3451249999489
+      ],
+      "usage": {
+        "input_tokens": 784,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "absent-delete",
+      "instruction": "Where is the Delete account button?",
+      "image": "fixtures/visual/absent-delete.png",
+      "image_size": [
+        800,
+        600
+      ],
+      "expected_box": null,
+      "answer": {
+        "type": "box",
+        "box": null,
+        "found": 0.0027472527472527475,
+        "confidence": 0.0
+      },
+      "evaluation": {
+        "present_expected": false,
+        "correct": true,
+        "found": 0.0027472527472527475,
+        "confidence": 0.0
+      },
+      "latency_ms": [
+        191.74216600004002,
+        191.53141700007836,
+        192.94116700075392
+      ],
+      "usage": {
+        "input_tokens": 568,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "absent-submit",
+      "instruction": "Where is the Submit payment button?",
+      "image": "fixtures/visual/absent-submit.png",
+      "image_size": [
+        800,
+        600
+      ],
+      "expected_box": null,
+      "answer": {
+        "type": "box",
+        "box": null,
+        "found": 0.014256486922239053,
+        "confidence": 0.0
+      },
+      "evaluation": {
+        "present_expected": false,
+        "correct": true,
+        "found": 0.014256486922239053,
+        "confidence": 0.0
+      },
+      "latency_ms": [
+        229.83962500074995,
+        191.9190830012667,
+        191.56704200031527
+      ],
+      "usage": {
+        "input_tokens": 569,
+        "output_tokens": 0
+      }
+    }
+  ]
+}

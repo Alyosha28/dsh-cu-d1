@@ -1,0 +1,122 @@
+{
+  "summary": {
+    "round": 4,
+    "runId": "control-ui-round4-1793338419",
+    "decisionSource": "deterministic decision fixture through the D1 provider contract",
+    "applications": [
+      "macOS TextEdit",
+      "macOS Calculator"
+    ],
+    "total": 9,
+    "passed": 9,
+    "failed": 0,
+    "blocked": 0,
+    "launchRecoveries": 0
+  },
+  "cases": [
+    {
+      "id": "textedit.dynamic_ax",
+      "application": "TextEdit",
+      "category": "dynamic",
+      "status": "passed",
+      "elapsedMs": 6439,
+      "detail": {
+        "independentlyReadBack": true,
+        "candidateCaptured": true
+      }
+    },
+    {
+      "id": "textedit.skill_lifecycle",
+      "application": "TextEdit",
+      "category": "skill",
+      "status": "passed",
+      "elapsedMs": 1152,
+      "detail": {
+        "independentRerun": true,
+        "approved": true,
+        "zeroModelReplay": true
+      }
+    },
+    {
+      "id": "textedit.multiwindow_guard",
+      "application": "TextEdit",
+      "category": "windowing",
+      "status": "passed",
+      "elapsedMs": 4660,
+      "detail": {
+        "onscreenWindows": 4,
+        "inputWithheld": true,
+        "processScopedTabbingPreference": "never"
+      }
+    },
+    {
+      "id": "textedit.occluded_window",
+      "application": "TextEdit",
+      "category": "occlusion",
+      "status": "passed",
+      "elapsedMs": 920,
+      "detail": {
+        "overlapPointsSquared": 25300,
+        "explicitBackgroundWindow": true
+      }
+    },
+    {
+      "id": "calculator.stale_recovery",
+      "application": "Calculator",
+      "category": "stale",
+      "status": "passed",
+      "elapsedMs": 388,
+      "detail": {
+        "staleInputRejected": true,
+        "freshObservationRecovered": true
+      }
+    },
+    {
+      "id": "calculator.dynamic_ax",
+      "application": "Calculator",
+      "category": "dynamic",
+      "status": "passed",
+      "elapsedMs": 2654,
+      "detail": {
+        "independentlyReadBack": true,
+        "candidateCaptured": true
+      }
+    },
+    {
+      "id": "calculator.skill_lifecycle",
+      "application": "Calculator",
+      "category": "skill",
+      "status": "passed",
+      "elapsedMs": 4051,
+      "detail": {
+        "independentRerun": true,
+        "approved": true,
+        "zeroModelReplay": true
+      }
+    },
+    {
+      "id": "privacy.persisted_stores",
+      "application": "Shared",
+      "category": "privacy",
+      "status": "passed",
+      "elapsedMs": 4,
+      "detail": {
+        "allowlistedAudit": true,
+        "redactedSkills": true,
+        "privateFileModes": true,
+        "retentionDays": 7
+      }
+    },
+    {
+      "id": "textedit.stop_active_run",
+      "application": "TextEdit",
+      "category": "control",
+      "status": "passed",
+      "elapsedMs": 583,
+      "detail": {
+        "activeRunStopped": true,
+        "inputWithheld": true
+      }
+    }
+  ]
+}

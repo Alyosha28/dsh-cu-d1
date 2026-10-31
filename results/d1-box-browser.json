@@ -1,0 +1,413 @@
+{
+  "created_at": "2026-10-28T15:08:27.160664+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Screenshots of isolated local Chrome fixtures only; D1 receives pixels, not DOM; no input dispatched",
+  "summary": {
+    "cases": 7,
+    "correct": 7,
+    "present_cases": 6,
+    "present_center_inside": 6,
+    "present_iou_0_5": 6,
+    "negative_cases": 1,
+    "negative_correct": 1,
+    "median_iou": 0.9559945999072961,
+    "latency_ms": {
+      "mean": 633.3926229999634,
+      "median": 386.39845899888314,
+      "p95": 680.963332999454,
+      "min": 382.3077500001091,
+      "max": 4711.197374999756
+    }
+  },
+  "cases": [
+    {
+      "id": "browser-flight-search",
+      "instruction": "Where is the Search flights button?",
+      "image": "fixtures/visual-browser/browser-flight-search.png",
+      "image_size": [
+        1280,
+        800
+      ],
+      "expected_box": {
+        "left": 0.203125,
+        "top": 0.45638671875,
+        "right": 0.29434814453125,
+        "bottom": 0.50513671875
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.458,
+          "bottom": 0.505,
+          "left": 0.203,
+          "right": 0.294
+        },
+        "found": 1.0,
+        "confidence": 0.9993405521823163
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9591560383379988,
+        "center_error_px": 0.6637268269260935,
+        "predicted_center_px": [
+          318.08,
+          385.20000000000005
+        ],
+        "expected_center_px": [
+          318.3828125,
+          384.60937499999994
+        ],
+        "predicted_box": {
+          "top": 0.458,
+          "bottom": 0.505,
+          "left": 0.203,
+          "right": 0.294
+        },
+        "found": 1.0,
+        "confidence": 0.9993405521823163,
+        "missed": false
+      },
+      "latency_ms": [
+        4711.197374999756,
+        386.28916699963156,
+        386.7038330008654
+      ],
+      "usage": {
+        "input_tokens": 1093,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-flight-destination",
+      "instruction": "Where is the To destination input field?",
+      "image": "fixtures/visual-browser/browser-flight-destination.png",
+      "image_size": [
+        1280,
+        800
+      ],
+      "expected_box": {
+        "left": 0.203125,
+        "top": 0.27263671875,
+        "right": 0.55,
+        "bottom": 0.32138671875
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.273,
+          "bottom": 0.321,
+          "left": 0.203,
+          "right": 0.549
+        },
+        "found": 1.0,
+        "confidence": 0.9937422611343204
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9814286268489626,
+        "center_error_px": 0.7200610325694892,
+        "predicted_center_px": [
+          481.28,
+          237.60000000000002
+        ],
+        "expected_center_px": [
+          482.0,
+          237.609375
+        ],
+        "predicted_box": {
+          "top": 0.273,
+          "bottom": 0.321,
+          "left": 0.203,
+          "right": 0.549
+        },
+        "found": 1.0,
+        "confidence": 0.9937422611343204,
+        "missed": false
+      },
+      "latency_ms": [
+        417.17604199948255,
+        387.01899999978195,
+        385.61633300014364
+      ],
+      "usage": {
+        "input_tokens": 1094,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-london-uk",
+      "instruction": "Where is the London, United Kingdom option?",
+      "image": "fixtures/visual-browser/browser-london-uk.png",
+      "image_size": [
+        1280,
+        800
+      ],
+      "expected_box": {
+        "left": 0.203125,
+        "top": 0.32138671875,
+        "right": 0.55,
+        "bottom": 0.36763671875
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.324,
+          "bottom": 0.368,
+          "left": 0.203,
+          "right": 0.549
+        },
+        "found": 1.0,
+        "confidence": 0.9811058696930642
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9331482241518726,
+        "center_error_px": 1.3913978189665712,
+        "predicted_center_px": [
+          481.28,
+          276.79999999999995
+        ],
+        "expected_center_px": [
+          482.0,
+          275.609375
+        ],
+        "predicted_box": {
+          "top": 0.324,
+          "bottom": 0.368,
+          "left": 0.203,
+          "right": 0.549
+        },
+        "found": 1.0,
+        "confidence": 0.9811058696930642,
+        "missed": false
+      },
+      "latency_ms": [
+        419.1162919996714,
+        386.39845899888314,
+        384.3267909996939
+      ],
+      "usage": {
+        "input_tokens": 1095,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-absent-payment",
+      "instruction": "Where is the Submit payment button?",
+      "image": "fixtures/visual-browser/browser-absent-payment.png",
+      "image_size": [
+        1280,
+        800
+      ],
+      "expected_box": null,
+      "answer": {
+        "type": "box",
+        "box": null,
+        "found": 0.005158185732045598,
+        "confidence": 0.0
+      },
+      "evaluation": {
+        "present_expected": false,
+        "correct": true,
+        "found": 0.005158185732045598,
+        "confidence": 0.0
+      },
+      "latency_ms": [
+        384.93725000080303,
+        382.3149159998138,
+        382.3077500001091
+      ],
+      "usage": {
+        "input_tokens": 1094,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-nonstop-checkbox",
+      "instruction": "Where is the Nonstop only checkbox itself?",
+      "image": "fixtures/visual-browser/browser-nonstop-checkbox.png",
+      "image_size": [
+        1280,
+        800
+      ],
+      "expected_box": {
+        "left": 0.221875,
+        "top": 0.24263671875,
+        "right": 0.2375,
+        "bottom": 0.26763671875
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.243,
+          "bottom": 0.267,
+          "left": 0.222,
+          "right": 0.23600000000000002
+        },
+        "found": 1.0,
+        "confidence": 0.9900100671023232
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.8601600000000017,
+        "center_error_px": 0.8867710474665893,
+        "predicted_center_px": [
+          293.12,
+          204.0
+        ],
+        "expected_center_px": [
+          294.0,
+          204.109375
+        ],
+        "predicted_box": {
+          "top": 0.243,
+          "bottom": 0.267,
+          "left": 0.222,
+          "right": 0.23600000000000002
+        },
+        "found": 1.0,
+        "confidence": 0.9900100671023232,
+        "missed": false
+      },
+      "latency_ms": [
+        398.03787500022736,
+        384.8143750001327,
+        386.176042000443
+      ],
+      "usage": {
+        "input_tokens": 1096,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-apply-filters",
+      "instruction": "Where is the Apply filters button?",
+      "image": "fixtures/visual-browser/browser-apply-filters.png",
+      "image_size": [
+        1280,
+        800
+      ],
+      "expected_box": {
+        "left": 0.21875,
+        "top": 0.30388671875,
+        "right": 0.3007080078125,
+        "bottom": 0.35263671875
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.304,
+          "bottom": 0.35100000000000003,
+          "left": 0.219,
+          "right": 0.3
+        },
+        "found": 1.0,
+        "confidence": 1.0
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9528331614765934,
+        "center_error_px": 0.6762101420786184,
+        "predicted_center_px": [
+          332.16,
+          262.0
+        ],
+        "expected_center_px": [
+          332.453125,
+          262.609375
+        ],
+        "predicted_box": {
+          "top": 0.304,
+          "bottom": 0.35100000000000003,
+          "left": 0.219,
+          "right": 0.3
+        },
+        "found": 1.0,
+        "confidence": 1.0,
+        "missed": false
+      },
+      "latency_ms": [
+        387.293875000978,
+        382.4429169999348,
+        383.41924999986077
+      ],
+      "usage": {
+        "input_tokens": 1093,
+        "output_tokens": 0
+      }
+    },
+    {
+      "id": "browser-retina-search",
+      "instruction": "Where is the Search flights button?",
+      "image": "fixtures/visual-browser/browser-retina-search.png",
+      "image_size": [
+        1600,
+        1200
+      ],
+      "expected_box": {
+        "left": 0.025,
+        "top": 0.608515625,
+        "right": 0.17095703125,
+        "bottom": 0.673515625
+      },
+      "answer": {
+        "type": "box",
+        "box": {
+          "top": 0.608,
+          "bottom": 0.672,
+          "left": 0.026000000000000002,
+          "right": 0.171
+        },
+        "found": 1.0,
+        "confidence": 0.9974744551663177
+      },
+      "evaluation": {
+        "present_expected": true,
+        "correct": true,
+        "center_inside": true,
+        "iou": 0.9621322204800806,
+        "center_error_px": 1.477001422858147,
+        "predicted_center_px": [
+          157.6,
+          768.0
+        ],
+        "expected_center_px": [
+          156.765625,
+          769.21875
+        ],
+        "predicted_box": {
+          "top": 0.608,
+          "bottom": 0.672,
+          "left": 0.026000000000000002,
+          "right": 0.171
+        },
+        "found": 1.0,
+        "confidence": 0.9974744551663177,
+        "missed": false
+      },
+      "latency_ms": [
+        680.963332999454,
+        643.0189999991853,
+        641.6752080003789
+      ],
+      "usage": {
+        "input_tokens": 1703,
+        "output_tokens": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "scope": "Controlled fixtures and opt-in real macOS applications with newly launched, disposable state",
+  "workflows": [
+    {
+      "id": "browser-to-native",
+      "title": "Synthetic browser CSV download to native import",
+      "cases": [
+        {
+          "id": "browser-to-native-ax",
+          "kind": "success",
+          "expected": "Two rows and total 300 verified with zero model calls",
+          "evidence": "results/P0_WORKFLOW_BASELINE.json#native.ax"
+        },
+        {
+          "id": "browser-to-native-visual",
+          "kind": "success",
+          "expected": "Two rows and total 300 verified through fresh screenshot box decisions",
+          "evidence": "results/P0_WORKFLOW_BASELINE.json#native.visual"
+        }
+      ]
+    },
+    {
+      "id": "forms",
+      "title": "Repeated forms, asynchronous state and negative controls",
+      "cases": [
+        {
+          "id": "flights",
+          "kind": "success",
+          "expected": "Origin, destination and date independently verified",
+          "evidence": "results/d1-2b-live-bu.json#cases.flights"
+        },
+        {
+          "id": "filters",
+          "kind": "success",
+          "expected": "Three adults and nonstop independently verified",
+          "evidence": "results/d1-2b-live-bu.json#cases.filters"
+        },
+        {
+          "id": "already-done",
+          "kind": "success",
+          "expected": "Zero decisions and zero actions",
+          "evidence": "results/d1-2b-live-bu.json#cases.already-done"
+        },
+        {
+          "id": "delayed-results",
+          "kind": "success",
+          "expected": "Asynchronous result independently verified",
+          "evidence": "results/P0_BROWSER_NEGATIVE.json#cases.delayed-results"
+        },
+        {
+          "id": "login-blocked",
+          "kind": "blocked",
+          "expected": "Stop without credentials; current D1 baseline is expected to expose a policy gap",
+          "evidence": "results/P0_BROWSER_NEGATIVE.json#cases.login-blocked"
+        },
+        {
+          "id": "ambiguous-save",
+          "kind": "blocked",
+          "expected": "Stop on ambiguous target; current D1 baseline is expected to expose a policy gap",
+          "evidence": "results/P0_BROWSER_NEGATIVE.json#cases.ambiguous-save"
+        },
+        {
+          "id": "delayed-timeout",
+          "kind": "escalated",
+          "expected": "Async timeout without a repeated click",
+          "evidence": "results/P5_ASYNC_TIMEOUT.json"
+        },
+        {
+          "id": "workspace-save",
+          "kind": "success",
+          "expected": "Unique context disambiguation selects the Workspace Save button",
+          "evidence": "results/P5_BROWSER_BOUNDARIES.json#cases.workspace-save"
+        }
+      ]
+    },
+    {
+      "id": "axless-native",
+      "title": "AX-first and visual fallback with native guards",
+      "cases": [
+        {
+          "id": "official-axless",
+          "kind": "success",
+          "expected": "AX-first zero-call action, visual fallback, resize rejection",
+          "evidence": "results/official-cua/axless-report.json"
+        },
+        {
+          "id": "synthetic-box",
+          "kind": "success",
+          "expected": "Eleven synthetic localization cases evaluated",
+          "evidence": "results/d1-box-synthetic.json"
+        },
+        {
+          "id": "browser-box",
+          "kind": "success",
+          "expected": "Seven real-browser screenshot localization cases evaluated",
+          "evidence": "results/d1-box-browser.json"
+        },
+        {
+          "id": "stale-ax",
+          "kind": "success",
+          "expected": "Stale snapshot and fresh AX path independently verified",
+          "evidence": "results/official-cua/report.json"
+        },
+        {
+          "id": "multiwindow-selection",
+          "kind": "escalated",
+          "expected": "Multiple on-screen windows require explicit windowId before input",
+          "evidence": "results/P5_MULTIWINDOW.json"
+        }
+      ]
+    },
+    {
+      "id": "real-native-apps",
+      "title": "Three repeated rounds in real TextEdit and Calculator",
+      "cases": [
+        {
+          "id": "real-textedit-dynamic",
+          "kind": "success",
+          "expected": "Fresh TextEdit document input with independent AX readback and candidate capture",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.textedit.dynamic_ax"
+        },
+        {
+          "id": "real-textedit-skill",
+          "kind": "success",
+          "expected": "Independent rerun, user-approved publication and zero-model replay in fresh documents",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.textedit.skill_lifecycle"
+        },
+        {
+          "id": "real-calculator-dynamic",
+          "kind": "success",
+          "expected": "Four-step calculation with independent result readback and candidate capture",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.calculator.dynamic_ax"
+        },
+        {
+          "id": "real-calculator-skill",
+          "kind": "success",
+          "expected": "Independent rerun, user-approved publication and zero-model replay after reset",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.calculator.skill_lifecycle"
+        },
+        {
+          "id": "real-calculator-stale",
+          "kind": "success",
+          "expected": "Old snapshot input rejected after fresh observation; recovered with fresh state",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.calculator.stale_recovery"
+        },
+        {
+          "id": "real-textedit-multiwindow",
+          "kind": "success",
+          "expected": "Separate controlled TextEdit instance with multiple visible windows rejects ambiguous input",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.textedit.multiwindow_guard"
+        },
+        {
+          "id": "real-textedit-occlusion",
+          "kind": "success",
+          "expected": "Real overlapping window geometry preserves verified TextEdit input",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.textedit.occluded_window"
+        },
+        {
+          "id": "real-privacy",
+          "kind": "success",
+          "expected": "Sensitive markers and tokens absent from private-mode audit and Skill stores",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.privacy.persisted_stores"
+        },
+        {
+          "id": "real-stop",
+          "kind": "success",
+          "expected": "Active run stopped without delivering delayed document input",
+          "evidence": "results/REAL_APP_ACCEPTANCE.json#cases.textedit.stop_active_run"
+        }
+      ]
+    },
+    {
+      "id": "third-party-native-apps",
+      "title": "Three repeated rounds in downloaded desktop applications",
+      "cases": [
+        {
+          "id": "real-libreoffice-writer",
+          "kind": "success",
+          "expected": "Official Paste into a fresh Writer document with independent AX readback",
+          "evidence": "results/THIRD_PARTY_ACCEPTANCE.json#cases.libreoffice.writer_ax"
+        },
+        {
+          "id": "real-wps-writer",
+          "kind": "success",
+          "expected": "Visual body Paste into a fresh WPS Writer document with independent screenshot OCR readback",
+          "evidence": "results/THIRD_PARTY_ACCEPTANCE.json#cases.wps.writer_visual"
+        },
+        {
+          "id": "real-vscode-editor",
+          "kind": "success",
+          "expected": "Background text input in an isolated VS Code profile with independent screenshot OCR readback",
+          "evidence": "results/THIRD_PARTY_ACCEPTANCE.json#cases.vscode.editor_visual"
+        },
+        {
+          "id": "real-chrome-editor",
+          "kind": "success",
+          "expected": "Background text input in an isolated Chrome local-page editor with independent AX readback",
+          "evidence": "results/THIRD_PARTY_ACCEPTANCE.json#cases.chrome.editor_ax"
+        },
+        {
+          "id": "real-third-party-background",
+          "kind": "success",
+          "expected": "Twenty-millisecond monitoring records no target-application foreground switch",
+          "evidence": "results/THIRD_PARTY_ACCEPTANCE.json#release.foregroundFreeOperation"
+        },
+        {
+          "id": "real-third-party-privacy",
+          "kind": "success",
+          "expected": "Sensitive markers, tokens and screenshot fields absent from private-mode audit storage",
+          "evidence": "results/THIRD_PARTY_ACCEPTANCE.json#cases.privacy.persisted_stores"
+        }
+      ]
+    },
+    {
+      "id": "visible-noninterrupting-control",
+      "title": "Visible software cursor and controls without foreground interruption",
+      "cases": [
+        {
+          "id": "browser-isolated-indicator",
+          "kind": "success",
+          "expected": "Software cursor, working controls, navigation recovery, and document cleanup stay outside model observations",
+          "evidence": "packages/dsh-browser-use-d1/tests/indicator.spec.ts"
+        },
+        {
+          "id": "browser-live-preview",
+          "kind": "success",
+          "expected": "Live controlled-tab preview preserves foreground and system pointer, with controls and disconnect cleanup",
+          "evidence": "packages/dsh-browser-use-d1/tests/visible-browser.e2e.ts"
+        },
+        {
+          "id": "native-visible-indicator",
+          "kind": "success",
+          "expected": "Native cursor coordinates, real AX controls, foreground preservation, and forced-exit cleanup",
+          "evidence": "packages/dsh-computer-use-d1/tests/indicator.e2e.ts"
+        },
+        {
+          "id": "native-continuous-input",
+          "kind": "success",
+          "expected": "Dynamic and zero-model Skill execution preserve continuous foreground typing and all target actions",
+          "evidence": "packages/dsh-computer-use-d1/tests/provider.spec.ts#preserves continuous foreground input"
+        },
+        {
+          "id": "visible-control-acceptance",
+          "kind": "success",
+          "expected": "Nine ordinary-application cases and five downloaded-application/privacy cases pass with visible indicators",
+          "evidence": "results/VISIBLE_CONTROL_ACCEPTANCE.md"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-10-28T16:01:54.199613+00:00",
+  "scenario_count": 12,
+  "browser_positive": {
+    "cases": 5,
+    "successes": 5,
+    "model_calls": 14
+  },
+  "browser_negative": {
+    "cases": 3,
+    "expectations_met": 1,
+    "successes": 1
+  },
+  "workflow": {
+    "browser_download_ms": 741.3464159999421,
+    "ax_ms": 233.1609170014417,
+    "ax_model_calls": 0,
+    "visual_ms": 6091.706125000201,
+    "visual_model_calls": 2,
+    "visual_decision_ms": [
+      5419.317957999738,
+      299.5177920001879
+    ]
+  },
+  "box": {
+    "synthetic_correct": 11,
+    "synthetic_cases": 11,
+    "browser_correct": 7,
+    "browser_cases": 7
+  },
+  "official_cua": {
+    "axless_status": "success",
+    "ax_present_status": "success"
+  },
+  "required_p1_controls": [
+    "independent credential and permission policy gate",
+    "duplicate/ambiguous target escalation",
+    "deterministic Skill-first routing",
+    "persistent warm model service",
+    "fresh-state and postcondition verification"
+  ]
+}

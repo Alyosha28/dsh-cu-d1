@@ -1,0 +1,9 @@
+{"id":"10ae1134-85d3-4db1-8f40-88ac06cf4d72","at":"2026-10-29T17:55:49.902Z","agentId":"real-app-matrix-1","runId":"aa7319b7-f236-4830-b332-a25854c73a14","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"2356ea7e-3d0c-443d-9cda-cd78c058f19f","at":"2026-10-29T17:55:50.099Z","agentId":"real-app-matrix-1","runId":"aa7319b7-f236-4830-b332-a25854c73a14","kind":"run_finished","detail":{"status":"success","reason":"independently_verified_after_action","route":"d1"}}
+{"id":"ebae6d32-e174-4083-bade-58fdd45f1cae","at":"2026-10-29T17:56:13.279Z","agentId":"real-app-matrix-1","runId":"bb919a1b-e020-4808-888c-1cd60440dc70","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"d7763c72-5fc2-4128-9c82-7eb14c5105ea","at":"2026-10-29T17:56:15.288Z","agentId":"real-app-matrix-1","runId":"bb919a1b-e020-4808-888c-1cd60440dc70","kind":"run_finished","detail":{"status":"success","reason":"independently_verified_after_action","route":"d1"}}
+{"id":"835c26f0-96a0-43f4-8955-2b31dba700bc","at":"2026-10-29T17:56:17.551Z","agentId":"real-app-matrix-1","runId":"24412474-b52b-4f89-908f-2b02f9b3018b","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"a0158092-2ed1-4a5d-bb47-24ffc41bc2f0","at":"2026-10-29T17:56:19.530Z","agentId":"real-app-matrix-1","runId":"24412474-b52b-4f89-908f-2b02f9b3018b","kind":"run_finished","detail":{"status":"success","reason":"independently_verified_after_action","route":"skill"}}
+{"id":"4dda83e4-8226-4e00-ad5c-c5e3890a3d51","at":"2026-10-29T17:56:20.746Z","agentId":"real-app-matrix-1","runId":"2d0f8903-f608-46a6-b564-1f0286fa6ac2","kind":"run_started","detail":{"kind":"computer_subgoal"}}
+{"id":"8a70d612-26b7-4043-a60a-f6f68b982f1b","at":"2026-10-29T17:56:20.909Z","agentId":"real-app-matrix-1","runId":"2d0f8903-f608-46a6-b564-1f0286fa6ac2","kind":"run_stopped"}
+{"id":"c58c8eb0-d441-445d-b2ba-8b1a1195afae","at":"2026-10-29T17:56:20.930Z","agentId":"real-app-matrix-1","kind":"run_resumed"}

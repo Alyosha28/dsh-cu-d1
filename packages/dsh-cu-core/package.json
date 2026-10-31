@@ -1,0 +1,130 @@
+{
+  "name": "@dsh-cu/core",
+  "version": "0.2.7",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.js"
+    },
+    "./activity": {
+      "types": "./dist/activity.d.ts",
+      "default": "./dist/activity.js"
+    },
+    "./policy": {
+      "types": "./dist/policy.d.ts",
+      "default": "./dist/policy.js"
+    },
+    "./contract": {
+      "types": "./dist/contract.d.ts",
+      "default": "./dist/contract.js"
+    },
+    "./actions": {
+      "types": "./dist/actions.d.ts",
+      "default": "./dist/actions.js"
+    },
+    "./decision": {
+      "types": "./dist/decision.d.ts",
+      "default": "./dist/decision.js"
+    },
+    "./skills": {
+      "types": "./dist/skills.d.ts",
+      "default": "./dist/skills.js"
+    },
+    "./skill-store": {
+      "types": "./dist/skill-store.d.ts",
+      "default": "./dist/skill-store.js"
+    },
+    "./skill-builder": {
+      "types": "./dist/skill-builder.d.ts",
+      "default": "./dist/skill-builder.js"
+    },
+    "./audit": {
+      "types": "./dist/audit.d.ts",
+      "default": "./dist/audit.js"
+    },
+    "./budget": {
+      "types": "./dist/budget.d.ts",
+      "default": "./dist/budget.js"
+    },
+    "./action-guard": {
+      "types": "./dist/action-guard.d.ts",
+      "default": "./dist/action-guard.js"
+    },
+    "./run-controller": {
+      "types": "./dist/run-controller.d.ts",
+      "default": "./dist/run-controller.js"
+    },
+    "./control-server": {
+      "types": "./dist/control-server.d.ts",
+      "default": "./dist/control-server.js"
+    },
+    "./approvals": {
+      "types": "./dist/approvals.d.ts",
+      "default": "./dist/approvals.js"
+    },
+    "./policy-approvals": {
+      "types": "./dist/policy-approvals.d.ts",
+      "default": "./dist/policy-approvals.js"
+    },
+    "./locale": {
+      "types": "./dist/locale.d.ts",
+      "default": "./dist/locale.js"
+    },
+    "./helper-cache": {
+      "types": "./dist/helper-cache.d.ts",
+      "default": "./dist/helper-cache.js"
+    },
+    "./extract": {
+      "types": "./dist/extract.d.ts",
+      "default": "./dist/extract.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "4.0.5",
+    "@deepseek-ai/dsh-agent": "0.2.1-rc.5"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5",
+    "@deepseek-ai/dsh-agent": "0.2.1-rc.5"
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.5 <0.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alyosha28/dsh-cu.git",
+    "directory": "packages/dsh-cu-core"
+  },
+  "homepage": "https://github.com/Alyosha28/dsh-cu#readme",
+  "bugs": {
+    "url": "https://github.com/Alyosha28/dsh-cu/issues"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "browser-use",
+    "computer-use",
+    "macos",
+    "agent"
+  ]
+}

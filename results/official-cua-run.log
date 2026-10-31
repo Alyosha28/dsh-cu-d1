@@ -1,0 +1,205 @@
+[cua-screenshot] {"requestId":"5","stage":"helper.received","elapsedMs":0.000208}
+[cua-screenshot] {"requestId":"5","stage":"worker.begin","elapsedMs":0.037083}
+[cua-screenshot] {"requestId":"5","stage":"screen-permission.begin","elapsedMs":0.196708}
+[cua-screenshot] {"elapsedMs":3.98075,"requestId":"5","stage":"screen-permission.end"}
+[cua-screenshot] {"stage":"geometry.before.begin","requestId":"5","elapsedMs":3.988}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"5","elapsedMs":3.988875}
+[cua-screenshot] {"stage":"window-info.end","requestId":"5","elapsedMs":6.415291}
+[cua-screenshot] {"stage":"ax-geometry.begin","requestId":"5","elapsedMs":6.423458}
+[cua-screenshot] {"stage":"ax-geometry.end","requestId":"5","elapsedMs":16.775666}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"5","elapsedMs":16.784625}
+[cua-screenshot] {"stage":"window-info.end","requestId":"5","elapsedMs":18.1085}
+[cua-screenshot] {"stage":"geometry.before.end","requestId":"5","elapsedMs":18.113291}
+[cua-screenshot] {"stage":"worker.end","requestId":"5","elapsedMs":18.128208}
+[cua-screenshot] {"stage":"shareable-content.begin","requestId":"5","elapsedMs":18.160083}
+[cua-screenshot] {"stage":"shareable-content.end","requestId":"5","elapsedMs":42.340166}
+[cua-screenshot] {"stage":"capture-config.begin","requestId":"5","elapsedMs":42.361458}
+[cua-screenshot] {"stage":"capture-config.end","requestId":"5","elapsedMs":42.405375}
+[cua-screenshot] {"stage":"capture-image.begin","requestId":"5","elapsedMs":42.407708}
+[cua-screenshot] {"stage":"capture-image.end","requestId":"5","elapsedMs":91.932333}
+[cua-screenshot] {"stage":"png-encode.queued","requestId":"5","elapsedMs":91.941791}
+[cua-screenshot] {"stage":"png-encode.begin","requestId":"5","elapsedMs":91.957541}
+[cua-screenshot] {"stage":"png-encode.end","requestId":"5","elapsedMs":97.562083}
+[cua-screenshot] {"stage":"postflight.begin","requestId":"5","elapsedMs":97.60525}
+[cua-screenshot] {"stage":"geometry.after.begin","requestId":"5","elapsedMs":101.120875}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"5","elapsedMs":101.124916}
+[cua-screenshot] {"stage":"window-info.end","requestId":"5","elapsedMs":102.557125}
+[cua-screenshot] {"stage":"ax-geometry.begin","requestId":"5","elapsedMs":102.564375}
+[cua-screenshot] {"stage":"ax-geometry.end","requestId":"5","elapsedMs":102.9685}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"5","elapsedMs":102.97625}
+[cua-screenshot] {"stage":"window-info.end","requestId":"5","elapsedMs":105.897583}
+[cua-screenshot] {"stage":"geometry.after.end","requestId":"5","elapsedMs":105.902916}
+[cua-screenshot] {"stage":"base64.begin","requestId":"5","elapsedMs":105.904166}
+[cua-screenshot] {"stage":"base64.end","requestId":"5","elapsedMs":105.936625}
+[cua-screenshot] {"stage":"postflight.end","requestId":"5","elapsedMs":105.939666}
+[cua-screenshot] {"stage":"response.encode.begin","requestId":"5","elapsedMs":105.963875}
+[cua-screenshot] {"stage":"response.encode.end","requestId":"5","elapsedMs":106.165875}
+[cua-screenshot] {"stage":"response.write.begin","requestId":"5","elapsedMs":106.170625}
+W1028 23:14:58.152000 41687 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 9524.44it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+[cua-screenshot] {"stage":"response.write.end","requestId":"5","elapsedMs":108.432291}
+{
+  "created_at": "2026-10-28T15:14:54.077419+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41"
+  },
+  "scope": "Only a newly compiled disposable AppKit fixture; no user application or data",
+  "execute_authorized": true,
+  "capabilities": {
+    "browser": false,
+    "coordinateSpace": "window-points",
+    "methods": [
+      "activate",
+      "click",
+      "drag",
+      "findApps",
+      "getApp",
+      "getCapabilities",
+      "getState",
+      "hover",
+      "listApps",
+      "listWindows",
+      "paste",
+      "performSecondaryAction",
+      "pressKey",
+      "screenshot",
+      "scroll",
+      "selectText",
+      "setValue",
+      "show",
+      "typeText"
+    ],
+    "permissions": {
+      "accessibility": true,
+      "screenRecording": true
+    },
+    "platform": "macos",
+    "sessionLocked": false
+  },
+  "official_source": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3",
+  "window": {
+    "windowId": 1975,
+    "bounds": {
+      "height": 532,
+      "width": 420,
+      "x": 221,
+      "y": 350
+    },
+    "title": "DSH CUA primary fixture"
+  },
+  "screenshot": {
+    "pixelWidth": 840,
+    "pixelHeight": 1064,
+    "bounds": {
+      "height": 532,
+      "width": 420,
+      "x": 221,
+      "y": 350
+    },
+    "coordinateSpace": "window-points",
+    "mimeType": "image/png"
+  },
+  "ax_target": {
+    "actions": [
+      "AXPress"
+    ],
+    "bounds": [
+      250,
+      484,
+      202,
+      34
+    ],
+    "description": null,
+    "enabled": true,
+    "identifier": "dsh-cua-test-button",
+    "index": 3,
+    "role": "AXButton",
+    "selected": null,
+    "selectedRange": null,
+    "selectedText": null,
+    "selectionWritable": null,
+    "title": "Increment primary",
+    "value": null,
+    "valueWritable": null
+  },
+  "expected_box": {
+    "left": 0.06904761904761905,
+    "top": 0.2518796992481203,
+    "right": 0.55,
+    "bottom": 0.3157894736842105
+  },
+  "answer": {
+    "type": "box",
+    "box": {
+      "top": 0.262,
+      "bottom": 0.306,
+      "left": 0.07200000000000001,
+      "right": 0.548
+    },
+    "found": 1.0,
+    "confidence": 0.9937422611343204
+  },
+  "evaluation": {
+    "present_expected": true,
+    "correct": true,
+    "center_inside": true,
+    "iou": 0.6813813861386139,
+    "center_error_px": 0.4370080090799744,
+    "predicted_center_px": [
+      260.40000000000003,
+      302.17600000000004
+    ],
+    "expected_center_px": [
+      260.0,
+      302.0
+    ],
+    "predicted_box": {
+      "top": 0.262,
+      "bottom": 0.306,
+      "left": 0.07200000000000001,
+      "right": 0.548
+    },
+    "found": 1.0,
+    "confidence": 0.9937422611343204,
+    "missed": false
+  },
+  "decision_ms": 5570.680541999536,
+  "usage": {
+    "input_tokens": 952,
+    "output_tokens": 0
+  },
+  "actions": [
+    {
+      "path": "visual_box",
+      "window_point": [
+        130.20000000000002,
+        151.08800000000002
+      ],
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "independently_verified_count": 1
+    },
+    {
+      "path": "stale_ax_snapshot",
+      "error": {
+        "code": "STALE_SNAPSHOT",
+        "message": "Snapshot expired; read fresh getAXState"
+      },
+      "independently_verified_count": 1
+    },
+    {
+      "path": "fresh_ax_element",
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "independently_verified_count": 2
+    }
+  ],
+  "status": "success"
+}

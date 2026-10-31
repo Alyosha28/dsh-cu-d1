@@ -1,0 +1,106 @@
+{
+  "created_at": "2026-10-28T11:17:50.712591+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Local isolated Chromium pages only; no real accounts, no desktop control",
+  "cold_decision_ms": 2212.23479199989,
+  "summary": {
+    "cases": 1,
+    "successes": 0,
+    "model_calls": 1,
+    "actions_executed": 0,
+    "stale_decisions": 0
+  },
+  "cases": [
+    {
+      "id": "filters",
+      "goal": "Show available flights for exactly 3 adults with nonstop only. Apply the filters and stop only when the results summary confirms both 3 adults and Nonstop only.",
+      "status": "blocked",
+      "reason": "model_selected_blocked",
+      "model_calls": 1,
+      "actions_executed": 0,
+      "stale_decisions": 0,
+      "control_seconds": 0.3038710840000931,
+      "total_seconds_including_navigation": 0.3251420420001523,
+      "decision_latency_ms": {
+        "total": 273.09679200016035,
+        "mean": 273.09679200016035,
+        "median": 273.09679200016035,
+        "max": 273.09679200016035
+      },
+      "trace": [
+        {
+          "snapshot_id": "s1",
+          "snapshot_version": 0,
+          "element_count": 4,
+          "decision": {
+            "operation": "BLOCKED",
+            "target": null,
+            "confidence": 0.4789313704895259,
+            "operation_probabilities": {
+              "CLICK": 0.45706462419070404,
+              "TYPE_TEXT": 0.04023485864770398,
+              "WAIT": 0.01949932189599143,
+              "DONE": 0.004269824776074698,
+              "BLOCKED": 0.4789313704895259
+            }
+          },
+          "decision_ms": 273.09679200016035
+        }
+      ],
+      "last_snapshot": {
+        "snapshot_id": "s1",
+        "version": 0,
+        "url": "http://127.0.0.1:53663/filters.html",
+        "title": "Decision Lab Filters",
+        "elements": [
+          {
+            "id": "e1",
+            "role": "spinbutton",
+            "name": "Adults",
+            "value": "2",
+            "actions": [
+              "click",
+              "type"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "e2",
+            "role": "checkbox",
+            "name": "Nonstop only",
+            "value": "unchecked",
+            "actions": [
+              "click"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "e3",
+            "role": "button",
+            "name": "Apply filters",
+            "value": null,
+            "actions": [
+              "click"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "e4",
+            "role": "heading",
+            "name": "Flight filters",
+            "value": null,
+            "actions": [],
+            "enabled": true
+          }
+        ],
+        "truncated": true,
+        "can_scroll_up": false,
+        "can_scroll_down": false
+      }
+    }
+  ]
+}

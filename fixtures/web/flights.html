@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Decision Lab Flights</title>
+  <style>
+    body { font: 18px system-ui; max-width: 760px; margin: 40px auto; }
+    label { display: block; margin-top: 18px; font-weight: 600; }
+    input { display: block; width: 420px; padding: 10px; margin-top: 6px; }
+    button { padding: 10px 16px; margin: 12px 12px 0 0; }
+    .option { display: block; width: 444px; text-align: left; margin: 0; border: 1px solid #ccc; }
+    #search { margin-top: 24px; }
+    #loading, #results { margin-top: 28px; }
+    [hidden] { display: none !important; }
+    .flight { padding: 14px; border: 1px solid #aaa; margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <h1>Book a flight</h1>
+  <form onsubmit="return false">
+    <label for="from">From</label>
+    <input id="from" autocomplete="off" placeholder="Departure city">
+    <div id="from-options"></div>
+
+    <label for="to">To</label>
+    <input id="to" autocomplete="off" placeholder="Destination city">
+    <div id="to-options"></div>
+
+    <label for="date">Departure date</label>
+    <input id="date" autocomplete="off" placeholder="YYYY-MM-DD">
+
+    <button id="search" type="button">Search flights</button>
+  </form>
+  <div id="loading" role="status" hidden>Loading flight results…</div>
+  <section id="results" hidden>
+    <h2 id="route-heading"></h2>
+    <div class="flight" data-result>Flight LX 318 · 09:20–10:15 · Economy</div>
+    <div class="flight" data-result>Flight BA 709 · 11:05–12:00 · Economy</div>
+  </section>
+  <script>
+    function autocomplete(inputId, containerId, options) {
+      const input = document.getElementById(inputId);
+      const container = document.getElementById(containerId);
+      input.addEventListener('input', () => {
+        container.replaceChildren();
+        const query = input.value.toLowerCase();
+        if (!query) return;
+        options.filter(x => x.toLowerCase().includes(query)).forEach(value => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'option';
+          button.setAttribute('role', 'option');
+          button.textContent = value;
+          button.addEventListener('click', () => {
+            input.value = value;
+            input.dispatchEvent(new Event('change', {bubbles: true}));
+            container.replaceChildren();
+          });
+          container.appendChild(button);
+        });
+      });
+    }
+    autocomplete('from', 'from-options', ['Zürich, Switzerland', 'Zurich Airport, Switzerland']);
+    autocomplete('to', 'to-options', ['London, United Kingdom', 'London, Ontario, Canada']);
+
+    document.getElementById('search').addEventListener('click', () => {
+      const loading = document.getElementById('loading');
+      const results = document.getElementById('results');
+      results.hidden = true;
+      loading.hidden = false;
+      setTimeout(() => {
+        const from = document.getElementById('from').value;
+        const to = document.getElementById('to').value;
+        const date = document.getElementById('date').value;
+        document.getElementById('route-heading').textContent = `${from} to ${to} · ${date}`;
+        loading.hidden = true;
+        results.hidden = false;
+      }, 350);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "name": "@dsh-cu/testkit",
+  "version": "0.2.7",
+  "private": true,
+  "description": "Tool-execution fixture for DSH-CU tests, matching the DSH 0.2.1 tool registry",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5",
+    "@deepseek-ai/dsh-agent": "0.2.1-rc.5",
+    "@deepseek-ai/dsh-tools": "0.2.1-rc.5"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "4.0.5",
+    "@deepseek-ai/dsh-agent": "0.2.1-rc.5",
+    "@deepseek-ai/dsh-tools": "0.2.1-rc.5"
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.5 <0.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alyosha28/dsh-cu.git",
+    "directory": "packages/dsh-cu-testkit"
+  },
+  "homepage": "https://github.com/Alyosha28/dsh-cu#readme",
+  "bugs": {
+    "url": "https://github.com/Alyosha28/dsh-cu/issues"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "browser-use",
+    "computer-use",
+    "macos",
+    "agent"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "created_at": "2026-10-28T15:18:04.750037+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41"
+  },
+  "scope": "Official disposable AX-less AppKit fixture only; no user application or data",
+  "actions": [
+    {
+      "path": "ax_first",
+      "model_calls": 0,
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "independently_verified_count": 1
+    },
+    {
+      "path": "visual_fallback",
+      "window_point": [
+        180.0,
+        127.30600000000001
+      ],
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "independently_verified_count": 2
+    },
+    {
+      "path": "resized_window_guard",
+      "error": {
+        "code": "WINDOW_CHANGED",
+        "message": "Window size changed since observation; read getAXState or take a screenshot before coordinate input"
+      },
+      "independently_verified_count": 2
+    }
+  ],
+  "capabilities": {
+    "browser": false,
+    "coordinateSpace": "window-points",
+    "methods": [
+      "activate",
+      "click",
+      "drag",
+      "findApps",
+      "getApp",
+      "getCapabilities",
+      "getState",
+      "hover",
+      "listApps",
+      "listWindows",
+      "paste",
+      "performSecondaryAction",
+      "pressKey",
+      "screenshot",
+      "scroll",
+      "selectText",
+      "setValue",
+      "show",
+      "typeText"
+    ],
+    "permissions": {
+      "accessibility": true,
+      "screenRecording": true
+    },
+    "platform": "macos",
+    "sessionLocked": false
+  },
+  "axless_snapshot": {
+    "snapshotId": "A66EC662-0A21-4947-B48C-57AA0F7FDB59:snapshot:3",
+    "elements": []
+  },
+  "screenshot": {
+    "pixelWidth": 720,
+    "pixelHeight": 424,
+    "bounds": {
+      "height": 212,
+      "width": 360,
+      "x": 221,
+      "y": 650
+    },
+    "coordinateSpace": "window-points",
+    "mimeType": "image/png"
+  },
+  "answer": {
+    "type": "box",
+    "box": {
+      "top": 0.545,
+      "bottom": 0.656,
+      "left": 0.111,
+      "right": 0.889
+    },
+    "found": 1.0,
+    "confidence": 0.9846427841522876
+  },
+  "ground_truth": {
+    "buttonPoint": [
+      180,
+      127
+    ],
+    "prediction_contains_fixture_point": true,
+    "center_error_points": 0.3060000000000116
+  },
+  "decision_ms": 5343.909500001246,
+  "usage": {
+    "input_tokens": 382,
+    "output_tokens": 0
+  },
+  "status": "success",
+  "official_source": "f3803c96974ad4a94195fb97e5c637e9c2a3afe3"
+}

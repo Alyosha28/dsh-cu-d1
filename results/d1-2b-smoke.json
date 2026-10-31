@@ -1,0 +1,86 @@
+{
+  "created_at": "2026-10-28T11:02:11.909515+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41"
+  },
+  "runtime": {
+    "device": "mps",
+    "dtype": "torch.bfloat16",
+    "torch": "2.14.1",
+    "python": "3.11.16",
+    "platform": "macOS-26.7-arm64-arm-64bit",
+    "load_seconds": 618.2827364999998,
+    "cold_first_decision_ms": 11178.012166999906,
+    "warm_rounds_per_case": 1
+  },
+  "summary": {
+    "cases": 1,
+    "valid_decisions": 1,
+    "operation_accuracy": 1.0,
+    "joint_accuracy": 1.0,
+    "latency_ms": {
+      "mean": 102.53712499979883,
+      "median": 102.53712499979883,
+      "p95": 102.53712499979883,
+      "min": 102.53712499979883,
+      "max": 102.53712499979883
+    },
+    "input_tokens_mean": 444,
+    "output_tokens": 0
+  },
+  "by_modality": {
+    "browser": {
+      "cases": 1,
+      "valid_decisions": 1,
+      "operation_accuracy": 1.0,
+      "joint_accuracy": 1.0,
+      "latency_ms": {
+        "mean": 102.53712499979883,
+        "median": 102.53712499979883,
+        "p95": 102.53712499979883,
+        "min": 102.53712499979883,
+        "max": 102.53712499979883
+      },
+      "input_tokens_mean": 444,
+      "output_tokens": 0
+    }
+  },
+  "cases": [
+    {
+      "id": "browser-type-destination",
+      "modality": "browser",
+      "expected": {
+        "operation": "TYPE_TEXT",
+        "target": "to"
+      },
+      "decision": {
+        "operation": "TYPE_TEXT",
+        "target": "to",
+        "confidence": 0.9096822678782908,
+        "operation_probabilities": {
+          "CLICK": 0.02931956856618597,
+          "TYPE_TEXT": 0.9096822678782908,
+          "WAIT": 0.0028338300243430908,
+          "DONE": 0.00558034555667938,
+          "BLOCKED": 0.05258398797450084
+        },
+        "target_confidence": 0.9980965038225919,
+        "target_probabilities": {
+          "from": 0.0019034961774080966,
+          "to": 0.9980965038225919
+        }
+      },
+      "error": null,
+      "operation_correct": true,
+      "joint_correct": true,
+      "latency_ms": [
+        102.53712499979883
+      ],
+      "usage": {
+        "input_tokens": 444,
+        "output_tokens": 0
+      }
+    }
+  ]
+}

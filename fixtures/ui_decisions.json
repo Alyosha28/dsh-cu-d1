@@ -1,0 +1,172 @@
+[
+  {
+    "id": "browser-open-origin",
+    "modality": "browser",
+    "goal": "Open the departure city field so I can enter Zürich.",
+    "state": {
+      "url": "https://travel.example/flights",
+      "elements": [
+        {"id": "from", "role": "combobox", "name": "Where from?", "value": "San Francisco", "actions": ["click", "type"]},
+        {"id": "to", "role": "combobox", "name": "Where to?", "value": "", "actions": ["click", "type"]},
+        {"id": "search", "role": "button", "name": "Search flights", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "CLICK", "target": "from"}
+  },
+  {
+    "id": "browser-type-destination",
+    "modality": "browser",
+    "goal": "Type London into the destination field. Do not search yet.",
+    "state": {
+      "url": "https://travel.example/flights",
+      "elements": [
+        {"id": "from", "role": "combobox", "name": "Where from?", "value": "Zürich", "actions": ["click", "type"]},
+        {"id": "to", "role": "textbox", "name": "Where to?", "value": "", "actions": ["click", "type"]},
+        {"id": "search", "role": "button", "name": "Search flights", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "TYPE_TEXT", "target": "to"}
+  },
+  {
+    "id": "browser-pick-suggestion",
+    "modality": "browser",
+    "goal": "Choose the London, United Kingdom suggestion for the destination.",
+    "state": {
+      "url": "https://travel.example/flights",
+      "elements": [
+        {"id": "to", "role": "textbox", "name": "Where to?", "value": "London", "actions": ["click", "type"]},
+        {"id": "london-uk", "role": "option", "name": "London, United Kingdom", "actions": ["click"]},
+        {"id": "london-ca", "role": "option", "name": "London, Ontario, Canada", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "CLICK", "target": "london-uk"}
+  },
+  {
+    "id": "browser-submit-search",
+    "modality": "browser",
+    "goal": "Search for flights from Zürich to London. Both fields are already filled.",
+    "state": {
+      "url": "https://travel.example/flights",
+      "elements": [
+        {"id": "from", "role": "combobox", "name": "Where from?", "value": "Zürich", "actions": ["click", "type"]},
+        {"id": "to", "role": "combobox", "name": "Where to?", "value": "London, United Kingdom", "actions": ["click", "type"]},
+        {"id": "search", "role": "button", "name": "Search flights", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "CLICK", "target": "search"}
+  },
+  {
+    "id": "browser-results-done",
+    "modality": "browser",
+    "goal": "Stop when matching Zürich to London flight options are visible.",
+    "state": {
+      "url": "https://travel.example/flights/results",
+      "elements": [
+        {"id": "summary", "role": "heading", "name": "Zürich to London flights", "actions": []},
+        {"id": "result-1", "role": "group", "name": "Flight LX 318, departs 09:20, arrives 10:15", "actions": []},
+        {"id": "result-2", "role": "group", "name": "Flight BA 709, departs 11:05, arrives 12:00", "actions": []},
+        {"id": "search", "role": "button", "name": "Search again", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "DONE", "target": null}
+  },
+  {
+    "id": "browser-scroll-results",
+    "modality": "browser",
+    "goal": "Find more hotel results beyond those currently visible.",
+    "state": {
+      "url": "https://hotels.example/search",
+      "can_scroll_down": true,
+      "elements": [
+        {"id": "hotel-1", "role": "article", "name": "Hotel Alpina", "actions": []},
+        {"id": "hotel-2", "role": "article", "name": "River View Hotel", "actions": []},
+        {"id": "filter", "role": "button", "name": "Filter results", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "SCROLL_DOWN", "target": null}
+  },
+  {
+    "id": "browser-wait-loading",
+    "modality": "browser",
+    "goal": "Continue when the flight results finish loading.",
+    "state": {
+      "url": "https://travel.example/flights/results",
+      "elements": [
+        {"id": "spinner", "role": "status", "name": "Loading flight results", "actions": []}
+      ]
+    },
+    "expected": {"operation": "WAIT", "target": null}
+  },
+  {
+    "id": "browser-blocked-login",
+    "modality": "browser",
+    "goal": "Download the private invoice. You are logged out and no credentials are available.",
+    "state": {
+      "url": "https://billing.example/login",
+      "elements": [
+        {"id": "email", "role": "textbox", "name": "Email", "value": "", "actions": ["click", "type"]},
+        {"id": "password", "role": "textbox", "name": "Password", "value": "", "actions": ["click", "type"]},
+        {"id": "sign-in", "role": "button", "name": "Sign in", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "BLOCKED", "target": null}
+  },
+  {
+    "id": "browser-chinese-type",
+    "modality": "browser",
+    "goal": "在目的地输入框中填写“北京”，暂时不要搜索。",
+    "state": {
+      "url": "https://travel.example/zh",
+      "elements": [
+        {"id": "from", "role": "textbox", "name": "出发地", "value": "上海", "actions": ["click", "type"]},
+        {"id": "to", "role": "textbox", "name": "目的地", "value": "", "actions": ["click", "type"]},
+        {"id": "search", "role": "button", "name": "搜索", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "TYPE_TEXT", "target": "to"}
+  },
+  {
+    "id": "desktop-click-save",
+    "modality": "desktop",
+    "goal": "Save the edited document using the visible Save button.",
+    "state": {
+      "application": "TextEdit",
+      "window": "Report.txt",
+      "elements": [
+        {"id": "editor", "role": "AXTextArea", "name": "Document text", "value": "Quarterly report", "actions": ["click", "type"]},
+        {"id": "save", "role": "AXButton", "name": "Save", "actions": ["click"]},
+        {"id": "close", "role": "AXButton", "name": "Close", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "CLICK", "target": "save"}
+  },
+  {
+    "id": "desktop-type-filename",
+    "modality": "desktop",
+    "goal": "Type report-final.txt into the Save As filename field. Do not press Save yet.",
+    "state": {
+      "application": "TextEdit",
+      "window": "Save As",
+      "elements": [
+        {"id": "filename", "role": "AXTextField", "name": "Save As", "value": "Report.txt", "actions": ["click", "type"]},
+        {"id": "save", "role": "AXButton", "name": "Save", "actions": ["click"]},
+        {"id": "cancel", "role": "AXButton", "name": "Cancel", "actions": ["click"]}
+      ]
+    },
+    "expected": {"operation": "TYPE_TEXT", "target": "filename"}
+  },
+  {
+    "id": "desktop-saved-done",
+    "modality": "desktop",
+    "goal": "Finish when the document title shows that Report.txt has been saved with no unsaved changes.",
+    "state": {
+      "application": "TextEdit",
+      "window": "Report.txt",
+      "elements": [
+        {"id": "title", "role": "AXTitle", "name": "Report.txt — Saved", "actions": []},
+        {"id": "editor", "role": "AXTextArea", "name": "Document text", "value": "Quarterly report", "actions": ["click", "type"]}
+      ]
+    },
+    "expected": {"operation": "DONE", "target": null}
+  }
+]

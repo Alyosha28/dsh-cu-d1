@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Repeated input fixture</title></head>
+<body>
+  <h1>Repeated input</h1>
+  <label for="field">__proto__</label>
+  <input id="field" autocomplete="off">
+  <button id="done" type="button">Done</button>
+  <div id="result" hidden></div>
+  <script>
+    const values = [];
+    const input = document.getElementById('field');
+    const result = document.getElementById('result');
+    input.addEventListener('input', () => { values.push(input.value); });
+    document.getElementById('done').addEventListener('click', () => {
+      result.textContent = `${values.join(' ')} complete`;
+      result.hidden = false;
+    });
+  </script>
+</body>
+</html>

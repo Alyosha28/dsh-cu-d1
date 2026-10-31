@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "skill_016d9c02c8470fbe",
+      "version": 1,
+      "verifiedAt": "2026-10-29T19:58:58.245Z",
+      "match": {
+        "appBundleId": "com.apple.TextEdit"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "016d9c02c8470fbe43f046622933fcab665e050957672bccbb79402ddc48fee9",
+      "history": [
+        {
+          "id": "cf9e0c81-626e-4a79-a47f-a1681fe1a610",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T19:58:58.245Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    },
+    {
+      "id": "skill_2e03389464513d79",
+      "version": 1,
+      "verifiedAt": "2026-10-29T19:59:05.555Z",
+      "match": {
+        "appBundleId": "com.apple.calculator"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "15"
+        }
+      ],
+      "steps": [
+        {
+          "type": "click",
+          "target": "Seven"
+        },
+        {
+          "type": "click",
+          "target": "Add"
+        },
+        {
+          "type": "click",
+          "target": "Eight"
+        },
+        {
+          "type": "click",
+          "target": "Equals"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "2e03389464513d799394a194254d6b0b37ca60a6624d239b8b73e71e83e0dbc7",
+      "history": [
+        {
+          "id": "0d07bc96-6980-4fa6-aaa7-e6583decea3a",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T19:59:05.555Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    }
+  ]
+}

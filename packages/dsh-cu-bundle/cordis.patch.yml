@@ -1,0 +1,43 @@
+# @dsh-cu/bundle — profile layer that inserts the D1 providers.
+#
+# Install order: this layer runs after the profile's earlier bundles, so the
+# registries it inserts come after the core services (`tools`, `agents`,
+# `systemPrompt`) they depend on.
+#
+# Environment:
+#   DSH_CU_DECISION_ENDPOINT  local decision service (default http://127.0.0.1:8765)
+#   DSH_CU_DECISION_TOKEN     bearer token for that service (default dsh-cu-local)
+#   DSH_CU_CONTROL_TOKEN      token for the loopback control page (default dsh-cu-control)
+#   DSH_CU_HEADLESS=1         force the headless browser path
+#   DSH_CU_LOCALE             zh (default) or en — edit the value below
+#
+# The native provider stays disabled: it needs macOS Accessibility and Screen
+# Recording grants. Enable both entries together after reading the native
+# section of the package README.
+- insert:
+    # Client half: this entry's package declares dsh.client, so the DSH client
+    # module scanner serves its browser bundle and the tool cards load.
+    - id: dsh-cu-client
+      name: "@dsh-cu/client"
+    - id: browser-use-registry
+      name: "@deepseek-ai/dsh-browser-use"
+    - id: dsh-cu-browser
+      name: "@dsh-cu/browser-use-d1"
+      config:
+        mode: launch
+        headless: !!js process.env.DSH_CU_HEADLESS === '1' || process.platform !== 'darwin'
+        locale: zh
+        decisionEndpoint: !!js process.env.DSH_CU_DECISION_ENDPOINT || 'http://127.0.0.1:8765'
+        decisionToken: !!js process.env.DSH_CU_DECISION_TOKEN || 'dsh-cu-local'
+        controlToken: !!js process.env.DSH_CU_CONTROL_TOKEN || 'dsh-cu-control'
+        captureSkills: !!js process.env.DSH_CU_CAPTURE_SKILLS === '1'
+    - id: computer-use-registry
+      name: "@deepseek-ai/dsh-computer-use"
+      disabled: true
+    - id: dsh-cu-computer
+      name: "@dsh-cu/computer-use-d1"
+      disabled: true
+      config:
+        locale: zh
+        decisionEndpoint: !!js process.env.DSH_CU_DECISION_ENDPOINT || 'http://127.0.0.1:8765'
+        decisionToken: !!js process.env.DSH_CU_DECISION_TOKEN || 'dsh-cu-local'

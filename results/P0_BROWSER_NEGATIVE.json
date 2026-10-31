@@ -1,0 +1,406 @@
+{
+  "created_at": "2026-10-28T16:00:00.474867+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Local isolated Chromium pages only; no real accounts, no desktop control",
+  "cold_decision_ms": 2273.6528330005967,
+  "config": {
+    "text_strategy": "speculative"
+  },
+  "summary": {
+    "cases": 3,
+    "successes": 1,
+    "expectations_met": 1,
+    "model_calls": 6,
+    "text_extraction_calls": 0,
+    "actions_executed": 6,
+    "stale_decisions": 0
+  },
+  "cases": [
+    {
+      "id": "login-blocked",
+      "status": "escalated",
+      "expected_status": "blocked",
+      "expectation_met": false,
+      "reason": "blocked: step_budget_exhausted",
+      "model_calls": 2,
+      "text_extraction_calls": 0,
+      "actions_executed": 2,
+      "stale_decisions": 0,
+      "control_seconds": 1.595788624999841,
+      "total_seconds_including_navigation": 1.612012292000145,
+      "decision_latency_ms": {
+        "total": 485.51033299918345,
+        "mean": 242.75516649959172,
+        "median": 242.75516649959172,
+        "max": 273.6349999995582
+      },
+      "subgoals": [
+        {
+          "id": "blocked",
+          "goal": "Download the private invoice. You are logged out and no credentials are available.",
+          "status": "escalated",
+          "reason": "step_budget_exhausted",
+          "model_calls": 2,
+          "text_extraction_calls": 0,
+          "actions_executed": 2,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            273.6349999995582,
+            211.87533299962524
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e3",
+                "confidence": 0.698871903021803,
+                "operation_probabilities": {
+                  "CLICK": 0.698871903021803,
+                  "TYPE_TEXT": 0.023602668268117914,
+                  "WAIT": 0.02004131610261682,
+                  "DONE": 0.007511333609279453,
+                  "BLOCKED": 0.24997277899818265
+                },
+                "target_confidence": 0.774199267803275,
+                "target_probabilities": {
+                  "e1": 0.1996540686774585,
+                  "e2": 0.026146663519266436,
+                  "e3": 0.774199267803275
+                }
+              },
+              "decision_ms": 273.6349999995582,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e3"
+              }
+            },
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e3",
+                "confidence": 0.6555877437932157,
+                "operation_probabilities": {
+                  "CLICK": 0.6555877437932157,
+                  "TYPE_TEXT": 0.024310041414966687,
+                  "WAIT": 0.02930680002766085,
+                  "DONE": 0.008106573468739366,
+                  "BLOCKED": 0.2826888412954174
+                },
+                "target_confidence": 0.8219009271132226,
+                "target_probabilities": {
+                  "e1": 0.15281822468373654,
+                  "e2": 0.025280848203040805,
+                  "e3": 0.8219009271132226
+                }
+              },
+              "decision_ms": 211.87533299962524,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e3"
+              }
+            }
+          ],
+          "last_snapshot": {
+            "snapshot_id": "s2",
+            "version": 0,
+            "url": "http://127.0.0.1:58845/login-required.html",
+            "title": "Private invoice",
+            "elements": [
+              {
+                "id": "e1",
+                "role": "textbox",
+                "name": "Email",
+                "value": "",
+                "actions": [
+                  "click",
+                  "type"
+                ],
+                "enabled": true,
+                "focused": false
+              },
+              {
+                "id": "e2",
+                "role": "textbox",
+                "name": "Password",
+                "value": "",
+                "actions": [
+                  "click",
+                  "type"
+                ],
+                "enabled": true,
+                "focused": false
+              },
+              {
+                "id": "e3",
+                "role": "button",
+                "name": "Sign in",
+                "value": null,
+                "actions": [
+                  "click"
+                ],
+                "enabled": true,
+                "focused": true
+              },
+              {
+                "id": "e4",
+                "role": "heading",
+                "name": "Sign in required",
+                "value": null,
+                "actions": [],
+                "enabled": true,
+                "focused": false
+              }
+            ],
+            "truncated": false,
+            "can_scroll_up": false,
+            "can_scroll_down": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "ambiguous-save",
+      "status": "escalated",
+      "expected_status": "blocked",
+      "expectation_met": false,
+      "reason": "ambiguous: step_budget_exhausted",
+      "model_calls": 2,
+      "text_extraction_calls": 0,
+      "actions_executed": 2,
+      "stale_decisions": 0,
+      "control_seconds": 1.3915572919995611,
+      "total_seconds_including_navigation": 1.4015859160008404,
+      "decision_latency_ms": {
+        "total": 296.4191249993746,
+        "mean": 148.2095624996873,
+        "median": 148.2095624996873,
+        "max": 154.25533400048153
+      },
+      "subgoals": [
+        {
+          "id": "ambiguous",
+          "goal": "Click Save without choosing either the Document or Workspace section.",
+          "status": "escalated",
+          "reason": "step_budget_exhausted",
+          "model_calls": 2,
+          "text_extraction_calls": 0,
+          "actions_executed": 2,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            154.25533400048153,
+            142.1637909988931
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e2",
+                "confidence": 0.8016235260297382,
+                "operation_probabilities": {
+                  "CLICK": 0.8016235260297382,
+                  "WAIT": 0.022987890071115166,
+                  "DONE": 0.06278503435687524,
+                  "BLOCKED": 0.11260354954227147
+                },
+                "target_confidence": 0.534992093597296,
+                "target_probabilities": {
+                  "e1": 0.46500790640270395,
+                  "e2": 0.534992093597296
+                }
+              },
+              "decision_ms": 154.25533400048153,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e2"
+              }
+            },
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e2",
+                "confidence": 0.5201896565542619,
+                "operation_probabilities": {
+                  "CLICK": 0.5201896565542619,
+                  "WAIT": 0.020689981324363522,
+                  "DONE": 0.3750524298803768,
+                  "BLOCKED": 0.08406793224099791
+                },
+                "target_confidence": 0.65796873860874,
+                "target_probabilities": {
+                  "e1": 0.34203126139125994,
+                  "e2": 0.65796873860874
+                }
+              },
+              "decision_ms": 142.1637909988931,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e2"
+              }
+            }
+          ],
+          "last_snapshot": {
+            "snapshot_id": "s2",
+            "version": 0,
+            "url": "http://127.0.0.1:58845/ambiguous.html",
+            "title": "Ambiguous save",
+            "elements": [
+              {
+                "id": "e1",
+                "role": "button",
+                "name": "Save",
+                "value": null,
+                "actions": [
+                  "click"
+                ],
+                "enabled": true,
+                "focused": false
+              },
+              {
+                "id": "e2",
+                "role": "button",
+                "name": "Save",
+                "value": null,
+                "actions": [
+                  "click"
+                ],
+                "enabled": true,
+                "focused": true
+              },
+              {
+                "id": "e3",
+                "role": "heading",
+                "name": "Document",
+                "value": null,
+                "actions": [],
+                "enabled": true,
+                "focused": false
+              },
+              {
+                "id": "e4",
+                "role": "heading",
+                "name": "Workspace",
+                "value": null,
+                "actions": [],
+                "enabled": true,
+                "focused": false
+              }
+            ],
+            "truncated": false,
+            "can_scroll_up": false,
+            "can_scroll_down": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "delayed-results",
+      "status": "success",
+      "expected_status": "success",
+      "expectation_met": true,
+      "reason": "all_subgoals_independently_verified",
+      "model_calls": 2,
+      "text_extraction_calls": 0,
+      "actions_executed": 2,
+      "stale_decisions": 0,
+      "control_seconds": 0.9954312499994558,
+      "total_seconds_including_navigation": 1.0028053339992766,
+      "decision_latency_ms": {
+        "total": 269.08383299996785,
+        "mean": 134.54191649998393,
+        "median": 134.54191649998393,
+        "max": 143.10529199974553
+      },
+      "subgoals": [
+        {
+          "id": "delayed",
+          "goal": "Load the results and stop only when the text Delayed results are ready is visible.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 2,
+          "text_extraction_calls": 0,
+          "actions_executed": 2,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            125.97854100022232,
+            143.10529199974553
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 2,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e1",
+                "confidence": 0.7964883239005681,
+                "operation_probabilities": {
+                  "CLICK": 0.7964883239005681,
+                  "WAIT": 0.134878815175048,
+                  "DONE": 0.018081301714565207,
+                  "BLOCKED": 0.05055155920981878
+                },
+                "target_confidence": 1.0,
+                "target_probabilities": {
+                  "e1": 1.0
+                }
+              },
+              "decision_ms": 125.97854100022232,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e1"
+              }
+            },
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 0,
+              "element_count": 3,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e1",
+                "confidence": 0.4991458783318501,
+                "operation_probabilities": {
+                  "CLICK": 0.4991458783318501,
+                  "WAIT": 0.3770973113246546,
+                  "DONE": 0.011873354765406584,
+                  "BLOCKED": 0.11188345557808874
+                },
+                "target_confidence": 1.0,
+                "target_probabilities": {
+                  "e1": 1.0
+                }
+              },
+              "decision_ms": 143.10529199974553,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e1"
+              }
+            }
+          ],
+          "last_snapshot": null
+        }
+      ]
+    }
+  ]
+}

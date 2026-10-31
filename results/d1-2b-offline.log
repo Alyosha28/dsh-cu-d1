@@ -1,0 +1,36 @@
+W1028 19:29:45.124000 25121 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 17384.36it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+Loaded LiquidAI/d1-2B on mps/torch.bfloat16 in 1.09s
+First decision (cold): 2795.8ms; warm rounds per case: 3
+[01/12] browser-open-origin: expected={'operation': 'CLICK', 'target': 'from'} actual={'operation': 'TYPE_TEXT', 'target': 'to', 'confidence': 0.5577075186570132, 'operation_probabilities': {'CLICK': 0.28991256711829744, 'TYPE_TEXT': 0.5577075186570132, 'WAIT': 0.00599412740864699, 'DONE': 0.00912823999792926, 'BLOCKED': 0.13725754681811297}, 'target_confidence': 0.7084603092882742, 'target_probabilities': {'from': 0.2915396907117257, 'to': 0.7084603092882742}, 'text': 'Zürich', 'text_found': 0.9579303700987827, 'text_span': [58, 64], 'text_path': '/goal'} joint=FAIL median=140.2ms
+[02/12] browser-type-destination: expected={'operation': 'TYPE_TEXT', 'target': 'to'} actual={'operation': 'TYPE_TEXT', 'target': 'to', 'confidence': 0.9218306962679284, 'operation_probabilities': {'CLICK': 0.02297697206849717, 'TYPE_TEXT': 0.9218306962679284, 'WAIT': 0.002169507622837974, 'DONE': 0.002169507622837974, 'BLOCKED': 0.050853316417898434}, 'target_confidence': 0.9972996335668377, 'target_probabilities': {'from': 0.002700366433162206, 'to': 0.9972996335668377}, 'text': 'London', 'text_found': 0.9874294496861074, 'text_span': [18, 24], 'text_path': '/goal'} joint=PASS median=142.4ms
+[03/12] browser-pick-suggestion: expected={'operation': 'CLICK', 'target': 'london-uk'} actual={'operation': 'CLICK', 'target': 'london-uk', 'confidence': 0.9348383851178348, 'operation_probabilities': {'CLICK': 0.9348383851178348, 'TYPE_TEXT': 0.005102331968938098, 'WAIT': 0.002652340357481031, 'DONE': 0.03896104512879504, 'BLOCKED': 0.018445897426951127}, 'target_confidence': 0.9961698871913928, 'target_probabilities': {'to': 0.003328595263905361, 'london-uk': 0.9961698871913928, 'london-ca': 0.00050151754470185}} joint=PASS median=124.1ms
+[04/12] browser-submit-search: expected={'operation': 'CLICK', 'target': 'search'} actual={'operation': 'CLICK', 'target': 'search', 'confidence': 0.6634890769266802, 'operation_probabilities': {'CLICK': 0.6634890769266802, 'TYPE_TEXT': 0.005141425165915114, 'WAIT': 0.005141425165915114, 'DONE': 0.27303350341833227, 'BLOCKED': 0.05319456932315707}, 'target_confidence': 0.9778458876827744, 'target_probabilities': {'from': 0.007577398980864304, 'to': 0.014576713336361246, 'search': 0.9778458876827744}} joint=PASS median=150.9ms
+[05/12] browser-results-done: expected={'operation': 'DONE', 'target': None} actual={'operation': 'DONE', 'target': None, 'confidence': 0.70221943922678, 'operation_probabilities': {'CLICK': 0.13056552742671695, 'WAIT': 0.0537292392877152, 'DONE': 0.70221943922678, 'BLOCKED': 0.1134857940587878}} joint=PASS median=95.2ms
+[06/12] browser-scroll-results: expected={'operation': 'SCROLL_DOWN', 'target': None} actual={'operation': 'SCROLL_DOWN', 'target': None, 'confidence': 0.9256581977027548, 'operation_probabilities': {'CLICK': 0.007007329757212261, 'SCROLL_DOWN': 0.9256581977027548, 'WAIT': 0.00638206472359814, 'DONE': 0.020528305080273552, 'BLOCKED': 0.04042410273616119}} joint=PASS median=86.3ms
+[07/12] browser-wait-loading: expected={'operation': 'WAIT', 'target': None} actual={'operation': 'WAIT', 'target': None, 'confidence': 0.8950414680575206, 'operation_probabilities': {'WAIT': 0.8950414680575206, 'DONE': 0.014311194026441902, 'BLOCKED': 0.09064733791603768}} joint=PASS median=56.6ms
+[08/12] browser-blocked-login: expected={'operation': 'BLOCKED', 'target': None} actual={'operation': 'CLICK', 'target': 'sign-in', 'confidence': 0.6616939957656895, 'operation_probabilities': {'CLICK': 0.6616939957656895, 'TYPE_TEXT': 0.03099491463274834, 'WAIT': 0.02822923397960578, 'DONE': 0.006787049064431081, 'BLOCKED': 0.27229480655752514}, 'target_confidence': 0.6480332150208549, 'target_probabilities': {'email': 0.3068078429112136, 'password': 0.0451589420679316, 'sign-in': 0.6480332150208549}} joint=FAIL median=135.6ms
+[09/12] browser-chinese-type: expected={'operation': 'TYPE_TEXT', 'target': 'to'} actual={'operation': 'TYPE_TEXT', 'target': 'to', 'confidence': 0.9671240908772247, 'operation_probabilities': {'CLICK': 0.0046965093094820725, 'TYPE_TEXT': 0.9671240908772247, 'WAIT': 0.0014601023450737016, 'DONE': 0.0014601023450737016, 'BLOCKED': 0.025259195123145554}, 'target_confidence': 0.9984925395693106, 'target_probabilities': {'from': 0.0015074604306892663, 'to': 0.9984925395693106}, 'text': '北京', 'text_found': 0.9893499944747752, 'text_span': [24, 26], 'text_path': '/goal'} joint=PASS median=142.6ms
+[10/12] desktop-click-save: expected={'operation': 'CLICK', 'target': 'save'} actual={'operation': 'CLICK', 'target': 'save', 'confidence': 0.8955559142503198, 'operation_probabilities': {'CLICK': 0.8955559142503198, 'TYPE_TEXT': 0.006320495067327516, 'WAIT': 0.010324182908713017, 'DONE': 0.030960221979649087, 'BLOCKED': 0.05683918579399046}, 'target_confidence': 0.9819548237847071, 'target_probabilities': {'editor': 0.01242927631336714, 'save': 0.9819548237847071, 'close': 0.005615899901925664}} joint=PASS median=123.5ms
+[11/12] desktop-type-filename: expected={'operation': 'TYPE_TEXT', 'target': 'filename'} actual={'operation': 'TYPE_TEXT', 'target': 'filename', 'confidence': 0.9038508175991838, 'operation_probabilities': {'CLICK': 0.013162491897100894, 'TYPE_TEXT': 0.9038508175991838, 'WAIT': 0.0032394244068286227, 'DONE': 0.0038150717878272108, 'BLOCKED': 0.07593219430905944}, 'target_confidence': 1.0, 'target_probabilities': {'filename': 1.0}, 'text': 'report-final.txt', 'text_found': 0.9987366732457217, 'text_span': [18, 34], 'text_path': '/goal'} joint=PASS median=123.5ms
+[12/12] desktop-saved-done: expected={'operation': 'DONE', 'target': None} actual={'operation': 'DONE', 'target': None, 'confidence': 0.880681731502296, 'operation_probabilities': {'CLICK': 0.03421917509813753, 'TYPE_TEXT': 0.013128290768906788, 'WAIT': 0.029742845103034436, 'DONE': 0.880681731502296, 'BLOCKED': 0.042227957527625266}} joint=PASS median=115.9ms
+
+Summary:
+{
+  "cases": 12,
+  "valid_decisions": 12,
+  "operation_accuracy": 0.8333333333333334,
+  "joint_accuracy": 0.8333333333333334,
+  "latency_ms": {
+    "mean": 137.8956551111009,
+    "median": 138.4651874998326,
+    "p95": 190.2004064997982,
+    "min": 56.2719580002522,
+    "max": 265.91929200003506
+  },
+  "input_tokens_mean": 515.0833333333334,
+  "output_tokens": 0
+}
+Saved report to /Users/albaincompleta/DSH_CU/results/d1-2b-offline.json

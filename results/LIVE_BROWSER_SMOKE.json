@@ -1,0 +1,33 @@
+{
+  "startedAt": "2026-10-29T11:14:48.438Z",
+  "finishedAt": "2026-10-29T11:14:52.395Z",
+  "browser": "Google Chrome",
+  "site": "https://example.com/",
+  "model": "LiquidAI/d1-2B local",
+  "scriptedDecision": false,
+  "isError": false,
+  "result": {
+    "status": "success",
+    "reason": "independently_verified_after_action",
+    "decisionRequests": 1,
+    "route": "d1",
+    "modelForwardCalls": 1,
+    "textExtractionCalls": 0,
+    "actionsExecuted": 1,
+    "staleDecisions": 0,
+    "decisionLatencyMs": 196.0905830055708,
+    "inputTokens": 350,
+    "outputTokens": 0,
+    "trace": [
+      {
+        "snapshotId": "s1",
+        "operation": "CLICK",
+        "target": "e1",
+        "targetName": "Learn more",
+        "confidence": 0.9768249607426898,
+        "requestLatencyMs": 196.0905830055708,
+        "dispatched": true
+      }
+    ]
+  }
+}

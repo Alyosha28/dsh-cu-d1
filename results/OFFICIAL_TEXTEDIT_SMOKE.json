@@ -1,0 +1,9 @@
+{
+  "application": "macOS TextEdit",
+  "existingProcessUntouched": true,
+  "saved": false,
+  "api": "@deepseek-ai/dsh-cua/api createCuaApi",
+  "getAppCalls": 1,
+  "inputMethod": "official AX setValue",
+  "independentlyObservedText": "DSH official CUA: 7 + 8 = 15"
+}

@@ -1,0 +1,117 @@
+{
+  "created_at": "2026-10-28T19:33:48.486929+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Local isolated Chromium pages only; no real accounts, no desktop control",
+  "cold_decision_ms": 2312.7915000004577,
+  "config": {
+    "text_strategy": "speculative"
+  },
+  "summary": {
+    "cases": 1,
+    "successes": 0,
+    "expectations_met": 1,
+    "model_calls": 1,
+    "text_extraction_calls": 0,
+    "actions_executed": 1,
+    "stale_decisions": 0
+  },
+  "cases": [
+    {
+      "id": "delayed-timeout",
+      "status": "escalated",
+      "expected_status": "escalated",
+      "expectation_met": true,
+      "reason": "timeout: async_result_timeout",
+      "model_calls": 1,
+      "text_extraction_calls": 0,
+      "actions_executed": 1,
+      "stale_decisions": 0,
+      "control_seconds": 5.7912238749995595,
+      "total_seconds_including_navigation": 5.805769375001546,
+      "decision_latency_ms": {
+        "total": 126.91774999984773,
+        "mean": 126.91774999984773,
+        "median": 126.91774999984773,
+        "max": 126.91774999984773
+      },
+      "subgoals": [
+        {
+          "id": "timeout",
+          "goal": "Load the results and stop only when the text Delayed results are ready is visible.",
+          "status": "escalated",
+          "reason": "async_result_timeout",
+          "model_calls": 1,
+          "text_extraction_calls": 0,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            126.91774999984773
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 2,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e1",
+                "confidence": 0.80781747964731,
+                "operation_probabilities": {
+                  "CLICK": 0.80781747964731,
+                  "WAIT": 0.13055150998566578,
+                  "DONE": 0.007907539419997951,
+                  "BLOCKED": 0.05372347094702617
+                },
+                "target_confidence": 1.0,
+                "target_probabilities": {
+                  "e1": 1.0
+                }
+              },
+              "decision_ms": 126.91774999984773,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e1"
+              }
+            }
+          ],
+          "last_snapshot": {
+            "snapshot_id": "s1",
+            "version": 0,
+            "url": "http://127.0.0.1:59612/slow-results.html",
+            "title": "Slow results",
+            "elements": [
+              {
+                "id": "e1",
+                "role": "button",
+                "name": "Load results",
+                "value": null,
+                "actions": [
+                  "click"
+                ],
+                "enabled": true,
+                "focused": false
+              },
+              {
+                "id": "e2",
+                "role": "heading",
+                "name": "Results",
+                "value": null,
+                "actions": [],
+                "enabled": true,
+                "focused": false
+              }
+            ],
+            "truncated": true,
+            "can_scroll_up": false,
+            "can_scroll_down": false
+          }
+        }
+      ]
+    }
+  ]
+}

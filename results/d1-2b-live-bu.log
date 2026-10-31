@@ -1,0 +1,63 @@
+W1028 19:32:36.233000 25636 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 25042.74it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+Model ready on mps; cold decision 2283.6ms
+
+Case flights
+  Subgoal origin: Enter Zürich into the From field.
+    step 1: TYPE_TEXT target=e1 text='Zürich' confidence=0.766 (261.5ms)
+    => success: independently_verified_after_action
+  Subgoal destination: Enter London into the To field.
+    step 1: TYPE_TEXT target=e3 text='London' confidence=0.924 (247.6ms)
+    => success: independently_verified_after_action
+  Subgoal date: Enter 2026-11-01 into the Departure date field.
+    step 1: TYPE_TEXT target=e6 text='2026-11-01' confidence=0.968 (276.6ms)
+    => success: independently_verified_after_action
+  Subgoal search: Find one-way flights from Zürich to London on 2026-11-01. Use the visible form and stop only when matching flight results are visible.
+    step 1: CLICK target=e7 text=None confidence=0.631 (300.9ms)
+    => success: independently_verified_after_action
+  => success: all_subgoals_independently_verified; calls=4, actions=4, control=1.55s
+
+Case filters
+  Subgoal adults: Change the Adults value from 2 to exactly 3.
+    step 1: INCREMENT target=e1 text=None confidence=0.929 (221.5ms)
+    => success: independently_verified_after_action
+  Subgoal nonstop: Enable the Nonstop only checkbox.
+    step 1: CLICK target=e2 text=None confidence=0.846 (228.1ms)
+    => success: independently_verified_after_action
+  Subgoal apply: Show available flights for exactly 3 adults with nonstop only. Apply the filters and stop only when the results summary confirms both 3 adults and Nonstop only.
+    step 1: CLICK target=e3 text=None confidence=0.553 (216.4ms)
+    => success: independently_verified_after_action
+  => success: all_subgoals_independently_verified; calls=3, actions=3, control=0.77s
+
+Case already-done
+  Subgoal done: Stop when the visible results summary confirms 3 adults and Nonstop only.
+    => success: independently_verified_before_first_decision
+  => success: all_subgoals_independently_verified; calls=0, actions=0, control=0.02s
+
+Case flights-whole
+  Subgoal whole: Find one-way flights from Zürich to London on 2026-11-01. Use the visible form and stop only when matching flight results are visible.
+    step 1: TYPE_TEXT target=e1 text='Zürich' confidence=0.624 (241.8ms)
+    step 2: TYPE_TEXT target=e3 text='London' confidence=0.844 (251.1ms)
+    step 3: TYPE_TEXT target=e6 text='2026-11-01' confidence=0.936 (291.3ms)
+    step 4: CLICK target=e7 text=None confidence=0.631 (284.7ms)
+    => success: independently_verified_after_action
+  => success: all_subgoals_independently_verified; calls=4, actions=4, control=3.10s
+
+Case filters-whole
+  Subgoal whole: Show available flights for exactly 3 adults with nonstop only. Apply the filters and stop only when the results summary confirms both 3 adults and Nonstop only.
+    step 1: INCREMENT target=e1 text=None confidence=0.507 (202.7ms)
+    step 2: CLICK target=e2 text=None confidence=0.762 (211.7ms)
+    step 3: CLICK target=e3 text=None confidence=0.553 (194.3ms)
+    => success: independently_verified_after_action
+  => success: all_subgoals_independently_verified; calls=3, actions=3, control=1.76s
+
+{
+  "cases": 5,
+  "successes": 5,
+  "model_calls": 14,
+  "actions_executed": 14,
+  "stale_decisions": 0
+}
+Saved report to /Users/albaincompleta/DSH_CU/results/d1-2b-live-bu.json

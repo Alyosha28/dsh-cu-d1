@@ -1,0 +1,160 @@
+W1028 23:57:17.702000 50603 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 8787.40it/s]
+[cua-screenshot] {"stage":"helper.received","requestId":"12","elapsedMs":0.000333}
+[cua-screenshot] {"stage":"worker.begin","requestId":"12","elapsedMs":0.036791}
+[cua-screenshot] {"stage":"screen-permission.begin","requestId":"12","elapsedMs":0.192083}
+[cua-screenshot] {"stage":"screen-permission.end","requestId":"12","elapsedMs":3.674666}
+[cua-screenshot] {"stage":"geometry.before.begin","requestId":"12","elapsedMs":3.678833}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"12","elapsedMs":3.679791}
+[cua-screenshot] {"stage":"window-info.end","requestId":"12","elapsedMs":7.653791}
+[cua-screenshot] {"stage":"ax-geometry.begin","requestId":"12","elapsedMs":7.660333}
+[cua-screenshot] {"stage":"ax-geometry.end","requestId":"12","elapsedMs":7.748458}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"12","elapsedMs":7.753375}
+[cua-screenshot] {"stage":"window-info.end","requestId":"12","elapsedMs":9.633041}
+[cua-screenshot] {"stage":"geometry.before.end","requestId":"12","elapsedMs":9.636333}
+[cua-screenshot] {"stage":"worker.end","requestId":"12","elapsedMs":9.648583}
+[cua-screenshot] {"stage":"shareable-content.begin","requestId":"12","elapsedMs":9.69025}
+[cua-screenshot] {"stage":"shareable-content.end","requestId":"12","elapsedMs":34.472958}
+[cua-screenshot] {"stage":"capture-config.begin","requestId":"12","elapsedMs":34.502125}
+[cua-screenshot] {"stage":"capture-config.end","requestId":"12","elapsedMs":34.5435}
+[cua-screenshot] {"stage":"capture-image.begin","requestId":"12","elapsedMs":34.545583}
+[cua-screenshot] {"stage":"capture-image.end","requestId":"12","elapsedMs":84.256708}
+[cua-screenshot] {"stage":"png-encode.queued","requestId":"12","elapsedMs":84.264666}
+[cua-screenshot] {"stage":"png-encode.begin","requestId":"12","elapsedMs":84.281083}
+[cua-screenshot] {"stage":"png-encode.end","requestId":"12","elapsedMs":88.218041}
+[cua-screenshot] {"stage":"postflight.begin","requestId":"12","elapsedMs":88.259916}
+[cua-screenshot] {"stage":"geometry.after.begin","requestId":"12","elapsedMs":94.024583}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"12","elapsedMs":94.027291}
+[cua-screenshot] {"stage":"window-info.end","requestId":"12","elapsedMs":96.0905}
+[cua-screenshot] {"stage":"ax-geometry.begin","requestId":"12","elapsedMs":96.097208}
+[cua-screenshot] {"stage":"ax-geometry.end","requestId":"12","elapsedMs":96.19325}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"12","elapsedMs":96.198166}
+[cua-screenshot] {"stage":"window-info.end","requestId":"12","elapsedMs":99.559791}
+[cua-screenshot] {"stage":"geometry.after.end","requestId":"12","elapsedMs":99.565041}
+[cua-screenshot] {"stage":"base64.begin","requestId":"12","elapsedMs":99.566583}
+[cua-screenshot] {"stage":"base64.end","requestId":"12","elapsedMs":99.58675}
+[cua-screenshot] {"stage":"postflight.end","requestId":"12","elapsedMs":99.587625}
+[cua-screenshot] {"stage":"response.encode.begin","requestId":"12","elapsedMs":99.614291}
+[cua-screenshot] {"stage":"response.encode.end","requestId":"12","elapsedMs":99.727916}
+[cua-screenshot] {"stage":"response.write.begin","requestId":"12","elapsedMs":99.734}
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+[cua-screenshot] {"stage":"response.write.end","requestId":"12","elapsedMs":100.355583}
+[cua-screenshot] {"stage":"helper.received","requestId":"15","elapsedMs":0.000208}
+[cua-screenshot] {"stage":"worker.begin","requestId":"15","elapsedMs":0.031291}
+[cua-screenshot] {"stage":"screen-permission.begin","requestId":"15","elapsedMs":0.245625}
+[cua-screenshot] {"stage":"screen-permission.end","requestId":"15","elapsedMs":3.995166}
+[cua-screenshot] {"stage":"geometry.before.begin","requestId":"15","elapsedMs":4.000708}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"15","elapsedMs":4.001708}
+[cua-screenshot] {"stage":"window-info.end","requestId":"15","elapsedMs":5.518208}
+[cua-screenshot] {"stage":"ax-geometry.begin","requestId":"15","elapsedMs":5.525875}
+[cua-screenshot] {"stage":"ax-geometry.end","requestId":"15","elapsedMs":5.605416}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"15","elapsedMs":5.611875}
+[cua-screenshot] {"stage":"window-info.end","requestId":"15","elapsedMs":7.78975}
+[cua-screenshot] {"stage":"geometry.before.end","requestId":"15","elapsedMs":7.794125}
+[cua-screenshot] {"stage":"worker.end","requestId":"15","elapsedMs":7.8055}
+[cua-screenshot] {"stage":"shareable-content.begin","requestId":"15","elapsedMs":7.82175}
+[cua-screenshot] {"stage":"shareable-content.end","requestId":"15","elapsedMs":28.524083}
+[cua-screenshot] {"stage":"capture-config.begin","requestId":"15","elapsedMs":28.537333}
+[cua-screenshot] {"stage":"capture-config.end","requestId":"15","elapsedMs":28.56575}
+[cua-screenshot] {"stage":"capture-image.begin","requestId":"15","elapsedMs":28.566458}
+[cua-screenshot] {"stage":"capture-image.end","requestId":"15","elapsedMs":44.166791}
+[cua-screenshot] {"stage":"png-encode.queued","requestId":"15","elapsedMs":44.176541}
+[cua-screenshot] {"stage":"png-encode.begin","requestId":"15","elapsedMs":44.192333}
+[cua-screenshot] {"stage":"png-encode.end","requestId":"15","elapsedMs":48.495416}
+[cua-screenshot] {"stage":"postflight.begin","requestId":"15","elapsedMs":48.531}
+[cua-screenshot] {"stage":"geometry.after.begin","requestId":"15","elapsedMs":51.944666}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"15","elapsedMs":51.948708}
+[cua-screenshot] {"stage":"window-info.end","requestId":"15","elapsedMs":53.646791}
+[cua-screenshot] {"stage":"ax-geometry.begin","requestId":"15","elapsedMs":53.652958}
+[cua-screenshot] {"stage":"ax-geometry.end","requestId":"15","elapsedMs":53.74225}
+[cua-screenshot] {"stage":"window-info.begin","requestId":"15","elapsedMs":53.747416}
+[cua-screenshot] {"stage":"window-info.end","requestId":"15","elapsedMs":55.072166}
+[cua-screenshot] {"stage":"geometry.after.end","requestId":"15","elapsedMs":55.075208}
+[cua-screenshot] {"stage":"base64.begin","requestId":"15","elapsedMs":55.076041}
+[cua-screenshot] {"stage":"base64.end","requestId":"15","elapsedMs":55.097708}
+[cua-screenshot] {"stage":"postflight.end","requestId":"15","elapsedMs":55.098291}
+[cua-screenshot] {"stage":"response.encode.begin","requestId":"15","elapsedMs":55.127041}
+[cua-screenshot] {"stage":"response.encode.end","requestId":"15","elapsedMs":55.317875}
+[cua-screenshot] {"stage":"response.write.begin","requestId":"15","elapsedMs":55.323125}
+[cua-screenshot] {"stage":"response.write.end","requestId":"15","elapsedMs":56.3815}
+{
+  "created_at": "2026-10-28T15:57:11.327539+00:00",
+  "scope": "Synthetic browser CSV download and disposable native CSV importer; no user files or accounts",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41"
+  },
+  "browser_download": {
+    "status": "success",
+    "elapsed_ms": 741.3464159999421,
+    "rows": 2,
+    "total": 300
+  },
+  "capabilities": {
+    "browser": false,
+    "coordinateSpace": "window-points",
+    "methods": [
+      "activate",
+      "click",
+      "drag",
+      "findApps",
+      "getApp",
+      "getCapabilities",
+      "getState",
+      "hover",
+      "listApps",
+      "listWindows",
+      "paste",
+      "performSecondaryAction",
+      "pressKey",
+      "screenshot",
+      "scroll",
+      "selectText",
+      "setValue",
+      "show",
+      "typeText"
+    ],
+    "permissions": {
+      "accessibility": true,
+      "screenRecording": true
+    },
+    "platform": "macos",
+    "sessionLocked": false
+  },
+  "native": {
+    "ax": {
+      "path": "ax_first",
+      "model_calls": 0,
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "verified": {
+        "rows": 2,
+        "total": 300,
+        "status": "Import complete"
+      },
+      "elapsed_ms": 233.1609170014417
+    },
+    "visual": {
+      "path": "visual_fallback",
+      "model_calls": 2,
+      "dispatch": {
+        "dispatched": true,
+        "verified": false
+      },
+      "decision_ms": [
+        5419.317957999738,
+        299.5177920001879
+      ],
+      "verified": {
+        "rows": 2,
+        "total": 300,
+        "status": "Import complete"
+      },
+      "elapsed_ms": 6091.706125000201
+    }
+  },
+  "status": "success"
+}

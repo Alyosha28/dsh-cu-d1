@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Upload fixture</title>
+  <style>
+    body { font: 18px system-ui; max-width: 640px; margin: 40px auto; }
+    label { display: block; margin-top: 18px; font-weight: 600; }
+    #picked { margin-top: 16px; color: #166534; }
+  </style>
+</head>
+<body>
+  <h1>Attach a document</h1>
+  <form onsubmit="return false">
+    <label for="doc">Document</label>
+    <input id="doc" name="doc" type="file" accept=".txt,.pdf">
+  </form>
+  <div id="picked" role="status"></div>
+  <script>
+    document.getElementById('doc').addEventListener('change', (event) => {
+      const names = [...event.target.files].map(file => file.name).join(', ')
+      document.getElementById('picked').textContent = `selected: ${names}`
+    })
+  </script>
+</body>
+</html>

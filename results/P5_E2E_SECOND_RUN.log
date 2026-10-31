@@ -1,0 +1,148 @@
+
+> @dsh-cu/computer-use-d1@0.1.0 test:e2e
+> vitest run --config vitest.e2e.config.ts
+
+
+ RUN  v4.1.12 /Users/albaincompleta/DSH_CU/packages/dsh-computer-use-d1
+
+ ✓ tests/visual.e2e.ts (1 test) 6882ms
+   ✓ uses real D1 screenshot boxes for native input when AX is unavailable  6881ms
+ ✓ tests/d1.e2e.ts (1 test) 7284ms
+   ✓ completes native CSV import with real D1 and official CUA  7284ms
+
+ Test Files  2 passed (2)
+      Tests  2 passed (2)
+   Start at  03:39:47
+   Duration  7.52s (transform 94ms, setup 0ms, import 346ms, tests 14.17s, environment 0ms)
+
+
+> @dsh-cu/browser-use-d1@0.1.0 test:e2e
+> vitest run --config vitest.e2e.config.ts
+
+
+ RUN  v4.1.12 /Users/albaincompleta/DSH_CU/packages/dsh-browser-use-d1
+
+ ✓ tests/d1.e2e.ts (1 test) 2789ms
+   ✓ completes a real flight subgoal through DSH, Chrome, and the D1 sidecar  2788ms
+stdout | tests/comparison.e2e.ts > compares scripted official Playwright MCP with the D1 provider on the same local task
+{
+  "scope": "Same local flight task; warm decision service; no DeepSeek planner in either arm",
+  "official": {
+    "integration": "scripted-official-playwright-mcp",
+    "elapsedMs": 991.2308750000001,
+    "toolCalls": 11
+  },
+  "d1": {
+    "integration": "d1-enhanced-provider",
+    "elapsedMs": 2330.1675,
+    "result": {
+      "status": "success",
+      "reason": "independently_verified_after_action",
+      "decisionRequests": 4,
+      "route": "d1",
+      "modelForwardCalls": 4,
+      "textExtractionCalls": 0,
+      "actionsExecuted": 4,
+      "staleDecisions": 0,
+      "decisionLatencyMs": 1025.8249170001363,
+      "inputTokens": 4602,
+      "outputTokens": 0,
+      "trace": [
+        {
+          "snapshotId": "s1",
+          "operation": "TYPE_TEXT",
+          "target": "e1",
+          "targetName": "From",
+          "confidence": 0.7050793792202217,
+          "requestLatencyMs": 221.09754199846066,
+          "dispatched": true
+        },
+        {
+          "snapshotId": "s2",
+          "operation": "TYPE_TEXT",
+          "target": "e3",
+          "targetName": "To",
+          "confidence": 0.8684451814392499,
+          "requestLatencyMs": 237.19662499934202,
+          "dispatched": true
+        },
+        {
+          "snapshotId": "s3",
+          "operation": "TYPE_TEXT",
+          "target": "e6",
+          "targetName": "Departure date",
+          "confidence": 0.9542787691049449,
+          "requestLatencyMs": 281.0068750004575,
+          "dispatched": true
+        },
+        {
+          "snapshotId": "s4",
+          "operation": "CLICK",
+          "target": "e7",
+          "targetName": "Search flights",
+          "confidence": 0.7505305501304294,
+          "requestLatencyMs": 286.52387500187615,
+          "dispatched": true
+        }
+      ],
+      "fallbackReason": "skill_fallback"
+    }
+  },
+  "verifiedSkill": {
+    "integration": "verified-skill-provider",
+    "elapsedMs": 1044.5937090000002,
+    "result": {
+      "route": "skill",
+      "skillId": "fixture.flights",
+      "status": "success",
+      "reason": "independently_verified_after_action",
+      "decisionRequests": 0,
+      "modelForwardCalls": 0,
+      "textExtractionCalls": 0,
+      "actionsExecuted": 4,
+      "staleDecisions": 0,
+      "decisionLatencyMs": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "trace": [
+        {
+          "snapshotId": "s1",
+          "operation": "TYPE_TEXT",
+          "target": "e1",
+          "dispatched": true,
+          "requestLatencyMs": 0
+        },
+        {
+          "snapshotId": "s2",
+          "operation": "TYPE_TEXT",
+          "target": "e3",
+          "dispatched": true,
+          "requestLatencyMs": 0
+        },
+        {
+          "snapshotId": "s3",
+          "operation": "TYPE_TEXT",
+          "target": "e6",
+          "dispatched": true,
+          "requestLatencyMs": 0
+        },
+        {
+          "snapshotId": "s4",
+          "operation": "CLICK",
+          "target": "e7",
+          "dispatched": true,
+          "requestLatencyMs": 0
+        }
+      ]
+    }
+  }
+}
+
+ ✓ tests/comparison.e2e.ts (1 test) 4931ms
+   ✓ compares scripted official Playwright MCP with the D1 provider on the same local task  4931ms
+
+ Test Files  2 passed (2)
+      Tests  2 passed (2)
+   Start at  03:39:55
+   Duration  5.18s (transform 93ms, setup 0ms, import 407ms, tests 7.72s, environment 0ms)
+

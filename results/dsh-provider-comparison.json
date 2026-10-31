@@ -1,0 +1,112 @@
+{
+  "scope": "Same local flight task; warm decision service; no DeepSeek planner in either arm",
+  "official": {
+    "integration": "scripted-official-playwright-mcp",
+    "elapsedMs": 1054.025167,
+    "toolCalls": 11
+  },
+  "d1": {
+    "integration": "d1-enhanced-provider",
+    "elapsedMs": 2503.0047910000003,
+    "result": {
+      "status": "success",
+      "reason": "independently_verified_after_action",
+      "decisionRequests": 4,
+      "route": "d1",
+      "modelForwardCalls": 4,
+      "textExtractionCalls": 0,
+      "actionsExecuted": 4,
+      "staleDecisions": 0,
+      "decisionLatencyMs": 1026.1101250071079,
+      "inputTokens": 4602,
+      "outputTokens": 0,
+      "trace": [
+        {
+          "snapshotId": "s1",
+          "operation": "TYPE_TEXT",
+          "target": "e1",
+          "targetName": "From",
+          "confidence": 0.7197270403943854,
+          "requestLatencyMs": 221.8744580022758,
+          "dispatched": true
+        },
+        {
+          "snapshotId": "s2",
+          "operation": "TYPE_TEXT",
+          "target": "e3",
+          "targetName": "To",
+          "confidence": 0.866142868136067,
+          "requestLatencyMs": 238.14441700233147,
+          "dispatched": true
+        },
+        {
+          "snapshotId": "s3",
+          "operation": "TYPE_TEXT",
+          "target": "e6",
+          "targetName": "Departure date",
+          "confidence": 0.9551616556131458,
+          "requestLatencyMs": 278.6800829999265,
+          "dispatched": true
+        },
+        {
+          "snapshotId": "s4",
+          "operation": "CLICK",
+          "target": "e7",
+          "targetName": "Search flights",
+          "confidence": 0.745488964306281,
+          "requestLatencyMs": 287.4111670025741,
+          "dispatched": true
+        }
+      ],
+      "fallbackReason": "skill_fallback"
+    }
+  },
+  "verifiedSkill": {
+    "integration": "verified-skill-provider",
+    "elapsedMs": 1038.0368330000001,
+    "result": {
+      "route": "skill",
+      "skillId": "fixture.flights",
+      "status": "success",
+      "reason": "independently_verified_after_action",
+      "decisionRequests": 0,
+      "modelForwardCalls": 0,
+      "textExtractionCalls": 0,
+      "actionsExecuted": 4,
+      "staleDecisions": 0,
+      "decisionLatencyMs": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "trace": [
+        {
+          "snapshotId": "s1",
+          "operation": "TYPE_TEXT",
+          "target": "e1",
+          "dispatched": true,
+          "requestLatencyMs": 0
+        },
+        {
+          "snapshotId": "s2",
+          "operation": "TYPE_TEXT",
+          "target": "e3",
+          "dispatched": true,
+          "requestLatencyMs": 0
+        },
+        {
+          "snapshotId": "s3",
+          "operation": "TYPE_TEXT",
+          "target": "e6",
+          "dispatched": true,
+          "requestLatencyMs": 0
+        },
+        {
+          "snapshotId": "s4",
+          "operation": "CLICK",
+          "target": "e7",
+          "dispatched": true,
+          "requestLatencyMs": 0
+        }
+      ]
+    }
+  }
+}

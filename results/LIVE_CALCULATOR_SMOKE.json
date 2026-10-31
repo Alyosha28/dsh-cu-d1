@@ -1,0 +1,9 @@
+{
+  "application": "macOS Calculator",
+  "pid": 73936,
+  "model": "LiquidAI/d1-2B local",
+  "operation": "7 + 8 = 15",
+  "verifier": "exact AXStaticText display value",
+  "isError": true,
+  "result": "Error: The operation was aborted due to timeout"
+}

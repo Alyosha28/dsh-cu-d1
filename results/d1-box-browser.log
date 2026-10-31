@@ -1,0 +1,30 @@
+W1028 23:08:12.120000 39580 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 8889.61it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+[01/7] browser-flight-search: PASS iou=0.9591560383379988 error=0.6637268269260935 median=386.7ms
+[02/7] browser-flight-destination: PASS iou=0.9814286268489626 error=0.7200610325694892 median=387.0ms
+[03/7] browser-london-uk: PASS iou=0.9331482241518726 error=1.3913978189665712 median=386.4ms
+[04/7] browser-absent-payment: PASS iou=None error=None median=382.3ms
+[05/7] browser-nonstop-checkbox: PASS iou=0.8601600000000017 error=0.8867710474665893 median=386.2ms
+[06/7] browser-apply-filters: PASS iou=0.9528331614765934 error=0.6762101420786184 median=383.4ms
+[07/7] browser-retina-search: PASS iou=0.9621322204800806 error=1.477001422858147 median=643.0ms
+
+{
+  "cases": 7,
+  "correct": 7,
+  "present_cases": 6,
+  "present_center_inside": 6,
+  "present_iou_0_5": 6,
+  "negative_cases": 1,
+  "negative_correct": 1,
+  "median_iou": 0.9559945999072961,
+  "latency_ms": {
+    "mean": 633.3926229999634,
+    "median": 386.39845899888314,
+    "p95": 680.963332999454,
+    "min": 382.3077500001091,
+    "max": 4711.197374999756
+  }
+}
+Saved report to /Users/albaincompleta/DSH_CU/results/d1-box-browser.json

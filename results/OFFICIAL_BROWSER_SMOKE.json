@@ -1,0 +1,37 @@
+{
+  "provider": "@deepseek-ai/dsh-experimental-browser-use-playwright-mcp",
+  "upstream": "@playwright/mcp 0.0.80",
+  "toolNames": [
+    "mcp__playwright-mcp__browser_close",
+    "mcp__playwright-mcp__browser_resize",
+    "mcp__playwright-mcp__browser_console_messages",
+    "mcp__playwright-mcp__browser_handle_dialog",
+    "mcp__playwright-mcp__browser_evaluate",
+    "mcp__playwright-mcp__browser_file_upload",
+    "mcp__playwright-mcp__browser_drop",
+    "mcp__playwright-mcp__browser_find",
+    "mcp__playwright-mcp__browser_fill_form",
+    "mcp__playwright-mcp__browser_press_key",
+    "mcp__playwright-mcp__browser_type",
+    "mcp__playwright-mcp__browser_navigate",
+    "mcp__playwright-mcp__browser_navigate_back",
+    "mcp__playwright-mcp__browser_network_requests",
+    "mcp__playwright-mcp__browser_network_request",
+    "mcp__playwright-mcp__browser_run_code_unsafe",
+    "mcp__playwright-mcp__browser_take_screenshot",
+    "mcp__playwright-mcp__browser_snapshot",
+    "mcp__playwright-mcp__browser_click",
+    "mcp__playwright-mcp__browser_drag",
+    "mcp__playwright-mcp__browser_hover",
+    "mcp__playwright-mcp__browser_select_option",
+    "mcp__playwright-mcp__browser_tabs",
+    "mcp__playwright-mcp__browser_wait_for"
+  ],
+  "hasOfficialTabs": true,
+  "hasOfficialUpload": true,
+  "navigation": {
+    "source": "https://example.com/",
+    "targetText": "Learn more",
+    "independentlyObservedOrigin": "iana.org"
+  }
+}

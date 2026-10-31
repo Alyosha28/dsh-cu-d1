@@ -1,0 +1,227 @@
+
+> @dsh-cu/computer-use-d1@0.1.0 test:e2e
+> vitest run --config vitest.e2e.config.ts tests/real-app-matrix.e2e.ts
+
+
+ RUN  v4.1.12 /Users/albaincompleta/DSH_CU/packages/dsh-computer-use-d1
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+MATRIX_OBSERVATION TextEdit [{"id":"0","role":"AXWindow","name":"未命名2","identifier":"_NS:34","actions":[]},{"id":"1","role":"AXScrollArea","name":"_NS:8","identifier":"_NS:8","actions":[]},{"id":"2","role":"AXTextArea","name":"First Text View","identifier":"First Text View","actions":["type"]},{"id":"3","role":"AXRuler","name":"AXPress","actions":["click"]},{"id":"4","role":"AXRulerMarker","name":"0","actions":[]},{"id":"5","role":"AXRulerMarker","name":"20.31746031746032","actions":[]},{"id":"6","role":"AXRulerMarker","name":"0","actions":[]},{"id":"7","role":"AXRulerMarker","name":"1.26984126984127","actions":[]},{"id":"8","role":"AXRulerMarker","name":"2.53968253968254","actions":[]},{"id":"9","role":"AXRulerMarker","name":"3.809523809523809","actions":[]},{"id":"10","role":"AXRulerMarker","name":"5.079365079365079","actions":[]},{"id":"11","role":"AXRulerMarker","name":"6.349206349206349","actions":[]},{"id":"12","role":"AXRulerMarker","name":"7.619047619047619","actions":[]},{"id":"13","role":"AXRulerMarker","name":"8.888888888888889","actions":[]},{"id":"14","role":"AXRulerMarker","name":"10.15873015873016","actions":[]},{"id":"15","role":"AXRulerMarker","name":"11.42857142857143","actions":[]},{"id":"16","role":"AXRulerMarker","name":"12.6984126984127","actions":[]},{"id":"17","role":"AXRulerMarker","name":"13.96825396825397","actions":[]},{"id":"18","role":"AXRulerMarker","name":"15.23809523809524","actions":[]},{"id":"19","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"20","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"21","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"22","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"23","role":"AXColorWell","name":"rgb 1 1 1 1","actions":["click"]},{"id":"24","role":"AXColorWell","name":"rgb 0.117647 0.117647 0.117647 1","actions":["click"]},{"id":"25","role":"AXPopUpButton","name":"Helvetica","actions":["click"]},{"id":"26","role":"AXPopUpButton","name":"常规体","actions":["click"]},{"id":"27","role":"AXComboBox","name":"12","actions":["type"]},{"id":"28","role":"AXButton","name":"字体大小","actions":["click"]},{"id":"29","role":"AXCheckBox","name":"1","actions":["click"]},{"id":"30","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"31","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"32","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"33","role":"AXMenuButton","name":"列表样式","actions":["click"]},{"id":"34","role":"AXPopUpButton","name":"1.0","actions":["click"]},{"id":"35","role":"AXRadioButton","name":"未命名","actions":["click"]},{"id":"36","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"37","role":"AXRadioButton","name":"未命名2","actions":["click"]},{"id":"38","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"39","role":"AXButton","name":"新建标签页","actions":["click"]},{"id":"40","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"41","role":"AXButton","name":"此按钮也可以执行缩放窗口的操作","actions":["click"]},{"id":"42","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"43","role":"AXMenuBar","name":"_NS:833","identifier":"_NS:833","actions":[]},{"id":"44","role":"AXMenuBarItem","name":"Apple","actions":["click"]},{"id":"45","role":"AXMenuBarItem","name":"文本编辑","identifier":"_NS:838","actions":["click"]},{"id":"46","role":"AXMenuBarItem","name":"文件","identifier":"_NS:860","actions":["click"]},{"id":"47","role":"AXMenuBarItem","name":"编辑","identifier":"_NS:886","actions":["click"]},{"id":"48","role":"AXMenuBarItem","name":"格式","identifier":"_NS:945","actions":["click"]},{"id":"49","role":"AXMenuBarItem","name":"显示","identifier":"_NS:978","actions":["click"]},{"id":"50","role":"AXMenuBarItem","name":"窗口","identifier":"_NS:988","actions":["click"]},{"id":"51","role":"AXMenuBarItem","name":"帮助","identifier":"_NS:998","actions":["click"]}]
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+FONT_PANEL_WINDOWS [{"windowId":2355,"pid":15470,"appName":"文本编辑","title":"字体","bounds":{"x":0,"y":0,"width":0,"height":0},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2351,"pid":15470,"appName":"文本编辑","title":"未命名5","bounds":{"x":220,"y":73,"width":586,"height":488},"isOnScreen":true,"onCurrentSpace":true},{"windowId":2349,"pid":15470,"appName":"文本编辑","title":"未命名4","bounds":{"x":16,"y":224,"width":79,"height":109},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2344,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":0,"width":1512,"height":33},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2343,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":0,"width":1512,"height":33},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2342,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":0,"width":1512,"height":33},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2341,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":0,"width":1512,"height":33},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2340,"pid":15470,"appName":"文本编辑","title":"未命名2","bounds":{"x":16,"y":224,"width":79,"height":109},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2330,"pid":15470,"appName":"文本编辑","title":"未命名","bounds":{"x":16,"y":224,"width":79,"height":109},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2329,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":482,"width":500,"height":500},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2346,"pid":15470,"appName":"文本编辑","title":"未命名3","bounds":{"x":16,"y":224,"width":79,"height":109},"isOnScreen":false,"onCurrentSpace":null}]
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+FONT_PANEL_WINDOWS [{"windowId":2356,"pid":15470,"appName":"文本编辑","title":"未命名6","bounds":{"x":221,"y":73,"width":586,"height":488},"isOnScreen":true,"onCurrentSpace":true},{"windowId":2351,"pid":15470,"appName":"文本编辑","title":"未命名5","bounds":{"x":220,"y":73,"width":587,"height":488},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2349,"pid":15470,"appName":"文本编辑","title":"未命名4","bounds":{"x":16,"y":224,"width":79,"height":109},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2344,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":0,"width":1512,"height":33},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2343,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":0,"width":1512,"height":33},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2342,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":0,"width":1512,"height":33},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2341,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":0,"width":1512,"height":33},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2340,"pid":15470,"appName":"文本编辑","title":"未命名2","bounds":{"x":16,"y":224,"width":79,"height":109},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2330,"pid":15470,"appName":"文本编辑","title":"未命名","bounds":{"x":16,"y":224,"width":79,"height":109},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2329,"pid":15470,"appName":"文本编辑","title":"","bounds":{"x":0,"y":482,"width":500,"height":500},"isOnScreen":false,"onCurrentSpace":null},{"windowId":2346,"pid":15470,"appName":"文本编辑","title":"未命名3","bounds":{"x":16,"y":224,"width":79,"height":109},"isOnScreen":false,"onCurrentSpace":null}]
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+MATRIX_OBSERVATION Calculator [{"id":"0","role":"AXWindow","name":"计算器","identifier":"main","actions":[]},{"id":"1","role":"AXScrollArea","name":"编辑字段","identifier":"StandardInputView","actions":[]},{"id":"2","role":"AXButton","name":"删除","identifier":"Delete","actions":["click"]},{"id":"3","role":"AXButton","name":"全部清除","identifier":"AllClear","actions":["click"]},{"id":"4","role":"AXButton","name":"百分比","identifier":"Percent","actions":["click"]},{"id":"5","role":"AXButton","name":"除","identifier":"Divide","actions":["click"]},{"id":"6","role":"AXButton","name":"7","identifier":"Seven","actions":["click"]},{"id":"7","role":"AXButton","name":"8","identifier":"Eight","actions":["click"]},{"id":"8","role":"AXButton","name":"9","identifier":"Nine","actions":["click"]},{"id":"9","role":"AXButton","name":"乘","identifier":"Multiply","actions":["click"]},{"id":"10","role":"AXButton","name":"4","identifier":"Four","actions":["click"]},{"id":"11","role":"AXButton","name":"5","identifier":"Five","actions":["click"]},{"id":"12","role":"AXButton","name":"6","identifier":"Six","actions":["click"]},{"id":"13","role":"AXButton","name":"减","identifier":"Subtract","actions":["click"]},{"id":"14","role":"AXButton","name":"1","identifier":"One","actions":["click"]},{"id":"15","role":"AXButton","name":"2","identifier":"Two","actions":["click"]},{"id":"16","role":"AXButton","name":"3","identifier":"Three","actions":["click"]},{"id":"17","role":"AXButton","name":"加","identifier":"Add","actions":["click"]},{"id":"18","role":"AXButton","name":"更改正负号","identifier":"Negate","actions":["click"]},{"id":"19","role":"AXButton","name":"0","identifier":"Zero","actions":["click"]},{"id":"20","role":"AXButton","name":"点","identifier":"Decimal","actions":["click"]},{"id":"21","role":"AXButton","name":"等于","identifier":"Equals","actions":["click"]},{"id":"22","role":"AXToolbar","name":"AXShowMenu","actions":[]},{"id":"23","role":"AXButton","name":"显示边栏","actions":["click","increment","decrement"]},{"id":"24","role":"AXButton","name":"模式","identifier":"Mode: basic; unitConversion: false","actions":["click","increment","decrement"]},{"id":"25","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"26","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"27","role":"AXMenuBar","name":"AXCancel","actions":[]},{"id":"28","role":"AXMenuBarItem","name":"Apple","actions":["click"]},{"id":"29","role":"AXMenuBarItem","name":"计算器","actions":["click"]},{"id":"30","role":"AXMenuBarItem","name":"编辑","actions":["click"]},{"id":"31","role":"AXMenuBarItem","name":"显示","actions":["click"]},{"id":"32","role":"AXMenuBarItem","name":"窗口","actions":["click"]},{"id":"33","role":"AXMenuBarItem","name":"帮助","actions":["click"]}]
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+MATRIX_OBSERVATION Calculator [{"id":"0","role":"AXWindow","name":"计算器","identifier":"main","actions":[]},{"id":"1","role":"AXScrollArea","name":"编辑字段","identifier":"StandardInputView","actions":[]},{"id":"2","role":"AXButton","name":"删除","identifier":"Delete","actions":["click"]},{"id":"3","role":"AXButton","name":"清除","identifier":"Clear","actions":["click"]},{"id":"4","role":"AXButton","name":"百分比","identifier":"Percent","actions":["click"]},{"id":"5","role":"AXButton","name":"除","identifier":"Divide","actions":["click"]},{"id":"6","role":"AXButton","name":"7","identifier":"Seven","actions":["click"]},{"id":"7","role":"AXButton","name":"8","identifier":"Eight","actions":["click"]},{"id":"8","role":"AXButton","name":"9","identifier":"Nine","actions":["click"]},{"id":"9","role":"AXButton","name":"乘","identifier":"Multiply","actions":["click"]},{"id":"10","role":"AXButton","name":"4","identifier":"Four","actions":["click"]},{"id":"11","role":"AXButton","name":"5","identifier":"Five","actions":["click"]},{"id":"12","role":"AXButton","name":"6","identifier":"Six","actions":["click"]},{"id":"13","role":"AXButton","name":"减","identifier":"Subtract","actions":["click"]},{"id":"14","role":"AXButton","name":"1","identifier":"One","actions":["click"]},{"id":"15","role":"AXButton","name":"2","identifier":"Two","actions":["click"]},{"id":"16","role":"AXButton","name":"3","identifier":"Three","actions":["click"]},{"id":"17","role":"AXButton","name":"加","identifier":"Add","actions":["click"]},{"id":"18","role":"AXButton","name":"更改正负号","identifier":"Negate","actions":["click"]},{"id":"19","role":"AXButton","name":"0","identifier":"Zero","actions":["click"]},{"id":"20","role":"AXButton","name":"点","identifier":"Decimal","actions":["click"]},{"id":"21","role":"AXButton","name":"等于","identifier":"Equals","actions":["click"]},{"id":"22","role":"AXToolbar","name":"AXShowMenu","actions":[]},{"id":"23","role":"AXButton","name":"显示边栏","actions":["click","increment","decrement"]},{"id":"24","role":"AXButton","name":"模式","identifier":"Mode: basic; unitConversion: false","actions":["click","increment","decrement"]},{"id":"25","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"26","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"27","role":"AXMenuBar","name":"AXCancel","actions":[]},{"id":"28","role":"AXMenuBarItem","name":"Apple","actions":["click"]},{"id":"29","role":"AXMenuBarItem","name":"计算器","actions":["click"]},{"id":"30","role":"AXMenuBarItem","name":"编辑","actions":["click"]},{"id":"31","role":"AXMenuBarItem","name":"显示","actions":["click"]},{"id":"32","role":"AXMenuBarItem","name":"窗口","actions":["click"]},{"id":"33","role":"AXMenuBarItem","name":"帮助","actions":["click"]}]
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+MATRIX_OBSERVATION Calculator [{"id":"0","role":"AXWindow","name":"计算器","identifier":"main","actions":[]},{"id":"1","role":"AXScrollArea","name":"编辑字段","identifier":"StandardInputView","actions":[]},{"id":"2","role":"AXButton","name":"删除","identifier":"Delete","actions":["click"]},{"id":"3","role":"AXButton","name":"清除","identifier":"Clear","actions":["click"]},{"id":"4","role":"AXButton","name":"百分比","identifier":"Percent","actions":["click"]},{"id":"5","role":"AXButton","name":"除","identifier":"Divide","actions":["click"]},{"id":"6","role":"AXButton","name":"7","identifier":"Seven","actions":["click"]},{"id":"7","role":"AXButton","name":"8","identifier":"Eight","actions":["click"]},{"id":"8","role":"AXButton","name":"9","identifier":"Nine","actions":["click"]},{"id":"9","role":"AXButton","name":"乘","identifier":"Multiply","actions":["click"]},{"id":"10","role":"AXButton","name":"4","identifier":"Four","actions":["click"]},{"id":"11","role":"AXButton","name":"5","identifier":"Five","actions":["click"]},{"id":"12","role":"AXButton","name":"6","identifier":"Six","actions":["click"]},{"id":"13","role":"AXButton","name":"减","identifier":"Subtract","actions":["click"]},{"id":"14","role":"AXButton","name":"1","identifier":"One","actions":["click"]},{"id":"15","role":"AXButton","name":"2","identifier":"Two","actions":["click"]},{"id":"16","role":"AXButton","name":"3","identifier":"Three","actions":["click"]},{"id":"17","role":"AXButton","name":"加","identifier":"Add","actions":["click"]},{"id":"18","role":"AXButton","name":"更改正负号","identifier":"Negate","actions":["click"]},{"id":"19","role":"AXButton","name":"0","identifier":"Zero","actions":["click"]},{"id":"20","role":"AXButton","name":"点","identifier":"Decimal","actions":["click"]},{"id":"21","role":"AXButton","name":"等于","identifier":"Equals","actions":["click"]},{"id":"22","role":"AXToolbar","name":"AXShowMenu","actions":[]},{"id":"23","role":"AXButton","name":"显示边栏","actions":["click","increment","decrement"]},{"id":"24","role":"AXButton","name":"模式","identifier":"Mode: basic; unitConversion: false","actions":["click","increment","decrement"]},{"id":"25","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"26","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"27","role":"AXMenuBar","name":"AXCancel","actions":[]},{"id":"28","role":"AXMenuBarItem","name":"Apple","actions":["click"]},{"id":"29","role":"AXMenuBarItem","name":"计算器","actions":["click"]},{"id":"30","role":"AXMenuBarItem","name":"编辑","actions":["click"]},{"id":"31","role":"AXMenuBarItem","name":"显示","actions":["click"]},{"id":"32","role":"AXMenuBarItem","name":"窗口","actions":["click"]},{"id":"33","role":"AXMenuBarItem","name":"帮助","actions":["click"]}]
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+MATRIX_OBSERVATION Calculator [{"id":"0","role":"AXWindow","name":"计算器","identifier":"main","actions":[]},{"id":"1","role":"AXScrollArea","name":"编辑字段","identifier":"StandardInputView","actions":[]},{"id":"2","role":"AXButton","name":"删除","identifier":"Delete","actions":["click"]},{"id":"3","role":"AXButton","name":"清除","identifier":"Clear","actions":["click"]},{"id":"4","role":"AXButton","name":"百分比","identifier":"Percent","actions":["click"]},{"id":"5","role":"AXButton","name":"除","identifier":"Divide","actions":["click"]},{"id":"6","role":"AXButton","name":"7","identifier":"Seven","actions":["click"]},{"id":"7","role":"AXButton","name":"8","identifier":"Eight","actions":["click"]},{"id":"8","role":"AXButton","name":"9","identifier":"Nine","actions":["click"]},{"id":"9","role":"AXButton","name":"乘","identifier":"Multiply","actions":["click"]},{"id":"10","role":"AXButton","name":"4","identifier":"Four","actions":["click"]},{"id":"11","role":"AXButton","name":"5","identifier":"Five","actions":["click"]},{"id":"12","role":"AXButton","name":"6","identifier":"Six","actions":["click"]},{"id":"13","role":"AXButton","name":"减","identifier":"Subtract","actions":["click"]},{"id":"14","role":"AXButton","name":"1","identifier":"One","actions":["click"]},{"id":"15","role":"AXButton","name":"2","identifier":"Two","actions":["click"]},{"id":"16","role":"AXButton","name":"3","identifier":"Three","actions":["click"]},{"id":"17","role":"AXButton","name":"加","identifier":"Add","actions":["click"]},{"id":"18","role":"AXButton","name":"更改正负号","identifier":"Negate","actions":["click"]},{"id":"19","role":"AXButton","name":"0","identifier":"Zero","actions":["click"]},{"id":"20","role":"AXButton","name":"点","identifier":"Decimal","actions":["click"]},{"id":"21","role":"AXButton","name":"等于","identifier":"Equals","actions":["click"]},{"id":"22","role":"AXToolbar","name":"AXShowMenu","actions":[]},{"id":"23","role":"AXButton","name":"显示边栏","actions":["click","increment","decrement"]},{"id":"24","role":"AXButton","name":"模式","identifier":"Mode: basic; unitConversion: false","actions":["click","increment","decrement"]},{"id":"25","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"26","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"27","role":"AXMenuBar","name":"AXCancel","actions":[]},{"id":"28","role":"AXMenuBarItem","name":"Apple","actions":["click"]},{"id":"29","role":"AXMenuBarItem","name":"计算器","actions":["click"]},{"id":"30","role":"AXMenuBarItem","name":"编辑","actions":["click"]},{"id":"31","role":"AXMenuBarItem","name":"显示","actions":["click"]},{"id":"32","role":"AXMenuBarItem","name":"窗口","actions":["click"]},{"id":"33","role":"AXMenuBarItem","name":"帮助","actions":["click"]}]
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+CALCULATOR_RESULT_TREE AX scope=window offsets=UTF-16 bounds=global-points
+- [0] AXWindow subrole=AXStandardWindow "计算器" id="main" actions=["AXRaise"] bounds=[306.0,451.0,230.0,408.0]
+  - AXSplitGroup id="main, SidebarNavigationSplitView"
+    - AXGroup focused id="CalculatorKeypadView"
+      - [1] AXScrollArea description="上个表达式" id="StandardResultView" actions=["AXScrollLeftByPage","AXScrollRightByPage","AXScrollUpByPage","AXScrollDownByPage","Name:拷贝\nTarget:0x0\nSelector:(null)"] bounds=[316.0,508.5,210.0,29.5]
+        - AXStaticText selectionWritable=false = "‎7‎+‎8"
+      - [2] AXScrollArea description="编辑字段" id="StandardInputView" actions=["AXScrollLeftByPage","AXScrollRightByPage","AXScrollUpByPage","AXScrollDownByPage","Name:拷贝\nTarget:0x0\nSelector:(null)"] bounds=[316.0,537.0,210.0,42.0]
+        - AXStaticText selectionWritable=false = "‎15"
+      - [3] AXButton description="删除" help="删除输入的上个数字或操作（长按全部删除）" id="Delete" actions=["AXPress"] bounds=[316.0,584.0,48.0,48.0]
+      - [4] AXButton description="全部清除" id="AllClear" actions=["AXPress"] bounds=[370.0,584.0,48.0,48.0]
+      - [5] AXButton description="百分比" id="Percent" actions=["AXPress"] bounds=[424.0,584.0,48.0,48.0]
+      - [6] AXButton description="除" id="Divide" actions=["AXPress"] bounds=[478.0,584.0,48.0,48.0]
+      - [7] AXButton description="7" id="Seven" actions=["AXPress"] bounds=[316.0,638.0,48.0,48.0]
+      - [8] AXButton description="8" id="Eight" actions=["AXPress"] bounds=[370.0,638.0,48.0,48.0]
+      - [9] AXButton description="9" id="Nine" actions=["AXPress"] bounds=[424.0,638.0,48.0,48.0]
+      - [10] AXButton description="乘" id="Multiply" actions=["AXPress"] bounds=[478.0,638.0,48.0,48.0]
+      - [11] AXButton description="4" id="Four" actions=["AXPress"] bounds=[316.0,692.0,48.0,48.0]
+      - [12] AXButton description="5" id="Five" actions=["AXPress"] bounds=[370.0,692.0,48.0,48.0]
+      - [13] AXButton description="6" id="Six" actions=["AXPress"] bounds=[424.0,692.0,48.0,48.0]
+      - [14] AXButton description="减" id="Subtract" actions=["AXPress"] bounds=[478.0,692.0,48.0,48.0]
+      - [15] AXButton description="1" id="One" actions=["AXPress"] bounds=[316.0,746.0,48.0,48.0]
+      - [16] AXButton description="2" id="Two" actions=["AXPress"] bounds=[370.0,746.0,48.0,48.0]
+      - [17] AXButton description="3" id="Three" actions=["AXPress"] bounds=[424.0,746.0,48.0,48.0]
+      - [18] AXButton description="加" id="Add" actions=["AXPress"] bounds=[478.0,746.0,48.0,48.0]
+      - [19] AXButton description="更改正负号" help="更改数值符号" id="Negate" actions=["AXPress"] bounds=[316.0,800.0,48.0,48.0]
+      - [20] AXButton description="0" id="Zero" actions=["AXPress"] bounds=[370.0,800.0,48.0,48.0]
+      - [21] AXButton description="点" id="Decimal" actions=["AXPress"] bounds=[424.0,800.0,48.0,48.0]
+      - [22] AXButton description="等于" id="Equals" actions=["AXPress"] bounds=[478.0,800.0,48.0,48.0]
+  - [23] AXToolbar actions=["AXShowMenu"] bounds=[306.0,451.0,230.0,52.0]
+    - [24] AXButton selected=false description="显示边栏" actions=["AXIncrement","AXDecrement","AXDelete","AXShowMenu","AXCancel","AXPress"] bounds=[406.0,451.0,48.0,52.0]
+    - [25] AXButton selected=false description="模式" id="Mode: basic; unitConversion: false" actions=["AXIncrement","AXDecrement","AXDelete","AXShowMenu","AXCancel","AXPress","Name:移到上一项\nTarget:0x0\nSelector:(null)","Name:从工具栏移除\nTarget:0x0\nSelector:(null)"] bounds=[488.0,451.0,44.0,52.0]
+  - [26] AXButton subrole=AXCloseButton actions=["AXPress"] bounds=[324.0,469.0,16.0,16.0]
+  - AXButton subrole=AXZoomButton disabled actions=["AXPress","AXShowMenu"]
+  - [27] AXButton subrole=AXMinimizeButton actions=["AXPress"] bounds=[347.0,469.0,16.0,16.0]
+- [28] AXMenuBar expanded=false selected=false actions=["AXCancel"] bounds=[0.0,0.0,1512.0,33.0]
+  - [29] AXMenuBarItem expanded=false selected=false "Apple" actions=["AXCancel","AXPress","AXPick"] bounds=[10.0,0.0,34.0,33.0]
+  - [30] AXMenuBarItem expanded=false selected=false "计算器" actions=["AXCancel","AXPress","AXPick"] bounds=[44.0,0.0,59.0,33.0]
+  - [31] AXMenuBarItem expanded=false selected=false "编辑" actions=["AXCancel","AXPress","AXPick"] bounds=[103.0,0.0,46.0,33.0]
+  - [32] AXMenuBarItem expanded=false selected=false "显示" actions=["AXCancel","AXPress","AXPick"] bounds=[149.0,0.0,46.0,33.0]
+  - [33] AXMenuBarItem expanded=false selected=false "窗口" actions=["AXCancel","AXPress","AXPick"] bounds=[195.0,0.0,46.0,33.0]
+  - [34] AXMenuBarItem expanded=false selected=false "帮助" actions=["AXCancel","AXPress","AXPick"] bounds=[241.0,0.0,46.0,33.0]
+Menu contents omitted; request includeMenus=true to expand.
+
+stderr | tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+MATRIX_OBSERVATION Delayed TextEdit [{"id":"0","role":"AXWindow","name":"未命名7","identifier":"_NS:34","actions":[]},{"id":"1","role":"AXScrollArea","name":"_NS:8","identifier":"_NS:8","actions":[]},{"id":"2","role":"AXTextArea","name":"First Text View","identifier":"First Text View","actions":["type"]},{"id":"3","role":"AXRuler","name":"AXPress","actions":["click"]},{"id":"4","role":"AXRulerMarker","name":"0","actions":[]},{"id":"5","role":"AXRulerMarker","name":"20.31746031746032","actions":[]},{"id":"6","role":"AXRulerMarker","name":"0","actions":[]},{"id":"7","role":"AXRulerMarker","name":"1.26984126984127","actions":[]},{"id":"8","role":"AXRulerMarker","name":"2.53968253968254","actions":[]},{"id":"9","role":"AXRulerMarker","name":"3.809523809523809","actions":[]},{"id":"10","role":"AXRulerMarker","name":"5.079365079365079","actions":[]},{"id":"11","role":"AXRulerMarker","name":"6.349206349206349","actions":[]},{"id":"12","role":"AXRulerMarker","name":"7.619047619047619","actions":[]},{"id":"13","role":"AXRulerMarker","name":"8.888888888888889","actions":[]},{"id":"14","role":"AXRulerMarker","name":"10.15873015873016","actions":[]},{"id":"15","role":"AXRulerMarker","name":"11.42857142857143","actions":[]},{"id":"16","role":"AXRulerMarker","name":"12.6984126984127","actions":[]},{"id":"17","role":"AXRulerMarker","name":"13.96825396825397","actions":[]},{"id":"18","role":"AXRulerMarker","name":"15.23809523809524","actions":[]},{"id":"19","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"20","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"21","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"22","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"23","role":"AXColorWell","name":"rgb 1 1 1 1","actions":["click"]},{"id":"24","role":"AXColorWell","name":"rgb 0.117647 0.117647 0.117647 1","actions":["click"]},{"id":"25","role":"AXPopUpButton","name":"Helvetica","actions":["click"]},{"id":"26","role":"AXPopUpButton","name":"常规体","actions":["click"]},{"id":"27","role":"AXComboBox","name":"12","actions":["type"]},{"id":"28","role":"AXButton","name":"字体大小","actions":["click"]},{"id":"29","role":"AXCheckBox","name":"1","actions":["click"]},{"id":"30","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"31","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"32","role":"AXCheckBox","name":"0","actions":["click"]},{"id":"33","role":"AXMenuButton","name":"列表样式","actions":["click"]},{"id":"34","role":"AXPopUpButton","name":"1.0","actions":["click"]},{"id":"35","role":"AXRadioButton","name":"未命名","actions":["click"]},{"id":"36","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"37","role":"AXRadioButton","name":"未命名2","actions":["click"]},{"id":"38","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"39","role":"AXRadioButton","name":"未命名3","actions":["click"]},{"id":"40","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"41","role":"AXRadioButton","name":"未命名4","actions":["click"]},{"id":"42","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"43","role":"AXRadioButton","name":"未命名5","actions":["click"]},{"id":"44","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"45","role":"AXRadioButton","name":"未命名6","actions":["click"]},{"id":"46","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"47","role":"AXRadioButton","name":"未命名7","actions":["click"]},{"id":"48","role":"AXButton","name":"关闭标签页","identifier":"_closeButton","actions":["click"]},{"id":"49","role":"AXButton","name":"新建标签页","actions":["click"]},{"id":"50","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"51","role":"AXButton","name":"此按钮也可以执行缩放窗口的操作","actions":["click"]},{"id":"52","role":"AXButton","name":"AXPress","actions":["click"]},{"id":"53","role":"AXMenuBar","name":"_NS:833","identifier":"_NS:833","actions":[]},{"id":"54","role":"AXMenuBarItem","name":"Apple","actions":["click"]},{"id":"55","role":"AXMenuBarItem","name":"文本编辑","identifier":"_NS:838","actions":["click"]},{"id":"56","role":"AXMenuBarItem","name":"文件","identifier":"_NS:860","actions":["click"]},{"id":"57","role":"AXMenuBarItem","name":"编辑","identifier":"_NS:886","actions":["click"]},{"id":"58","role":"AXMenuBarItem","name":"格式","identifier":"_NS:945","actions":["click"]},{"id":"59","role":"AXMenuBarItem","name":"显示","identifier":"_NS:978","actions":["click"]},{"id":"60","role":"AXMenuBarItem","name":"窗口","identifier":"_NS:988","actions":["click"]},{"id":"61","role":"AXMenuBarItem","name":"帮助","identifier":"_NS:998","actions":["click"]}]
+
+ ❯ tests/real-app-matrix.e2e.ts (1 test | 1 failed) 11654ms
+   × accepts the real ordinary application scenario matrix 11653ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/real-app-matrix.e2e.ts > accepts the real ordinary application scenario matrix
+AssertionError: [
+  {
+    "id": "textedit.dynamic_ax",
+    "application": "TextEdit",
+    "category": "dynamic",
+    "status": "passed",
+    "elapsedMs": 545,
+    "detail": {
+      "independentlyReadBack": true,
+      "candidateCaptured": true
+    }
+  },
+  {
+    "id": "textedit.skill_lifecycle",
+    "application": "TextEdit",
+    "category": "skill",
+    "status": "passed",
+    "elapsedMs": 929,
+    "detail": {
+      "independentRerun": true,
+      "approved": true,
+      "zeroModelReplay": true
+    }
+  },
+  {
+    "id": "textedit.multiwindow_guard",
+    "application": "TextEdit",
+    "category": "windowing",
+    "status": "failed",
+    "elapsedMs": 1033,
+    "error": "expected 1 to be greater than or equal to 2"
+  },
+  {
+    "id": "textedit.occluded_window",
+    "application": "TextEdit",
+    "category": "occlusion",
+    "status": "failed",
+    "elapsedMs": 1006,
+    "error": "Cannot read properties of undefined (reading 'bounds')"
+  },
+  {
+    "id": "calculator.stale_recovery",
+    "application": "Calculator",
+    "category": "stale",
+    "status": "passed",
+    "elapsedMs": 376,
+    "detail": {
+      "staleInputRejected": true,
+      "freshObservationRecovered": true
+    }
+  },
+  {
+    "id": "calculator.dynamic_ax",
+    "application": "Calculator",
+    "category": "dynamic",
+    "status": "passed",
+    "elapsedMs": 2158,
+    "detail": {
+      "independentlyReadBack": true,
+      "candidateCaptured": true
+    }
+  },
+  {
+    "id": "calculator.skill_lifecycle",
+    "application": "Calculator",
+    "category": "skill",
+    "status": "passed",
+    "elapsedMs": 4034,
+    "detail": {
+      "independentRerun": true,
+      "approved": true,
+      "zeroModelReplay": true
+    }
+  },
+  {
+    "id": "privacy.persisted_stores",
+    "application": "Shared",
+    "category": "privacy",
+    "status": "passed",
+    "elapsedMs": 5,
+    "detail": {
+      "allowlistedAudit": true,
+      "redactedSkills": true,
+      "privateFileModes": true,
+      "retentionDays": 7
+    }
+  },
+  {
+    "id": "textedit.stop_active_run",
+    "application": "TextEdit",
+    "category": "control",
+    "status": "passed",
+    "elapsedMs": 460,
+    "detail": {
+      "activeRunStopped": true,
+      "inputWithheld": true
+    }
+  }
+]: expected [ { …(6) }, { …(6) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "application": "TextEdit",
++     "category": "windowing",
++     "elapsedMs": 1033,
++     "error": "expected 1 to be greater than or equal to 2",
++     "id": "textedit.multiwindow_guard",
++     "status": "failed",
++   },
++   {
++     "application": "TextEdit",
++     "category": "occlusion",
++     "elapsedMs": 1006,
++     "error": "Cannot read properties of undefined (reading 'bounds')",
++     "id": "textedit.occluded_window",
++     "status": "failed",
++   },
++ ]
+
+ ❯ tests/real-app-matrix.e2e.ts:448:90
+    446|     await close(decisions.server)
+    447|   }
+    448|   expect(cases.filter(item => item.status === 'failed'), JSON.stringif…
+       |                                                                                          ^
+    449|   expect(cases.length).toBe(9)
+    450| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  00:58:06
+   Duration  11.93s (transform 75ms, setup 0ms, import 204ms, tests 11.65s, environment 0ms)
+
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 1
+npm error path /Users/albaincompleta/DSH_CU/packages/dsh-computer-use-d1
+npm error workspace @dsh-cu/computer-use-d1@0.1.0
+npm error location /Users/albaincompleta/DSH_CU/packages/dsh-computer-use-d1
+npm error command failed
+npm error command sh -c vitest run --config vitest.e2e.config.ts tests/real-app-matrix.e2e.ts

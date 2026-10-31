@@ -1,0 +1,176 @@
+<title>CU 指针设计</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* Quiet instrument panel: three real cursors over representative action surfaces. */
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --fg: #18202b;
+    --muted: #626c7b;
+    --line: #dce1e8;
+    --accent: #315fd0;
+    --stage: #eef1f5;
+    --stage-fg: #17202c;
+    --stage-button: #ffffff;
+    --display: "Avenir Next", "PingFang SC", system-ui, sans-serif;
+    --body: "SF Pro Text", "PingFang SC", system-ui, sans-serif;
+    --utility: "SF Mono", "JetBrains Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #11151b;
+      --surface: #191e26;
+      --fg: #edf1f6;
+      --muted: #a3adbb;
+      --line: #303845;
+      --accent: #9db5f4;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #11151b;
+    --surface: #191e26;
+    --fg: #edf1f6;
+    --muted: #a3adbb;
+    --line: #303845;
+    --accent: #9db5f4;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--body);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  main { max-width: 1120px; margin: 0 auto; padding-block: 40px 48px; }
+  header { display: grid; gap: 12px; max-width: 720px; }
+  h1 { margin: 0; font: 650 32px/1.2 var(--display); letter-spacing: -.025em; text-wrap: balance; }
+  header p { margin: 0; color: var(--muted); line-height: 1.75; }
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 26px; }
+  .toolbar span { color: var(--muted); font: 12px var(--utility); margin-right: 2px; }
+  button { font: 550 14px var(--body); }
+  .tool {
+    border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+    border-radius: 8px; padding: 8px 12px; cursor: pointer;
+  }
+  .tool[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  .tool:focus-visible, .action:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent); outline-offset: 3px; }
+  .note { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
+  .candidate { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .candidate header { padding: 18px 18px 14px; gap: 5px; }
+  .candidate h2 { margin: 0; font: 620 18px/1.35 var(--display); }
+  .candidate h2 span { color: var(--muted); font: 12px var(--utility); margin-right: 7px; }
+  .candidate p { margin: 0; font-size: 13px; line-height: 1.6; }
+  .stage {
+    position: relative; height: 238px; margin: 0 12px; border-radius: 11px;
+    display: grid; place-items: center; overflow: hidden; background: var(--stage); color: var(--stage-fg);
+    transition: background 160ms ease;
+  }
+  main[data-stage="dark"] .stage { --stage: #111a28; --stage-fg: #edf3fb; --stage-button: #202b3b; }
+  .action {
+    position: relative; z-index: 1; min-width: 124px; padding: 12px 18px; border-radius: 10px;
+    border: 1px solid color-mix(in srgb, var(--stage-fg) 18%, transparent);
+    background: var(--stage-button); color: var(--stage-fg); cursor: pointer;
+    box-shadow: 0 4px 14px rgba(15, 24, 38, .07);
+  }
+  .cursor-wrap {
+    position: absolute; z-index: 3; left: 50%; top: 50%; width: 44px; height: 44px;
+    pointer-events: none; transform-origin: 6px 5px;
+    transform: translate(var(--dx, 8px), var(--dy, 10px)) scale(var(--scale, 1));
+    filter: drop-shadow(0 2px 2px rgba(2, 12, 24, .24));
+    transition: transform 140ms cubic-bezier(.16,1,.3,1);
+  }
+  .cursor-wrap svg { display: block; overflow: visible; }
+  .ripple {
+    position: absolute; z-index: 2; left: calc(50% + 6px); top: calc(50% + 5px); width: 30px; height: 30px;
+    margin: -15px; border: 1.6px solid #315fd0; border-radius: 50%; pointer-events: none;
+    animation: pulse .45s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  main[data-stage="dark"] .ripple { border-color: #81a5ff; }
+  @keyframes pulse { from { opacity: .85; transform: scale(.55); } to { opacity: 0; transform: scale(1.45); } }
+  .feedback { height: 34px; display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+  @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } .stage { height: 210px; } }
+  @media (max-width: 480px) {
+    main { padding-block: 26px 34px; }
+    h1 { font-size: 27px; }
+    .candidate header { padding: 16px 16px 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cursor-wrap, .stage { transition: none; }
+    .ripple { animation: none; opacity: .5; }
+  }
+</style>
+<main data-stage="light">
+  <header>
+    <h1>三种指针语言</h1>
+    <p>每个候选都使用相同的精确热点。切换背景与缩放比例，再点击场景中的“验证结果”，检查辨识度、遮挡和点击反馈。</p>
+  </header>
+  <div class="toolbar" aria-label="预览设置">
+    <span>背景</span>
+    <button class="tool" id="light" aria-pressed="true">浅色</button>
+    <button class="tool" id="dark" aria-pressed="false">深色</button>
+    <span>缩放</span>
+    <button class="tool scale" data-scale="1" aria-pressed="true">1×</button>
+    <button class="tool scale" data-scale="2" aria-pressed="false">2×</button>
+    <button class="tool scale" data-scale="4" aria-pressed="false">4×</button>
+  </div>
+  <p class="note">4× 用于检查轮廓，实际运行尺寸为 44 × 44 像素。</p>
+  <section class="grid" aria-label="指针候选">
+    <article class="candidate">
+      <header><h2><span>A</span>静白</h2><p>白色箭体、深灰细边、钴蓝热点。视觉最轻，适合长时间后台操作。</p></header>
+      <div class="stage"><button class="action">验证结果</button><div class="cursor-wrap" data-kind="a"></div></div>
+      <div class="feedback" aria-live="polite">点击目标查看反馈</div>
+    </article>
+    <article class="candidate">
+      <header><h2><span>B</span>墨影</h2><p>石墨箭体、奶白细边、青绿热点。轮廓更沉稳，在复杂页面上更醒目。</p></header>
+      <div class="stage"><button class="action">验证结果</button><div class="cursor-wrap" data-kind="b"></div></div>
+      <div class="feedback" aria-live="polite">点击目标查看反馈</div>
+    </article>
+    <article class="candidate">
+      <header><h2><span>C</span>航点</h2><p>钴蓝箭体、白色内线和分离式热点。强调自动控制身份，形态更具识别度。</p></header>
+      <div class="stage"><button class="action">验证结果</button><div class="cursor-wrap" data-kind="c"></div></div>
+      <div class="feedback" aria-live="polite">点击目标查看反馈</div>
+    </article>
+  </section>
+</main>
+<script>
+  const shapes = {
+    a: '<path d="M6 5 L32 27 L22 28 L16 39 Z" fill="#fff" stroke="#111827" stroke-width="1.7" stroke-linejoin="round"/><circle cx="6" cy="5" r="3.7" fill="#fff" stroke="#111827" stroke-width=".8"/><circle cx="6" cy="5" r="2" fill="#315fd0"/>',
+    b: '<path d="M6 5 L32 27 L22 28 L16 39 Z" fill="#202a38" stroke="#f7f5ee" stroke-width="1.45" stroke-linejoin="round"/><path d="M9 10 L27 25" fill="none" stroke="#8d99a9" stroke-width=".8"/><circle cx="6" cy="5" r="3.8" fill="#202a38" stroke="#f7f5ee" stroke-width=".8"/><circle cx="6" cy="5" r="2.1" fill="#36c9b4"/>',
+    c: '<path d="M6 5 L32 27 L22 28 L16 39 Z" fill="#315fd0" stroke="#173b82" stroke-width="1.35" stroke-linejoin="round"/><path d="M10 11 L27 25 L21 26" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="5" r="7" fill="#fff" fill-opacity=".88" stroke="#315fd0" stroke-width="1.2"/><circle cx="6" cy="5" r="2.2" fill="#315fd0"/>'
+  };
+  document.querySelectorAll('.cursor-wrap').forEach(el => {
+    el.innerHTML = '<svg viewBox="0 0 44 44" width="44" height="44" aria-hidden="true">' + shapes[el.dataset.kind] + '</svg>';
+  });
+  const main = document.querySelector('main');
+  const themeButtons = [document.getElementById('light'), document.getElementById('dark')];
+  themeButtons.forEach(button => button.addEventListener('click', () => {
+    main.dataset.stage = button.id;
+    themeButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  }));
+  document.querySelectorAll('.scale').forEach(button => button.addEventListener('click', () => {
+    document.querySelectorAll('.scale').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    document.querySelectorAll('.cursor-wrap').forEach(cursor => {
+      cursor.style.setProperty('--scale', button.dataset.scale);
+      const dx = button.dataset.scale === '1' ? 8 : button.dataset.scale === '2' ? 12 : 20;
+      const dy = button.dataset.scale === '1' ? 10 : button.dataset.scale === '2' ? 14 : 22;
+      cursor.style.setProperty('--dx', dx + 'px');
+      cursor.style.setProperty('--dy', dy + 'px');
+    });
+  }));
+  document.querySelectorAll('.action').forEach(button => button.addEventListener('click', () => {
+    const stage = button.closest('.stage');
+    stage.querySelectorAll('.ripple').forEach(old => old.remove());
+    const ring = document.createElement('span');
+    ring.className = 'ripple';
+    stage.appendChild(ring);
+    setTimeout(() => ring.remove(), 500);
+    const feedback = button.closest('.candidate').querySelector('.feedback');
+    feedback.textContent = '热点已确认，动作已验证';
+    clearTimeout(button.feedbackTimer);
+    button.feedbackTimer = setTimeout(() => { feedback.textContent = '点击目标查看反馈'; }, 1500);
+  }));
+</script>

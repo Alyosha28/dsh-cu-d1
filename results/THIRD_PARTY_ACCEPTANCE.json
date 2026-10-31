@@ -1,0 +1,210 @@
+{
+  "createdAt": "2026-10-29T21:08:30.988317+00:00",
+  "decisionSource": "deterministic decision fixture through the D1 provider contract",
+  "rounds": [
+    {
+      "round": 1,
+      "runId": "1-1793307430933",
+      "decisionSource": "deterministic decision fixture through the D1 provider contract",
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "blocked": 0,
+      "elapsedMs": 23004
+    },
+    {
+      "round": 2,
+      "runId": "2-1793307455819",
+      "decisionSource": "deterministic decision fixture through the D1 provider contract",
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "blocked": 0,
+      "elapsedMs": 23088
+    },
+    {
+      "round": 3,
+      "runId": "3-1793307480806",
+      "decisionSource": "deterministic decision fixture through the D1 provider contract",
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "blocked": 0,
+      "elapsedMs": 23171
+    }
+  ],
+  "cases": {
+    "chrome.editor_ax": {
+      "application": "Google Chrome",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "timing": {
+        "minMs": 5728,
+        "medianMs": 5733,
+        "meanMs": 5739,
+        "p95Ms": 5756,
+        "varianceMs2": 148.66666666666666
+      },
+      "readback": [
+        "ax"
+      ],
+      "explicitActivationCalls": [
+        0,
+        0,
+        0
+      ],
+      "foregroundPreserved": [
+        true,
+        true,
+        true
+      ]
+    },
+    "libreoffice.writer_ax": {
+      "application": "LibreOffice",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "timing": {
+        "minMs": 3141,
+        "medianMs": 3157,
+        "meanMs": 3172.6666666666665,
+        "p95Ms": 3220,
+        "varianceMs2": 1162.888888888889
+      },
+      "readback": [
+        "ax"
+      ],
+      "explicitActivationCalls": [
+        0,
+        0,
+        0
+      ],
+      "foregroundPreserved": [
+        true,
+        true,
+        true
+      ]
+    },
+    "privacy.persisted_stores": {
+      "application": "Shared",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "timing": {
+        "minMs": 4,
+        "medianMs": 4,
+        "meanMs": 4,
+        "p95Ms": 4,
+        "varianceMs2": 0
+      },
+      "readback": [
+        "operational"
+      ],
+      "explicitActivationCalls": [
+        0,
+        0,
+        0
+      ],
+      "foregroundPreserved": [
+        false,
+        false,
+        false
+      ]
+    },
+    "vscode.editor_visual": {
+      "application": "Visual Studio Code",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "timing": {
+        "minMs": 7368,
+        "medianMs": 7434,
+        "meanMs": 7423,
+        "p95Ms": 7467,
+        "varianceMs2": 1694
+      },
+      "readback": [
+        "screenshot"
+      ],
+      "explicitActivationCalls": [
+        0,
+        0,
+        0
+      ],
+      "foregroundPreserved": [
+        true,
+        true,
+        true
+      ]
+    },
+    "wps.writer_visual": {
+      "application": "wpsoffice",
+      "statuses": [
+        "passed",
+        "passed",
+        "passed"
+      ],
+      "passed": 3,
+      "failed": 0,
+      "blocked": 0,
+      "timing": {
+        "minMs": 6648,
+        "medianMs": 6780,
+        "meanMs": 6749,
+        "p95Ms": 6819,
+        "varianceMs2": 5354
+      },
+      "readback": [
+        "screenshot"
+      ],
+      "explicitActivationCalls": [
+        0,
+        0,
+        0
+      ],
+      "foregroundPreserved": [
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "totals": {
+    "rounds": 3,
+    "scenarioRuns": 15,
+    "passed": 15,
+    "failed": 0,
+    "blocked": 0
+  },
+  "release": {
+    "libreOfficeWriter": "accepted",
+    "wpsWriter": "accepted",
+    "vsCodeEditor": "accepted",
+    "chromeEditor": "accepted",
+    "sensitiveDataRetention": "accepted",
+    "foregroundFreeOperation": "accepted",
+    "unattendedProduction": "not_accepted",
+    "generalThirdPartyReliability": "not_accepted"
+  }
+}

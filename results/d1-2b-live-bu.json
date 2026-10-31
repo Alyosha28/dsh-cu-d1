@@ -1,0 +1,725 @@
+{
+  "created_at": "2026-10-28T11:32:47.731663+00:00",
+  "model": {
+    "id": "LiquidAI/d1-2B",
+    "revision": "cfe5760ff5d5998f91d9ac56bd4b2dbd96996d41",
+    "device": "mps"
+  },
+  "scope": "Local isolated Chromium pages only; no real accounts, no desktop control",
+  "cold_decision_ms": 2283.6187080001764,
+  "summary": {
+    "cases": 5,
+    "successes": 5,
+    "model_calls": 14,
+    "actions_executed": 14,
+    "stale_decisions": 0
+  },
+  "cases": [
+    {
+      "id": "flights",
+      "status": "success",
+      "reason": "all_subgoals_independently_verified",
+      "model_calls": 4,
+      "actions_executed": 4,
+      "stale_decisions": 0,
+      "control_seconds": 1.5524711669995668,
+      "total_seconds_including_navigation": 1.5682410839999648,
+      "decision_latency_ms": {
+        "total": 1086.5043750009136,
+        "mean": 271.6260937502284,
+        "median": 269.01560400028757,
+        "max": 300.88912500013976
+      },
+      "subgoals": [
+        {
+          "id": "origin",
+          "goal": "Enter Zürich into the From field.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            261.4505410001584
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 5,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e1",
+                "confidence": 0.7662531129956472,
+                "operation_probabilities": {
+                  "CLICK": 0.1492875556589847,
+                  "TYPE_TEXT": 0.7662531129956472,
+                  "WAIT": 0.001681274992487264,
+                  "DONE": 0.0014613415295296162,
+                  "BLOCKED": 0.081316714823351
+                },
+                "target_confidence": 0.9832860616661852,
+                "target_probabilities": {
+                  "e1": 0.9832860616661852,
+                  "e2": 0.013988572782378536,
+                  "e3": 0.0027253655514362114
+                },
+                "text": "Zürich",
+                "text_found": 0.9992942136877545,
+                "text_span": [
+                  19,
+                  25
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 261.4505410001584,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e1"
+              }
+            }
+          ],
+          "last_snapshot": null
+        },
+        {
+          "id": "destination",
+          "goal": "Enter London into the To field.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            247.58404200019868
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 2,
+              "element_count": 6,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e3",
+                "confidence": 0.923863035873855,
+                "operation_probabilities": {
+                  "CLICK": 0.01910145807134892,
+                  "TYPE_TEXT": 0.923863035873855,
+                  "WAIT": 0.002027094953814432,
+                  "DONE": 0.0016047068804038093,
+                  "BLOCKED": 0.05340370422057776
+                },
+                "target_confidence": 0.9942790595474048,
+                "target_probabilities": {
+                  "e1": 0.0037340064447522704,
+                  "e3": 0.9942790595474048,
+                  "e4": 0.001986934007843068
+                },
+                "text": "London",
+                "text_found": 0.9837005816086688,
+                "text_span": [
+                  19,
+                  25
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 247.58404200019868,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e3"
+              }
+            }
+          ],
+          "last_snapshot": null
+        },
+        {
+          "id": "date",
+          "goal": "Enter 2026-11-01 into the Departure date field.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            276.5806670004167
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s3",
+              "snapshot_version": 5,
+              "element_count": 8,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e6",
+                "confidence": 0.9684677626866436,
+                "operation_probabilities": {
+                  "CLICK": 0.0026222990061726945,
+                  "TYPE_TEXT": 0.9684677626866436,
+                  "WAIT": 0.0013009094753128933,
+                  "DONE": 0.001104618245677444,
+                  "BLOCKED": 0.02650441058619348
+                },
+                "target_confidence": 0.9926034336038596,
+                "target_probabilities": {
+                  "e1": 0.002687650635104516,
+                  "e3": 0.004708915761035905,
+                  "e6": 0.9926034336038596
+                },
+                "text": "2026-11-01",
+                "text_found": 0.9804158386187014,
+                "text_span": [
+                  19,
+                  29
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 276.5806670004167,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e6"
+              }
+            }
+          ],
+          "last_snapshot": null
+        },
+        {
+          "id": "search",
+          "goal": "Find one-way flights from Zürich to London on 2026-11-01. Use the visible form and stop only when matching flight results are visible.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            300.88912500013976
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s4",
+              "snapshot_version": 7,
+              "element_count": 8,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e7",
+                "confidence": 0.6312744892887273,
+                "operation_probabilities": {
+                  "CLICK": 0.6312744892887273,
+                  "TYPE_TEXT": 0.09736238788152068,
+                  "WAIT": 0.0185308241277786,
+                  "DONE": 0.047185465680081015,
+                  "BLOCKED": 0.20564683302189252
+                },
+                "target_confidence": 0.4808437070131675,
+                "target_probabilities": {
+                  "e1": 0.009268711227274453,
+                  "e2": 0.1719883675193615,
+                  "e3": 0.008246699368299852,
+                  "e4": 0.31574963455571775,
+                  "e5": 0.0037260928959989663,
+                  "e6": 0.01017678742017992,
+                  "e7": 0.4808437070131675
+                }
+              },
+              "decision_ms": 300.88912500013976,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e7"
+              }
+            }
+          ],
+          "last_snapshot": null
+        }
+      ]
+    },
+    {
+      "id": "filters",
+      "status": "success",
+      "reason": "all_subgoals_independently_verified",
+      "model_calls": 3,
+      "actions_executed": 3,
+      "stale_decisions": 0,
+      "control_seconds": 0.7748851249998552,
+      "total_seconds_including_navigation": 0.786219833999894,
+      "decision_latency_ms": {
+        "total": 666.006457999174,
+        "mean": 222.00215266639134,
+        "median": 221.5032499998415,
+        "max": 228.1017499999507
+      },
+      "subgoals": [
+        {
+          "id": "adults",
+          "goal": "Change the Adults value from 2 to exactly 3.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            221.5032499998415
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "INCREMENT",
+                "target": "e1",
+                "confidence": 0.9285918228573524,
+                "operation_probabilities": {
+                  "CLICK": 0.020117752405795705,
+                  "TYPE_TEXT": 0.00461599870883003,
+                  "INCREMENT": 0.9285918228573524,
+                  "DECREMENT": 0.005564784887792744,
+                  "WAIT": 0.00119039498169868,
+                  "DONE": 0.0012185375734685483,
+                  "BLOCKED": 0.03870070858506207
+                },
+                "target_confidence": 1.0,
+                "target_probabilities": {
+                  "e1": 1.0
+                }
+              },
+              "decision_ms": 221.5032499998415,
+              "execution": {
+                "dispatched": true,
+                "operation": "INCREMENT",
+                "target": "e1"
+              }
+            }
+          ],
+          "last_snapshot": null
+        },
+        {
+          "id": "nonstop",
+          "goal": "Enable the Nonstop only checkbox.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            228.1017499999507
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 2,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e2",
+                "confidence": 0.8457973874697741,
+                "operation_probabilities": {
+                  "CLICK": 0.8457973874697741,
+                  "TYPE_TEXT": 0.0009206566771766549,
+                  "INCREMENT": 0.0005905936721323,
+                  "DECREMENT": 0.00089939375874876,
+                  "WAIT": 0.0007460486816339065,
+                  "DONE": 0.0009647024530311836,
+                  "BLOCKED": 0.15008121728750312
+                },
+                "target_confidence": 0.9920455555718062,
+                "target_probabilities": {
+                  "e1": 0.0022808346008408417,
+                  "e2": 0.9920455555718062,
+                  "e3": 0.005673609827352898
+                }
+              },
+              "decision_ms": 228.1017499999507,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e2"
+              }
+            }
+          ],
+          "last_snapshot": null
+        },
+        {
+          "id": "apply",
+          "goal": "Show available flights for exactly 3 adults with nonstop only. Apply the filters and stop only when the results summary confirms both 3 adults and Nonstop only.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 1,
+          "actions_executed": 1,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            216.40145799938182
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s3",
+              "snapshot_version": 4,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e3",
+                "confidence": 0.552560272581405,
+                "operation_probabilities": {
+                  "CLICK": 0.552560272581405,
+                  "TYPE_TEXT": 0.004182939286144964,
+                  "INCREMENT": 0.0026213487566065547,
+                  "DECREMENT": 0.0036357543659776476,
+                  "WAIT": 0.02357336370339186,
+                  "DONE": 0.3153781131158387,
+                  "BLOCKED": 0.09804820819063528
+                },
+                "target_confidence": 0.9680157989015301,
+                "target_probabilities": {
+                  "e1": 0.020014344634571586,
+                  "e2": 0.01196985646389824,
+                  "e3": 0.9680157989015301
+                }
+              },
+              "decision_ms": 216.40145799938182,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e3"
+              }
+            }
+          ],
+          "last_snapshot": null
+        }
+      ]
+    },
+    {
+      "id": "already-done",
+      "status": "success",
+      "reason": "all_subgoals_independently_verified",
+      "model_calls": 0,
+      "actions_executed": 0,
+      "stale_decisions": 0,
+      "control_seconds": 0.020829207999668142,
+      "total_seconds_including_navigation": 0.033777458000258775,
+      "decision_latency_ms": {
+        "total": 0,
+        "mean": null,
+        "median": null,
+        "max": null
+      },
+      "subgoals": [
+        {
+          "id": "done",
+          "goal": "Stop when the visible results summary confirms 3 adults and Nonstop only.",
+          "status": "success",
+          "reason": "independently_verified_before_first_decision",
+          "model_calls": 0,
+          "actions_executed": 0,
+          "stale_decisions": 0,
+          "decision_times_ms": [],
+          "trace": [],
+          "last_snapshot": null
+        }
+      ]
+    },
+    {
+      "id": "flights-whole",
+      "status": "success",
+      "reason": "all_subgoals_independently_verified",
+      "model_calls": 4,
+      "actions_executed": 4,
+      "stale_decisions": 0,
+      "control_seconds": 3.0957415000002584,
+      "total_seconds_including_navigation": 3.1063199999998687,
+      "decision_latency_ms": {
+        "total": 1068.943000001127,
+        "mean": 267.23575000028177,
+        "median": 267.93858300015927,
+        "max": 291.2767920006445
+      },
+      "subgoals": [
+        {
+          "id": "whole",
+          "goal": "Find one-way flights from Zürich to London on 2026-11-01. Use the visible form and stop only when matching flight results are visible.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 4,
+          "actions_executed": 4,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            241.78904200016405,
+            251.12970800000767,
+            291.2767920006445,
+            284.74745800031087
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 5,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e1",
+                "confidence": 0.6237067832992761,
+                "operation_probabilities": {
+                  "CLICK": 0.22308768921344568,
+                  "TYPE_TEXT": 0.6237067832992761,
+                  "WAIT": 0.004200908112622669,
+                  "DONE": 0.0025124113751524464,
+                  "BLOCKED": 0.14649220799950302
+                },
+                "target_confidence": 0.841954196031087,
+                "target_probabilities": {
+                  "e1": 0.841954196031087,
+                  "e2": 0.09362497489351503,
+                  "e3": 0.06442082907539785
+                },
+                "text": "Zürich",
+                "text_found": 0.9920560181700585,
+                "text_span": [
+                  39,
+                  45
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 241.78904200016405,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e1"
+              }
+            },
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 2,
+              "element_count": 6,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e3",
+                "confidence": 0.8442509765861381,
+                "operation_probabilities": {
+                  "CLICK": 0.07092523229666405,
+                  "TYPE_TEXT": 0.8442509765861381,
+                  "WAIT": 0.0071831124346922424,
+                  "DONE": 0.00332226306179358,
+                  "BLOCKED": 0.07431841562071205
+                },
+                "target_confidence": 0.8742445730868134,
+                "target_probabilities": {
+                  "e1": 0.008557778952024534,
+                  "e3": 0.8742445730868134,
+                  "e4": 0.11719764796116214
+                },
+                "text": "London",
+                "text_found": 0.9024994441883547,
+                "text_span": [
+                  49,
+                  55
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 251.12970800000767,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e3"
+              }
+            },
+            {
+              "snapshot_id": "s3",
+              "snapshot_version": 5,
+              "element_count": 8,
+              "decision": {
+                "operation": "TYPE_TEXT",
+                "target": "e6",
+                "confidence": 0.9355962685670562,
+                "operation_probabilities": {
+                  "CLICK": 0.012409048773534668,
+                  "TYPE_TEXT": 0.9355962685670562,
+                  "WAIT": 0.0038578612370237133,
+                  "DONE": 0.003275757454747715,
+                  "BLOCKED": 0.04486106396763759
+                },
+                "target_confidence": 0.9917913906133381,
+                "target_probabilities": {
+                  "e1": 0.003392311723293114,
+                  "e3": 0.0048162976633688665,
+                  "e6": 0.9917913906133381
+                },
+                "text": "2026-11-01",
+                "text_found": 0.9267551365096027,
+                "text_span": [
+                  59,
+                  69
+                ],
+                "text_path": "/goal"
+              },
+              "decision_ms": 291.2767920006445,
+              "execution": {
+                "dispatched": true,
+                "operation": "TYPE_TEXT",
+                "target": "e6"
+              }
+            },
+            {
+              "snapshot_id": "s4",
+              "snapshot_version": 7,
+              "element_count": 8,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e7",
+                "confidence": 0.6312744892887273,
+                "operation_probabilities": {
+                  "CLICK": 0.6312744892887273,
+                  "TYPE_TEXT": 0.09736238788152068,
+                  "WAIT": 0.0185308241277786,
+                  "DONE": 0.047185465680081015,
+                  "BLOCKED": 0.20564683302189252
+                },
+                "target_confidence": 0.4808437070131675,
+                "target_probabilities": {
+                  "e1": 0.009268711227274453,
+                  "e2": 0.1719883675193615,
+                  "e3": 0.008246699368299852,
+                  "e4": 0.31574963455571775,
+                  "e5": 0.0037260928959989663,
+                  "e6": 0.01017678742017992,
+                  "e7": 0.4808437070131675
+                }
+              },
+              "decision_ms": 284.74745800031087,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e7"
+              }
+            }
+          ],
+          "last_snapshot": null
+        }
+      ]
+    },
+    {
+      "id": "filters-whole",
+      "status": "success",
+      "reason": "all_subgoals_independently_verified",
+      "model_calls": 3,
+      "actions_executed": 3,
+      "stale_decisions": 0,
+      "control_seconds": 1.759071500000573,
+      "total_seconds_including_navigation": 1.7694247500003257,
+      "decision_latency_ms": {
+        "total": 608.6925830004475,
+        "mean": 202.89752766681582,
+        "median": 202.6822079997146,
+        "max": 211.7164999999659
+      },
+      "subgoals": [
+        {
+          "id": "whole",
+          "goal": "Show available flights for exactly 3 adults with nonstop only. Apply the filters and stop only when the results summary confirms both 3 adults and Nonstop only.",
+          "status": "success",
+          "reason": "independently_verified_after_action",
+          "model_calls": 3,
+          "actions_executed": 3,
+          "stale_decisions": 0,
+          "decision_times_ms": [
+            202.6822079997146,
+            211.7164999999659,
+            194.293875000767
+          ],
+          "trace": [
+            {
+              "snapshot_id": "s1",
+              "snapshot_version": 0,
+              "element_count": 4,
+              "decision": {
+                "operation": "INCREMENT",
+                "target": "e1",
+                "confidence": 0.5070617035301169,
+                "operation_probabilities": {
+                  "CLICK": 0.19913486313254664,
+                  "TYPE_TEXT": 0.007737449870854392,
+                  "INCREMENT": 0.5070617035301169,
+                  "DECREMENT": 0.024887985059899524,
+                  "WAIT": 0.00704703611537102,
+                  "DONE": 0.002580176840017739,
+                  "BLOCKED": 0.25155078545119375
+                },
+                "target_confidence": 1.0,
+                "target_probabilities": {
+                  "e1": 1.0
+                }
+              },
+              "decision_ms": 202.6822079997146,
+              "execution": {
+                "dispatched": true,
+                "operation": "INCREMENT",
+                "target": "e1"
+              }
+            },
+            {
+              "snapshot_id": "s2",
+              "snapshot_version": 2,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e2",
+                "confidence": 0.76182934771739,
+                "operation_probabilities": {
+                  "CLICK": 0.76182934771739,
+                  "TYPE_TEXT": 0.0029979207267799308,
+                  "INCREMENT": 0.0016329630673265368,
+                  "DECREMENT": 0.0017929480802342228,
+                  "WAIT": 0.003699565192865816,
+                  "DONE": 0.0020151477893164873,
+                  "BLOCKED": 0.226032107426087
+                },
+                "target_confidence": 0.9683308751939271,
+                "target_probabilities": {
+                  "e1": 0.003900623772086155,
+                  "e2": 0.9683308751939271,
+                  "e3": 0.02776850103398657
+                }
+              },
+              "decision_ms": 211.7164999999659,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e2"
+              }
+            },
+            {
+              "snapshot_id": "s3",
+              "snapshot_version": 4,
+              "element_count": 4,
+              "decision": {
+                "operation": "CLICK",
+                "target": "e3",
+                "confidence": 0.552560272581405,
+                "operation_probabilities": {
+                  "CLICK": 0.552560272581405,
+                  "TYPE_TEXT": 0.004182939286144964,
+                  "INCREMENT": 0.0026213487566065547,
+                  "DECREMENT": 0.0036357543659776476,
+                  "WAIT": 0.02357336370339186,
+                  "DONE": 0.3153781131158387,
+                  "BLOCKED": 0.09804820819063528
+                },
+                "target_confidence": 0.9680157989015301,
+                "target_probabilities": {
+                  "e1": 0.020014344634571586,
+                  "e2": 0.01196985646389824,
+                  "e3": 0.9680157989015301
+                }
+              },
+              "decision_ms": 194.293875000767,
+              "execution": {
+                "dispatched": true,
+                "operation": "CLICK",
+                "target": "e3"
+              }
+            }
+          ],
+          "last_snapshot": null
+        }
+      ]
+    }
+  ]
+}

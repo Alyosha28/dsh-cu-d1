@@ -1,0 +1,29 @@
+W1029 03:31:33.044000 7495 .venv/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/424 [00:00<?, ?it/s]Loading weights: 100%|██████████| 424/424 [00:00<00:00, 9831.63it/s]
+/Users/albaincompleta/DSH_CU/.venv/lib/python3.11/site-packages/torch/nn/functional.py:5849: UserWarning: MPS: The constant padding of more than 3 dimensions is not currently supported natively. It uses View Ops default implementation to run. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/mps/operations/Pad.mm:567.)
+  return torch._C._nn.pad(input, pad, mode, value)
+Model ready on mps; cold decision 2389.2ms
+
+Case delayed-timeout
+  Subgoal timeout: Load the results and stop only when the text Delayed results are ready is visible.
+    step 1: CLICK target=e1 text=None confidence=0.790 (179.5ms)
+    step 2: WAIT target=None text=None confidence=0.481 (158.3ms)
+    => escalated: step_budget_exhausted
+  => escalated: timeout: step_budget_exhausted; calls=2, actions=2, control=1.69s
+
+Case workspace-save
+  Subgoal workspace: Click Save in Workspace.
+    step 1: CLICK target=e2 text=None confidence=0.752 (157.7ms)
+    => success: independently_verified_after_action
+  => success: all_subgoals_independently_verified; calls=1, actions=1, control=0.20s
+
+{
+  "cases": 2,
+  "successes": 1,
+  "expectations_met": 2,
+  "model_calls": 3,
+  "text_extraction_calls": 0,
+  "actions_executed": 3,
+  "stale_decisions": 0
+}
+Saved report to results/P5_BROWSER_BOUNDARIES.json

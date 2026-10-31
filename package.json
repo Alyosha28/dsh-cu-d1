@@ -1,0 +1,43 @@
+{
+  "name": "dsh-cu-decision-lab",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @dsh-cu/core && npm run build --workspace @dsh-cu/testkit && npm run build --workspace @dsh-cu/browser-use-d1 && npm run build --workspace @dsh-cu/computer-use-d1",
+    "test": "npm test --workspaces --if-present",
+    "test:live:browser": "tsx benchmarks/official-public-browser.mts",
+    "test:live:d1": "tsx benchmarks/live-public-d1.mts",
+    "test:live:native": "npm run test:e2e --workspace @dsh-cu/computer-use-d1 -- tests/official-real-app.e2e.ts",
+    "test:plugin": "node scripts/plugin-dsh.mts",
+    "plugin:doctor": "node scripts/plugin-doctor.mts",
+    "test:unit": "npm test --workspace @dsh-cu/core && npm test --workspace @dsh-cu/browser-use-d1",
+    "install:plugin": "node scripts/install-plugin.mts"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh": "^0.2.1-rc.5",
+    "@types/node": "^24.0.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alyosha28/dsh-cu.git"
+  },
+  "homepage": "https://github.com/Alyosha28/dsh-cu#readme",
+  "bugs": {
+    "url": "https://github.com/Alyosha28/dsh-cu/issues"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "browser-use",
+    "computer-use",
+    "macos",
+    "agent"
+  ]
+}

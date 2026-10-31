@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "id": "skill_0ded78b78c620a18",
+      "version": 1,
+      "verifiedAt": "2026-10-29T17:36:06.091Z",
+      "match": {
+        "windowTitle": "未命名43"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "0ded78b78c620a18c3aee62c7eaf16116c6bb3c61ce421bac2c87f9d154913e6",
+      "history": [
+        {
+          "id": "176ea75a-b3de-4447-bef0-0ac4bd3da054",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T17:36:06.091Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    },
+    {
+      "id": "skill_263e0ae5a675b531",
+      "version": 1,
+      "verifiedAt": "unverified",
+      "match": {
+        "windowTitle": "未命名47"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "{{inputs:First%20Text%20View}}"
+        }
+      ],
+      "steps": [
+        {
+          "type": "type",
+          "target": "First Text View",
+          "input": "First Text View"
+        }
+      ],
+      "state": "candidate",
+      "candidateHash": "263e0ae5a675b5319d3e56fb018a8b5da8a6c37c1ec231218843e93dce01ec69",
+      "history": []
+    },
+    {
+      "id": "skill_a862e5e7a5964ba1",
+      "version": 1,
+      "verifiedAt": "2026-10-29T17:36:14.087Z",
+      "match": {
+        "windowTitle": "计算器"
+      },
+      "fallback": "d1",
+      "risk": "reversible",
+      "verify": [
+        {
+          "type": "text_visible",
+          "text": "15"
+        }
+      ],
+      "steps": [
+        {
+          "type": "click",
+          "target": "7"
+        },
+        {
+          "type": "click",
+          "target": "加"
+        },
+        {
+          "type": "click",
+          "target": "8"
+        },
+        {
+          "type": "click",
+          "target": "等于"
+        }
+      ],
+      "state": "verified",
+      "candidateHash": "a862e5e7a5964ba1a2cc1588bb4904619638e1b9db70e67478ffc022e9ff3aa2",
+      "history": [
+        {
+          "id": "f18519ef-be01-4925-8a15-82d2b251d331",
+          "status": "passed",
+          "independent": true,
+          "at": "2026-10-29T17:36:14.087Z",
+          "summary": "independently_verified_after_action"
+        }
+      ]
+    }
+  ]
+}
