@@ -11,6 +11,10 @@
   `dsh plugin add @albaincompleta/dsh-cu-bundle` installs the whole plugin.
 - Add `scripts/publish-packages.mts` (dry run by default, dependency order,
   registry checks, NPM_TOKEN support) and `scripts/rename-scope.mts`.
+- Published to npm at 0.2.8: `@albaincompleta/dsh-cu-core`, `-browser-use-d1`,
+  `-computer-use-d1`, `-client`, `-bundle`. Verified by installing
+  `@albaincompleta/dsh-cu-bundle` from the registry into an empty profile and
+  running `browser_tabs` end to end.
 
 ## 0.2.7 — 2026-10-31
 

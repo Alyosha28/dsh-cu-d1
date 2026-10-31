@@ -7,6 +7,18 @@ Experiments using [LiquidAI/d1-2B](https://huggingface.co/LiquidAI/d1-2B) as a S
 [![dsh-plugin](https://img.shields.io/badge/GitHub%20topic-dsh--plugin-2563eb)](https://github.com/topics/dsh-plugin)
 [github.com/Alyosha28/dsh-cu-d1](https://github.com/Alyosha28/dsh-cu-d1) · MIT
 
+Published on npm:
+
+[![npm](https://img.shields.io/npm/v/@albaincompleta/dsh-cu-bundle?label=npm)](https://www.npmjs.com/package/@albaincompleta/dsh-cu-bundle)
+
+```bash
+dsh plugin --profile <profile> add @albaincompleta/dsh-cu-bundle
+```
+
+The bundle depends on `@albaincompleta/dsh-cu-core`, `-browser-use-d1`,
+`-computer-use-d1` and `-client`, so one install brings the whole plugin; the
+Harness compatibility gate refuses any runtime outside `0.2.1-rc.5 <0.3.0`.
+
 This repository is an installable DSH plugin, not a directory: `@albaincompleta/dsh-cu-bundle`
 declares `dsh.bundle.patch`, `@albaincompleta/dsh-cu-client` declares `dsh.client`, and every
 package declares `engines.dsh`. The plugin path is a profile, so the concrete
