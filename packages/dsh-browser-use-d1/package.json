@@ -79,5 +79,8 @@
     "computer-use",
     "macos",
     "agent"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -50,5 +50,14 @@
     "computer-use",
     "macos",
     "agent"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@dsh-cu/browser-use-d1": "0.2.7",
+    "@dsh-cu/client": "0.2.7",
+    "@dsh-cu/computer-use-d1": "0.2.7",
+    "@dsh-cu/core": "0.2.7"
+  }
 }

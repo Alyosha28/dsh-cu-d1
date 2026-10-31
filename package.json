@@ -15,7 +15,8 @@
     "plugin:doctor": "node scripts/plugin-doctor.mts",
     "test:unit": "npm test --workspace @dsh-cu/core && npm test --workspace @dsh-cu/browser-use-d1",
     "install:plugin": "node scripts/install-plugin.mts",
-    "install:desktop": "node scripts/install-desktop-profile.mts"
+    "install:desktop": "node scripts/install-desktop-profile.mts",
+    "publish:plugin": "node scripts/publish-packages.mts"
   },
   "devDependencies": {
     "@deepseek-ai/dsh": "^0.2.1-rc.5",
