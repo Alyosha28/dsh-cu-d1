@@ -4,15 +4,31 @@ Experiments using [LiquidAI/d1-2B](https://huggingface.co/LiquidAI/d1-2B) as a S
 
 ## Repository
 
-Published at [github.com/Alyosha28/dsh-cu](https://github.com/Alyosha28/dsh-cu) with the
-`dsh-plugin` GitHub topic. The repository contains the installable packages, so a
-clone is enough:
+[![dsh-plugin](https://img.shields.io/badge/GitHub%20topic-dsh--plugin-2563eb)](https://github.com/topics/dsh-plugin)
+[github.com/Alyosha28/dsh-cu](https://github.com/Alyosha28/dsh-cu) · MIT
+
+This repository is an installable DSH plugin, not a directory: `@dsh-cu/bundle`
+declares `dsh.bundle.patch`, `@dsh-cu/client` declares `dsh.client`, and every
+package declares `engines.dsh`. The plugin path is a profile, so the concrete
+install is:
 
 ```bash
 git clone https://github.com/Alyosha28/dsh-cu.git
-cd dsh-cu && npm install --include=dev && npm run build
+cd dsh-cu
+npm install --include=dev && npm run build
+
+# One command: links the packages, mounts @dsh-cu/bundle, runs the doctor.
 npm run install:plugin -- --profile=dsh-cu
+
+# Equivalent by hand:
+dsh plugin --profile dsh-cu add \
+  link:$PWD/packages/dsh-cu-bundle link:$PWD/packages/dsh-cu-core \
+  link:$PWD/packages/dsh-browser-use-d1 link:$PWD/packages/dsh-computer-use-d1 \
+  link:$PWD/packages/dsh-cu-client
 ```
+
+Requires DSH `>=0.2.1-rc.5 <0.3.0`; another runtime is refused by the Harness
+compatibility gate with an explicit message.
 
 ## Install as a DSH plugin
 
