@@ -1,4 +1,4 @@
-import { executeToolFixture } from '@dsh-cu/testkit'
+import { executeToolFixture } from '@alyosha28/dsh-cu-testkit'
 import { Context } from '@deepseek-ai/cordis'
 import { mountAgentLoopTestDependencies, mountAgentLoopTestHarness } from '@deepseek-ai/dsh-agent-loop-testkit'
 import ComputerUseRegistry from '@deepseek-ai/dsh-computer-use'

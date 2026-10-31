@@ -4,7 +4,7 @@ import type { Browser, CDPSession, Page } from 'playwright'
 import { randomUUID } from 'node:crypto'
 import { BrowserControlIndicator } from '../src/indicator.ts'
 import { BrowserDom } from '../src/dom.ts'
-import type { ControlAction } from '@dsh-cu/core/activity'
+import type { ControlAction } from '@alyosha28/dsh-cu-core/activity'
 import { CHROME } from './fixtures.ts'
 
 interface DomNode {

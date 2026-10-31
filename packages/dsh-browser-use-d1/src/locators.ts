@@ -1,5 +1,5 @@
 import type { Locator, Page } from 'playwright'
-import type { ExtractLocator } from '@dsh-cu/core/extract'
+import type { ExtractLocator } from '@alyosha28/dsh-cu-core/extract'
 
 /** Resolves one explicit locator to a Playwright locator. */
 export function locatorFor(page: Page, locator: ExtractLocator): Locator {

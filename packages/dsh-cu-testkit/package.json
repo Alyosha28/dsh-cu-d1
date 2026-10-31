@@ -1,6 +1,6 @@
 {
-  "name": "@dsh-cu/testkit",
-  "version": "0.2.7",
+  "name": "@alyosha28/dsh-cu-testkit",
+  "version": "0.2.8",
   "private": true,
   "description": "Tool-execution fixture for DSH-CU tests, matching the DSH 0.2.1 tool registry",
   "type": "module",

@@ -1,5 +1,5 @@
 import Schema from '@deepseek-ai/schemastery'
-import type { Locale } from '@dsh-cu/core/locale'
+import type { Locale } from '@alyosha28/dsh-cu-core/locale'
 
 
 export interface Config {

@@ -69,7 +69,7 @@ let changed = 0
 for (const file of files) {
   let text = await readFile(file, 'utf8')
   const before = text
-  // Longest names first so `@dsh-cu/core` never shadows `@dsh-cu/core-extra`.
+  // Longest names first so `@alyosha28/dsh-cu-core` never shadows `@alyosha28/dsh-cu-core-extra`.
   for (const [from, into] of [...renames].sort((left, right) => right[0].length - left[0].length)) {
     text = text.split(from).join(into)
   }

@@ -2,12 +2,12 @@ import type { Page } from 'playwright'
 import type { Decision } from './decision.ts'
 
 
-import type { ObservedElement, Observation } from '@dsh-cu/core/types'
-import type { ActivitySink } from '@dsh-cu/core/activity'
-import type { Verification } from '@dsh-cu/core/contract'
+import type { ObservedElement, Observation } from '@alyosha28/dsh-cu-core/types'
+import type { ActivitySink } from '@alyosha28/dsh-cu-core/activity'
+import type { Verification } from '@alyosha28/dsh-cu-core/contract'
 
-export type { ObservedElement, Observation } from '@dsh-cu/core/types'
-export { verificationSchema } from '@dsh-cu/core/contract'
+export type { ObservedElement, Observation } from '@alyosha28/dsh-cu-core/types'
+export { verificationSchema } from '@alyosha28/dsh-cu-core/contract'
 
 const OBSERVER_SCRIPT = `(() => {
   if (window.__dshDecisionObserver) return;
@@ -197,7 +197,7 @@ export class BrowserDom {
   }
 }
 
-export { validateDecision } from '@dsh-cu/core/actions'
+export { validateDecision } from '@alyosha28/dsh-cu-core/actions'
 
 export async function verifyAll(page: Page, assertions: Verification[]): Promise<boolean> {
   try {

@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
-import { compileSwiftHelper } from '@dsh-cu/core/helper-cache'
+import { compileSwiftHelper } from '@alyosha28/dsh-cu-core/helper-cache'
 
 const run = promisify(execFile)
 

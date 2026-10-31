@@ -3,10 +3,10 @@ import type { ChildProcess } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { createInterface } from 'node:readline'
 import { z } from 'zod'
-import type { ActivityEvent, ActivitySink, ControlAction } from '@dsh-cu/core/activity'
-import type { RunStatus } from '@dsh-cu/core/contract'
-import { compileSwiftHelper } from '@dsh-cu/core/helper-cache'
-import { uiStrings, type PanelStrings } from '@dsh-cu/core/locale'
+import type { ActivityEvent, ActivitySink, ControlAction } from '@alyosha28/dsh-cu-core/activity'
+import type { RunStatus } from '@alyosha28/dsh-cu-core/contract'
+import { compileSwiftHelper } from '@alyosha28/dsh-cu-core/helper-cache'
+import { uiStrings, type PanelStrings } from '@alyosha28/dsh-cu-core/locale'
 
 const helperEvent = z.object({
   type: z.enum(['ready', 'started', 'control', 'expired', 'menu']),

@@ -1,8 +1,20 @@
 # Changelog
 
+## 0.2.8 — 2026-10-31
+
+- Rename every package from `@dsh-cu/*` to `@alyosha28/dsh-cu-*` so the packages
+  can be published under a personal npm scope without creating an organization:
+  `@alyosha28/dsh-cu-core`, `-browser-use-d1`, `-computer-use-d1`, `-client`,
+  `-bundle` (and the private `-testkit`). Imports, manifests, the bundle patch,
+  tests and docs follow; profiles were re-linked to the new names.
+- `@alyosha28/dsh-cu-bundle` now depends on the other four packages, so a single
+  `dsh plugin add @alyosha28/dsh-cu-bundle` installs the whole plugin.
+- Add `scripts/publish-packages.mts` (dry run by default, dependency order,
+  registry checks, NPM_TOKEN support) and `scripts/rename-scope.mts`.
+
 ## 0.2.7 — 2026-10-31
 
-- Add the client half, `@dsh-cu/client`: a Loader entry whose package declares
+- Add the client half, `@alyosha28/dsh-cu-client`: a Loader entry whose package declares
   `dsh.client`, so the DSH client module scanner serves its browser bundle and
   the transcript renders DSH-CU tools as first-class cards instead of raw JSON.
   Cards cover every browser and native tool, show status, route, a one-line
@@ -12,7 +24,7 @@
   JavaScript with no bundler step, and registers through
   `ctx.slots.register({ name: 'tool.call.toolview', key, ... }, Card)`.
 - The bundle patch now mounts the client entry next to the registries, and the
-  installer links `@dsh-cu/client` too.
+  installer links `@alyosha28/dsh-cu-client` too.
 - Verified in a real `dsh web` session: the model called `browser_tabs`, and the
   transcript rendered `标签页 · 完成 · 1 个标签页` with `data-dsh-cu-status`
   reflecting the tool result.
@@ -35,7 +47,7 @@
 ## 0.2.5 — 2026-10-31
 
 - Add `npm run install:plugin -- --profile=<name>`: installs the four packages by
-  link, mounts `@dsh-cu/bundle` in `dsh.profile.bundles`, backs the manifest up
+  link, mounts `@alyosha28/dsh-cu-bundle` in `dsh.profile.bundles`, backs the manifest up
   first, warns when the profile lists no app bundle, and finishes with the
   doctor. `--dry-run` prints every step without changing anything.
 - Verified on a profile created from scratch: install → doctor → headless run
@@ -94,16 +106,16 @@ Runtime alignment and installability.
 - Target `@deepseek-ai/*` 0.2.1-rc.5 and `@deepseek-ai/cordis` 4.0.5, the versions
   the DeepSeek Harness desktop application runs. 0.1.0 was built against
   0.2.2-alpha.2, which the Harness compatibility gate refuses to load.
-- Add `@dsh-cu/bundle`: a profile bundle whose `dsh.bundle.patch` inserts the
+- Add `@alyosha28/dsh-cu-bundle`: a profile bundle whose `dsh.bundle.patch` inserts the
   browser-use registry, the D1 Browser provider, and the disabled-by-default
   native pair. Install it with `dsh plugin --profile <name> add` and list
-  `@dsh-cu/bundle` in `dsh.profile.bundles`.
+  `@alyosha28/dsh-cu-bundle` in `dsh.profile.bundles`.
 - Declare `engines.dsh` on every package so a profile reports an explicit,
   readable compatibility failure instead of silently skipping the provider.
 - Add `npm run plugin:doctor`, which composes a profile, verifies the plugin
   entries are present and enabled, detects a competing browser provider, and
   compares the plugin's DSH package version with the host's.
-- `@dsh-cu/testkit` replaces the DSH 0.2.2-only `dsh-tool-testkit`; tests call
+- `@alyosha28/dsh-cu-testkit` replaces the DSH 0.2.2-only `dsh-tool-testkit`; tests call
   the production tool registry directly.
 - The native CUA caller uses the 0.2.1 single-call `tools.execute` contract.
 - Browser launch falls back to an installed Chrome or Edge when Playwright's own

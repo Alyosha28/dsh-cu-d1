@@ -41,7 +41,7 @@ let jsxRuntime: unknown
 /** Registers the client module against a fake slots service and records cards. */
 function mountCards(): Registration[] {
   const bundled = loadClientModule()
-  expect(bundled.id).toBe('@dsh-cu/client')
+  expect(bundled.id).toBe('@alyosha28/dsh-cu-client')
   expect(typeof bundled.exports.apply).toBe('function')
   expect(bundled.exports.inject).toEqual(['slots'])
   const registrations: Registration[] = []

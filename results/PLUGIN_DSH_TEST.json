@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T10:27:36.697Z",
+  "generatedAt": "2026-10-31T13:07:28.931Z",
   "entry": "/Users/albaincompleta/DSH_CU/packages/dsh-browser-use-d1/dist/index.js",
   "checks": [
     {
@@ -30,12 +30,12 @@
     {
       "name": "browser_observe reads the owned page",
       "ok": true,
-      "detail": "5 elements at http://127.0.0.1:53236/flights.html"
+      "detail": "5 elements at http://127.0.0.1:49540/flights.html"
     },
     {
       "name": "browser_control returns a page token URL",
       "ok": true,
-      "detail": "http://127.0.0.1:53249#token=<page-token>"
+      "detail": "http://127.0.0.1:49552#token=<page-token>"
     },
     {
       "name": "invalid config fails closed",

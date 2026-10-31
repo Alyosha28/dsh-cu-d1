@@ -19,11 +19,11 @@ const run = promisify(execFile)
 const DSH_HOME = process.env.DSH_HOME ?? join(homedir(), '.dsh')
 const REQUIRED = [
   { id: 'browser-use-registry', name: '@deepseek-ai/dsh-browser-use' },
-  { id: 'dsh-cu-browser', name: '@dsh-cu/browser-use-d1' },
+  { id: 'dsh-cu-browser', name: '@alyosha28/dsh-cu-browser-use-d1' },
 ]
 const OPTIONAL = [
   { id: 'computer-use-registry', name: '@deepseek-ai/dsh-computer-use' },
-  { id: 'dsh-cu-computer', name: '@dsh-cu/computer-use-d1' },
+  { id: 'dsh-cu-computer', name: '@alyosha28/dsh-cu-computer-use-d1' },
 ]
 
 interface Check {
@@ -91,7 +91,7 @@ async function pluginPeerVersion(profileDir: string, specifier: string): Promise
   const roots = [profileDir]
   try {
     const require = createRequire(join(profileDir, 'package.json'))
-    roots.push(dirname(require.resolve('@dsh-cu/browser-use-d1/package.json')))
+    roots.push(dirname(require.resolve('@alyosha28/dsh-cu-browser-use-d1/package.json')))
   } catch {
     // The provider may be installed under another name or not at all.
   }
@@ -137,7 +137,7 @@ async function main(): Promise<void> {
   for (const required of REQUIRED) {
     const block = composed.get(required.id)
     if (block === undefined) {
-      record(`entry ${required.id}`, 'FAIL', 'missing: install @dsh-cu/bundle into this profile')
+      record(`entry ${required.id}`, 'FAIL', 'missing: install @alyosha28/dsh-cu-bundle into this profile')
       continue
     }
     const name = field(block, 'name')

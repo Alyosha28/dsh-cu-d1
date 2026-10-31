@@ -1,4 +1,4 @@
-# @dsh-cu/browser-use-d1
+# @alyosha28/dsh-cu-browser-use-d1
 
 D1 Browser Use provider for DeepSeek Harness. It maps bounded structured decisions to browser actions and requires independent postconditions for success.
 

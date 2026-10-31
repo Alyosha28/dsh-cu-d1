@@ -1,13 +1,13 @@
-import { validateDecision } from '@dsh-cu/core/actions'
-import { checkPagePolicy, checkTargetAmbiguity, taskPolicySchema } from '@dsh-cu/core/policy'
-import { assertSkillScope, decisionForSkillStep, SkillError, verificationForSkill } from '@dsh-cu/core/skills'
-import type { VerifiedSkill } from '@dsh-cu/core/skills'
+import { validateDecision } from '@alyosha28/dsh-cu-core/actions'
+import { checkPagePolicy, checkTargetAmbiguity, taskPolicySchema } from '@alyosha28/dsh-cu-core/policy'
+import { assertSkillScope, decisionForSkillStep, SkillError, verificationForSkill } from '@alyosha28/dsh-cu-core/skills'
+import type { VerifiedSkill } from '@alyosha28/dsh-cu-core/skills'
 import type { ComputerSubgoalInput, RunState } from './controller.ts'
 import { executeNative, hasPendingState, isUncertainNativePaste, parseAxElements, readNativeState, verifyNative } from './controller.ts'
 import type { NativeCaller } from './controller.ts'
-import type { RunBudget } from '@dsh-cu/core/budget'
-import type { ActivitySink } from '@dsh-cu/core/activity'
-import type { ExecutionHandle } from '@dsh-cu/core/run-controller'
+import type { RunBudget } from '@alyosha28/dsh-cu-core/budget'
+import type { ActivitySink } from '@alyosha28/dsh-cu-core/activity'
+import type { ExecutionHandle } from '@alyosha28/dsh-cu-core/run-controller'
 import type { ResolvedConfig } from './config.ts'
 
 
@@ -77,7 +77,7 @@ export async function runNativeSkill(
       }
       await indicator?.activity({ phase: 'observing', step: stepIndex + 1, maxSteps, route: 'skill' })
       const nativeState = await readNativeState(caller, params, signal)
-      const observation: import('@dsh-cu/core/types').Observation = {
+      const observation: import('@alyosha28/dsh-cu-core/types').Observation = {
         snapshot_id: nativeState.snapshotId,
         version: 0,
         url: `app://${nativeState.pid}/${selected.windowId}`,

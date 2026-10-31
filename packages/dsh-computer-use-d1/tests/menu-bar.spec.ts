@@ -4,7 +4,7 @@ import type { ChildProcess } from 'node:child_process'
 import { createInterface } from 'node:readline'
 import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
-import { compileSwiftHelper } from '@dsh-cu/core/helper-cache'
+import { compileSwiftHelper } from '@alyosha28/dsh-cu-core/helper-cache'
 import { ROOT } from './fixtures.ts'
 
 interface HelperEvent {

@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest'
-import { RunBudget } from '@dsh-cu/core/budget'
-import { fixtureSkills } from '@dsh-cu/core/skills'
+import { RunBudget } from '@alyosha28/dsh-cu-core/budget'
+import { fixtureSkills } from '@alyosha28/dsh-cu-core/skills'
 import { Config } from '../src/config.ts'
 import type { ComputerSubgoalInput, NativeCaller } from '../src/controller.ts'
 import { readNativeState } from '../src/controller.ts'

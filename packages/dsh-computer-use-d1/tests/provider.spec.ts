@@ -1,4 +1,4 @@
-import { executeToolFixture } from '@dsh-cu/testkit'
+import { executeToolFixture } from '@alyosha28/dsh-cu-testkit'
 import { afterEach, beforeEach, expect, it } from 'vitest'
 import { Context } from '@deepseek-ai/cordis'
 import type { Agent } from '@deepseek-ai/dsh-agent'
@@ -15,8 +15,8 @@ import { execFile, spawn } from 'node:child_process'
 import type { ChildProcess } from 'node:child_process'
 import { setTimeout as delay } from 'node:timers/promises'
 import * as Provider from '../src/index.ts'
-import { createCandidateFromTrajectory, evidenceFromRun } from '@dsh-cu/core/skill-builder'
-import { SkillStore } from '@dsh-cu/core/skill-store'
+import { createCandidateFromTrajectory, evidenceFromRun } from '@alyosha28/dsh-cu-core/skill-builder'
+import { SkillStore } from '@alyosha28/dsh-cu-core/skill-store'
 import { close, decisionServer, HELPER, listen, pathGrant, ROOT } from './fixtures.ts'
 
 

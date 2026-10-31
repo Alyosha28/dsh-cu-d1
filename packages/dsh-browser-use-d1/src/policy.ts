@@ -1,1 +1,1 @@
-export * from '@dsh-cu/core/policy'
+export * from '@alyosha28/dsh-cu-core/policy'

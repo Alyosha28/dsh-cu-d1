@@ -1,4 +1,4 @@
-import { executeToolFixture } from '@dsh-cu/testkit'
+import { executeToolFixture } from '@alyosha28/dsh-cu-testkit'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
