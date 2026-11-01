@@ -11,6 +11,15 @@ export interface Config {
   allowedApps?: Array<{ id: string; name: string; executablePath: string }>
   decisionEndpoint: string
   decisionToken: string
+  /**
+   * Effective-risk floor owned by the host. A tool argument can only raise the
+   * risk; this floor is never lowered by the model.
+   */
+  minRisk?: 'read_only' | 'reversible' | 'consequential'
+  /** Host pre-authorization for consequential actions. Never a tool argument. */
+  preauthorizeConsequential?: boolean
+  /** Host pre-authorization for credential submission and sign-in clicks. */
+  preauthorizeLogin?: boolean
   /** Prefix for run-control and Skill-publication tools. */
   toolPrefix?: string
   decisionTimeoutMs?: number
@@ -31,7 +40,7 @@ export interface Config {
 }
 
 export type ResolvedConfig = Config & Required<Pick<Config,
-  'allowedApps' | 'locale' | 'promptPermissions' | 'decisionTimeoutMs' | 'textStrategy' | 'maxSteps' | 'maxWallClockMs' | 'maxInputTokens' | 'maxOutputTokens' | 'operationTimeoutMs' | 'verificationTimeoutMs' | 'asyncTimeoutMs' | 'captureSkills' | 'toolPrefix' | 'auditRetentionDays'
+  'allowedApps' | 'locale' | 'promptPermissions' | 'decisionTimeoutMs' | 'textStrategy' | 'maxSteps' | 'maxWallClockMs' | 'maxInputTokens' | 'maxOutputTokens' | 'operationTimeoutMs' | 'verificationTimeoutMs' | 'asyncTimeoutMs' | 'captureSkills' | 'toolPrefix' | 'auditRetentionDays' | 'minRisk' | 'preauthorizeConsequential' | 'preauthorizeLogin'
 >>
 
 export const Config: Schema<Config, ResolvedConfig> = Schema.object({
@@ -46,6 +55,9 @@ export const Config: Schema<Config, ResolvedConfig> = Schema.object({
   })).default([]),
   decisionEndpoint: Schema.string().default('http://127.0.0.1:8765'),
   decisionToken: Schema.string().role('secret').pattern(/\S/u).required(),
+  minRisk: Schema.union(['read_only', 'reversible', 'consequential']).default('reversible'),
+  preauthorizeConsequential: Schema.boolean().default(false),
+  preauthorizeLogin: Schema.boolean().default(false),
   toolPrefix: Schema.string().pattern(/^[a-z][a-z0-9_]{0,31}$/u).default('computer'),
   decisionTimeoutMs: Schema.number().step(1).min(1).max(120000).default(10000),
   textStrategy: Schema.union(['speculative', 'on-demand']).default('speculative'),

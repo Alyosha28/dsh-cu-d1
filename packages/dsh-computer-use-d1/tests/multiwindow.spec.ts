@@ -14,7 +14,8 @@ import { join } from 'node:path'
 import { spawn } from 'node:child_process'
 import type { ChildProcess } from 'node:child_process'
 import * as Provider from '../src/index.ts'
-import { close, decisionServer, HELPER, listen, pathGrant, ROOT } from './fixtures.ts'
+import { close, decisionServer, HELPER, listen, NATIVE_HELPER_AVAILABLE, pathGrant, ROOT } from './fixtures.ts'
+import { FakeUserQuestions } from './approval-fixtures.ts'
 
 class IndependentSessionModel extends LlmAdapter {
   async * stream(): AsyncIterable<StreamChunk> { throw new Error('multiwindow test called the Session model') }
@@ -28,6 +29,13 @@ let decisions: ReturnType<typeof decisionServer>
 let decisionUrl: string
 let tempRoot: string
 let reportPath: string
+let answerer: {
+  calls: any[]
+  pickWindow: boolean
+  windowId: number
+  ask(input: any): Promise<{ answers: Array<{ id: string; selected: string[] }> }>
+}
+const base = new FakeUserQuestions(true)
 const token = 'multiwindow-token'
 
 beforeEach(async () => {
@@ -50,6 +58,23 @@ beforeEach(async () => {
   decisionUrl = await listen(decisions)
   ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
+  // One answerer for the whole file. Application-access consent is always
+  // granted; the window question is answered only once `answerer.pickWindow` is
+  // set, which is how this suite separates "ambiguous" from "human picked one".
+  answerer = {
+    calls: [],
+    pickWindow: false,
+    windowId: 0,
+    async ask(input: any) {
+      this.calls.push(input)
+      if (input.questions[0]?.id !== 'dsh-cu-window') return base.ask(input)
+      if (!this.pickWindow) return { answers: [] }
+      const labels = input.questions[0].options.map((option: { label: string }) => option.label) as string[]
+      const match = labels.find(label => label.includes(`(${this.windowId})`)) ?? labels[0]
+      return { answers: input.questions.map((question: { id: string }) => ({ id: question.id, selected: [match] })) }
+    },
+  }
+  ctx.provide('userQuestions', answerer)
   await ctx.plugin(SubprocessLocal)
   await ctx.plugin(ComputerUseRegistry)
   ctx.llm.registerAdapter(['fixture'], new IndependentSessionModel())
@@ -65,7 +90,7 @@ afterEach(async () => {
   await rm(reportPath, { force: true })
 })
 
-it('requires an explicit window before allowing native input', async () => {
+it.skipIf(!NATIVE_HELPER_AVAILABLE)('requires an explicit window before allowing native input', async () => {
   await ctx.plugin(Provider, {
     helperPath: HELPER,
     allowedApps: [pathGrant(fixturePath)],
@@ -84,7 +109,7 @@ it('requires an explicit window before allowing native input', async () => {
     callId: ToolCallId('multiwindow-ambiguous'),
     signal: new AbortController().signal,
   })
-  expect(ambiguous.isError).toBe(false)
+  expect(ambiguous.isError, JSON.stringify(ambiguous.content)).toBe(false)
   const value = JSON.parse((ambiguous.content[0] as { text: string }).text) as Record<string, unknown>
   expect(value).toMatchObject({ status: 'escalated', reason: 'window_selection_required', decisionRequests: 0, actionsExecuted: 0 })
 
@@ -101,20 +126,13 @@ it('requires an explicit window before allowing native input', async () => {
     callId: ToolCallId('multiwindow-selected'),
     signal: new AbortController().signal,
   })
-  expect(selected.isError).toBe(false)
+  expect(selected.isError, JSON.stringify(selected.content)).toBe(false)
   const selectedValue = JSON.parse((selected.content[0] as { text: string }).text)
   expect(selectedValue).toMatchObject({ status: 'success' })
 
-  const questions = {
-    calls: [] as any[],
-    async ask(input: any) {
-      this.calls.push(input)
-      const labels = input.questions[0].options.map((option: { label: string }) => option.label) as string[]
-      const match = labels.find(label => label.includes(`(${state.windowId})`)) ?? labels[0]
-      return { answers: input.questions.map((question: { id: string }) => ({ id: question.id, selected: [match] })) }
-    },
-  }
-  ctx.provide('userQuestions', questions)
+  answerer.pickWindow = true
+  answerer.windowId = state.windowId
+  const windowQuestionsBefore = answerer.calls.filter(call => call.questions[0]?.id === 'dsh-cu-window').length
   const picked = await executeToolFixture(ctx, {
     agent,
     name: 'computer_subgoal',
@@ -127,9 +145,12 @@ it('requires an explicit window before allowing native input', async () => {
     callId: ToolCallId('multiwindow-picked'),
     signal: new AbortController().signal,
   })
-  expect(picked.isError).toBe(false)
+  expect(picked.isError, JSON.stringify(picked.content)).toBe(false)
   const pickedValue = JSON.parse((picked.content[0] as { text: string }).text) as Record<string, unknown>
   expect(pickedValue).toMatchObject({ status: 'success' })
-  expect(questions.calls).toHaveLength(1)
+  // Application-access consent also goes through this answerer; the window
+  // selection question is the one this test is about, and this run asked once.
+  const windowQuestions = answerer.calls.filter(call => call.questions[0]?.id === 'dsh-cu-window')
+  expect(windowQuestions).toHaveLength(windowQuestionsBefore + 1)
   await writeFile(join(ROOT, 'results/P5_MULTIWINDOW.json'), JSON.stringify({ ambiguous: value, selected: selectedValue, picked: pickedValue }, null, 2) + '\n')
 })

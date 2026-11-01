@@ -15,7 +15,6 @@ import { join } from 'node:path'
 import { spawn } from 'node:child_process'
 import type { ChildProcess } from 'node:child_process'
 import * as Provider from '../src/index.ts'
-import { registerNativeVerification } from '../src/verification.ts'
 import { NativeCaller } from '../src/controller.ts'
 import { HELPER, pathGrant, ROOT } from './fixtures.ts'
 
@@ -51,11 +50,12 @@ beforeEach(async () => {
     fixture.once('error', reject)
     fixture.once('exit', code => reject(new Error(`fixture exited ${code}`)))
   })
-  registerNativeVerification('workflow_state', async ({ statePath }) => {
+  // Custom verifiers are injected at construction time (no process-global map).
+  workflowState = async ({ statePath }) => {
     const state = JSON.parse(await readFile(String(statePath), 'utf8'))
     if (process.env.DEBUG_CUA === '1') console.error('VERIFY_STATE', JSON.stringify(state))
     return state.status === 'Import complete' && state.rows === 2 && state.total === 300
-  })
+  }
   fixture.kill('SIGUSR1')
 
   ctx = new Context()
@@ -82,6 +82,7 @@ it.skipIf(!token)('uses real D1 screenshot boxes for native input when AX is una
     allowedApps: [pathGrant(fixturePath)],
     decisionEndpoint: decisionUrl,
     decisionToken: token,
+    verificationHandlers: { workflow_state: workflowState },
   })
   fixture.kill('SIGUSR1')
   const result = await executeToolFixture(ctx, {

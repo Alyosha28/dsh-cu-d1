@@ -11,10 +11,11 @@ import {
   validateDecision,
   verifyAll,
 } from './dom.ts'
-import { checkPagePolicy, checkTargetAmbiguity, taskPolicySchema } from './policy.ts'
+import { checkPagePolicy, checkTargetAmbiguity } from './policy.ts'
+import { resolvePolicy } from '@albaincompleta/dsh-cu-core/policy'
 import { selectSkill, SkillError } from '@albaincompleta/dsh-cu-core/skills'
 import type { SkillStore } from '@albaincompleta/dsh-cu-core/skill-store'
-import { runBrowserSkill } from './skill-runner.ts'
+import { assertBrowserReplayable, runBrowserSkill } from './skill-runner.ts'
 import { createCandidateFromTrajectory } from '@albaincompleta/dsh-cu-core/skill-builder'
 import type { CapturedInput } from '@albaincompleta/dsh-cu-core/skill-builder'
 import type { ExecutionHandle } from '@albaincompleta/dsh-cu-core/run-controller'
@@ -85,7 +86,14 @@ async function runBrowserSubgoalInner(
 ): Promise<RunState> {
   const args = subgoalInput.parse(rawArgs)
   assertSupportedAssertions(args.verify)
-  const policy = taskPolicySchema.parse(args.policy ?? {})
+  // The model may only tighten the run (raise the risk floor, declare that no
+  // credentials exist); the provider config owns the floor and every
+  // pre-authorization, so a tool argument can never unlock an approval.
+  const policy = resolvePolicy(args.policy, {
+    minRisk: config.minRisk,
+    preauthorizeConsequential: config.preauthorizeConsequential,
+    preauthorizeLogin: config.preauthorizeLogin,
+  })
   const activeSignal = execution === undefined ? signal : AbortSignal.any([signal, execution.signal])
   const state: RunState = {
     status: 'escalated', reason: 'step_budget_exhausted', decisionRequests: 0,
@@ -111,8 +119,12 @@ async function runBrowserSubgoalInner(
   try {
     const skill = await selectSkill({ ...args, url: page.url() }, skillStore)
     if (skill !== null) {
+      // Same provider-scope rule as the replay loop, applied to the selection
+      // itself: a windowTitle/appBundleId Skill never enters the browser path,
+      // even when a caller names it explicitly (CR-03).
+      assertBrowserReplayable(skill)
       const result = await runBrowserSkill(
-        page, skill, args, config, activeSignal, budget, Math.min(args.maxSteps ?? config.maxSteps, config.maxSteps), indicator, execution,
+        page, skill, args, config, activeSignal, budget, Math.min(args.maxSteps ?? config.maxSteps, config.maxSteps), indicator, execution, approvals,
       )
       if (result !== null) {
         const budgetStop = result.status === 'success' ? budget.checkClock() : null
@@ -195,13 +207,16 @@ async function runBrowserSubgoalInner(
       if (ambiguityStop.details !== undefined) state.details = ambiguityStop.details
       return state
     }
-    const targetName = observation.elements.find(element => element.id === decision.target)?.identifier
-      ?? observation.elements.find(element => element.id === decision.target)?.name
+    const targetElement = observation.elements.find(element => element.id === decision.target)
+    // Core models name/identifier/context as nullable: normalise once here so a
+    // trace and a captured Skill never carry `null` (or an empty anonymous name).
+    const described = targetElement?.identifier ?? targetElement?.name ?? null
+    const targetName = typeof described === 'string' && described.trim() !== '' ? described : null
     const entry: TraceEntry = {
       snapshotId: observation.snapshot_id,
       operation: decision.operation,
       target: decision.target,
-      ...targetName === undefined ? {} : { targetName },
+      ...targetName === null ? {} : { targetName },
       origin: new URL(observation.url).origin,
       ...decision.confidence === undefined ? {} : { confidence: decision.confidence },
       requestLatencyMs: response.latencyMs,
@@ -292,7 +307,9 @@ async function runBrowserSubgoalInner(
       await dom.execute(observation, decision, config.operationTimeoutMs)
       state.actionsExecuted += 1
       entry.dispatched = true
-      if (decision.operation === 'TYPE_TEXT' && targetName !== undefined && decision.text !== undefined) {
+      // Only a named control is evidence for a captured Skill: an anonymous
+      // target has no stable name to replay or to redact against (BR-11).
+      if (decision.operation === 'TYPE_TEXT' && targetName !== null && decision.text !== undefined) {
         captureInputs.get(state)!.push({ targetName, value: decision.text })
       }
     } catch (error) {

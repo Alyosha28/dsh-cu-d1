@@ -5,6 +5,7 @@ import base64
 import hmac
 import io
 import json
+import logging
 import os
 import secrets
 import threading
@@ -26,12 +27,47 @@ from .policy import (
 
 MAX_REQUEST_BYTES = 1024 * 1024
 MAX_VISION_WIDTH = int(os.environ.get("DSH_CU_VISION_WIDTH", "800"))
+# Decoded screenshots are bounded independently of the body size: a 1 MiB body
+# can hold a PNG of tens of millions of pixels, and `convert("RGB")` allocates
+# 3 bytes per pixel before the resize (a 9000x9000 image is ~232 MiB).
+MAX_IMAGE_PIXELS = int(os.environ.get("DSH_CU_MAX_IMAGE_PIXELS", "40000000"))
+# A decoded screenshot above this is refused outright, not resized first.
+MAX_DECODED_BYTES = 8 * 1024 * 1024
+REQUEST_TIMEOUT_SECONDS = float(os.environ.get("DSH_CU_REQUEST_TIMEOUT", "15"))
+
+# PIL's own default is 89478485 pixels, so the cap is applied here. The explicit
+# `width * height` check below is what actually refuses a giant image: PIL only
+# raises for `Image.open` before v12 semantics, and a DecompressionBombWarning is
+# not an exception by default.
+Image.MAX_IMAGE_PIXELS = MAX_IMAGE_PIXELS
+LOGGER = logging.getLogger("dsh_cu_decision.server")
 
 
 def prepare_media(image_bytes: bytes) -> list[Image.Image]:
     """Downscale wide screenshots before vision encoding; boxes stay normalized."""
-    with Image.open(io.BytesIO(image_bytes)) as source:
-        image = source.convert("RGB")
+    if len(image_bytes) > MAX_DECODED_BYTES:
+        raise ValueError(f"screenshot exceeds {MAX_DECODED_BYTES // (1024 * 1024)} MiB")
+    # Pillow's own bomb guard fires while parsing the header; it is mapped to the
+    # same 400 as our check so a client sees one reason, not two dialects.
+    try:
+        source = Image.open(io.BytesIO(image_bytes))
+    except Image.DecompressionBombError as error:
+        raise ValueError(f"screenshot is above the {MAX_IMAGE_PIXELS}-pixel decode limit: {error}") from error
+    try:
+        with source:
+            width, height = source.size
+            if width <= 0 or height <= 0:
+                raise ValueError("screenshot has no pixels")
+            if width * height > MAX_IMAGE_PIXELS:
+                raise ValueError(
+                    f"screenshot is {width}x{height} ({width * height} pixels), above the "
+                    f"{MAX_IMAGE_PIXELS}-pixel decode limit"
+                )
+            image = source.convert("RGB")
+    except Image.DecompressionBombError as error:
+        raise ValueError(f"screenshot is too large to decode: {error}") from error
+    except Image.DecompressionBombWarning as warning:
+        raise ValueError(f"screenshot is too large to decode: {warning}") from warning
     if image.width > MAX_VISION_WIDTH:
         height = max(1, round(image.height * MAX_VISION_WIDTH / image.width))
         image = image.resize((MAX_VISION_WIDTH, height), Image.LANCZOS)
@@ -68,8 +104,6 @@ class DecisionEngine:
                 image_bytes = base64.b64decode(screenshot["data"], validate=True)
             except Exception as error:
                 raise ValueError("screenshot data must be valid base64") from error
-            if len(image_bytes) > 8 * 1024 * 1024:
-                raise ValueError("screenshot exceeds 8 MiB")
             media = prepare_media(image_bytes)
 
         state = {"goal": goal, "observation": observation}
@@ -130,6 +164,10 @@ class DecisionEngine:
 
 class DecisionHttpServer(ThreadingHTTPServer):
     daemon_threads = True
+    request_queue_size = 16
+    # Always a real logger: the 500 path below writes through it, and the old
+    # `hasattr(self.server, "logger")` guard meant a failure was logged nowhere.
+    logger: logging.Logger = LOGGER
 
     def __init__(self, address: tuple[str, int], engine: DecisionEngine, token: str) -> None:
         self.engine = engine
@@ -140,6 +178,9 @@ class DecisionHttpServer(ThreadingHTTPServer):
 
 class DecisionHandler(BaseHTTPRequestHandler):
     server: DecisionHttpServer
+    # A client that opens a socket and never finishes its request holds a thread
+    # for its whole lifetime without this.
+    timeout = REQUEST_TIMEOUT_SECONDS
 
     def log_message(self, format: str, *args: Any) -> None:
         pass
@@ -196,8 +237,10 @@ class DecisionHandler(BaseHTTPRequestHandler):
             self._send(200, result)
         except (DecisionError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
             self._send(400, {"error": "decision_rejected", "message": str(exc)})
-        except Exception:
-            self.server.logger.exception("D1 decision failed") if hasattr(self.server, "logger") else None
+        except Exception as exc:  # noqa: BLE001 - the handler must answer, not crash
+            # Structural detail only: never the token, the body, or the screenshot.
+            peer = self.client_address[0] if hasattr(self, "client_address") else "unknown"
+            self.server.logger.exception("D1 decision failed (%s) from %s", type(exc).__name__, peer)
             self._send(500, {"error": "decision_failed"})
 
 
@@ -210,6 +253,7 @@ def main() -> None:
     if not 1 <= args.port <= 65535:
         parser.error("--port must be between 1 and 65535")
 
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
     token = args.token or secrets.token_urlsafe(32)
     model = D1Model(local_files_only=args.local_files_only)
     server = DecisionHttpServer(("127.0.0.1", args.port), DecisionEngine(model), token)

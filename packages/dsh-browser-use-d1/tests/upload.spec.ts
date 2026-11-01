@@ -71,12 +71,14 @@ it('uploads an approved file and the page receives it', async () => {
     locator: documentInput,
     files: [join(tempRoot, 'note.txt')],
   })
+  // BR-09: the result and the approval now name absolute paths, not basenames,
+  // so a human (and the audit trail) can see where the bytes came from.
   expect(result).toMatchObject({
-    status: 'success', reason: 'uploaded', field: 'doc', files: ['note.txt'], trusted: false,
+    status: 'success', reason: 'uploaded', field: 'doc', files: [join(tempRoot, 'note.txt')], trusted: false,
   })
   expect(questions.calls).toHaveLength(1)
   const detail = (questions.calls[0]!.questions[0] as { detail: string }).detail
-  expect(detail).toContain('note.txt')
+  expect(detail).toContain(join(tempRoot, 'note.txt'))
 
   const extract = await call('browser_extract', {
     fields: [{ name: 'picked', locator: { kind: 'css', selector: '#picked' } }],

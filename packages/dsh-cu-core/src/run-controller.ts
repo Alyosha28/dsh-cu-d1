@@ -71,6 +71,8 @@ function publicRun(record: RunRecord | undefined): PublicRunRecord | undefined {
 export class RunController {
   private readonly states = new Map<string, AgentState>()
   private pending: Promise<void> = Promise.resolve()
+  /** Failed audit writes; the chain keeps going and new runs are refused once > 0 (CR-06). */
+  private failures = 0
 
   constructor(
     private readonly audit?: AuditStore,
@@ -86,9 +88,30 @@ export class RunController {
     return state
   }
 
+  /**
+   * Audit writes are serialized but isolated: one failed append is counted and
+   * swallowed so the queue can never become a permanently rejected promise,
+   * which used to silently disable every later audit event (CR-06).
+   */
   private record(event: Parameters<AuditStore['append']>[0]): void {
     if (this.audit === undefined) return
-    this.pending = this.pending.then(() => this.audit!.append(event).then(() => undefined))
+    this.pending = this.pending.then(() => this.audit!.append(event).then(
+      () => undefined,
+      (error: unknown) => {
+        this.failures += 1
+        console.error('dsh-cu audit append failed', error instanceof Error ? error.name : 'Error')
+      },
+    ))
+  }
+
+  /** Audits a privilege change made through the control plane (CR-07). */
+  recordControlEvent(event: Parameters<AuditStore['append']>[0]): void {
+    this.record(event)
+  }
+
+  /** Failed audit writes so far. Once non-zero, new runs are refused (fail closed). */
+  get auditWriteFailures(): number {
+    return this.failures
   }
 
   private wake(state: AgentState): void {
@@ -108,6 +131,7 @@ export class RunController {
     if (state.stopped) return this.inactive(agent, { status: 'stopped', reason: state.stopReason ?? 'stopped_by_user' })
     if (state.takeover) return this.inactive(agent, { status: 'takeover', reason: state.takeoverReason ?? 'human_takeover' })
     if (state.paused) return this.inactive(agent, { status: 'paused', reason: 'paused_by_user' })
+    if (this.failures > 0) throw new Error('audit_write_failed: refusing to start a run that cannot be audited')
     const controller = new AbortController()
     const run: RunRecord = {
       id: randomUUID(), kind, status: 'running', controller,
@@ -208,8 +232,17 @@ export class RunController {
     this.finalize(agent, 'takeover')
   }
 
+  /**
+   * Resumes a paused run. `stopped` and `takeover` are terminate-only states: a
+   * model-callable `resume` must never undo the user's stop, so only a host-side
+   * {@link clearStop} can lift them (CR-06).
+   */
   resume(agent: Agent): void {
     const state = this.state(agent)
+    if (state.stopped || state.takeover) {
+      this.record({ agentId: agent.id, kind: 'run_resume_refused', ...state.stopped ? { detail: { status: 'stopped' } } : { detail: { status: 'takeover' } } })
+      return
+    }
     const active = state.active
     if (active !== undefined && active.pausedAt !== undefined) {
       active.pausedMs = this.pausedMs(active)
@@ -217,18 +250,30 @@ export class RunController {
       active.status = 'running'
     }
     state.paused = false
+    this.wake(state)
+    this.record({ agentId: agent.id, kind: 'run_resumed' })
+  }
+
+  /** Host-only: lifts a user stop or takeover. Not reachable from a model tool. */
+  clearStop(agent: Agent): void {
+    const state = this.state(agent)
     state.stopped = false
     state.stopReason = undefined
     state.takeover = false
     state.takeoverReason = undefined
-    this.wake(state)
-    this.record({ agentId: agent.id, kind: 'run_resumed' })
+    this.record({ agentId: agent.id, kind: 'run_control_cleared' })
   }
 
   finish(agent: Agent, status: RunRecord['status'], reason: string, route?: string): void {
     const state = this.state(agent)
     const active = state.active
-    if (active === undefined) return
+    if (active === undefined) {
+      // A terminal outcome that arrives without a live run (blocked/escalated
+      // before start) must still leave a trace (CR-06).
+      const operational = /^[a-z][a-z0-9_:-]{0,99}$/u.test(reason) ? reason : 'tool_execution_failed'
+      this.record({ agentId: agent.id, kind: 'run_finished', detail: { status, reason: operational, ...route === undefined ? {} : { route } } })
+      return
+    }
     // Control APIs and audit records carry stable operational codes, never raw exception text.
     const operationalReason = /^[a-z][a-z0-9_:-]{0,99}$/u.test(reason) ? reason : 'tool_execution_failed'
     active.status = status
@@ -255,6 +300,11 @@ export class RunController {
 
   async auditEvents(limit = 50) {
     await this.pending
-    return this.audit?.list(limit) ?? []
+    try {
+      return await (this.audit?.list(limit) ?? [])
+    } catch (error) {
+      console.error('dsh-cu audit read failed', error instanceof Error ? error.name : 'Error')
+      return []
+    }
   }
 }

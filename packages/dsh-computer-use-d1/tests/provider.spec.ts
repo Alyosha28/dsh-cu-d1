@@ -17,7 +17,8 @@ import { setTimeout as delay } from 'node:timers/promises'
 import * as Provider from '../src/index.ts'
 import { createCandidateFromTrajectory, evidenceFromRun } from '@albaincompleta/dsh-cu-core/skill-builder'
 import { SkillStore } from '@albaincompleta/dsh-cu-core/skill-store'
-import { close, decisionServer, HELPER, listen, pathGrant, ROOT } from './fixtures.ts'
+import { close, decisionServer, HELPER, listen, NATIVE_HELPER_AVAILABLE, pathGrant, ROOT } from './fixtures.ts'
+import { FakeUserQuestions } from './approval-fixtures.ts'
 
 
 class IndependentSessionModel extends LlmAdapter {
@@ -55,6 +56,9 @@ beforeEach(async () => {
 
   ctx = new Context()
   await mountAgentLoopTestDependencies(ctx)
+  // The official CUA provider asks the human before it touches an application;
+  // a headless run has to answer that question explicitly.
+  ctx.provide('userQuestions', new FakeUserQuestions(true))
   await ctx.plugin(SubprocessLocal)
   await ctx.plugin(ComputerUseRegistry)
   ctx.llm.registerAdapter(['fixture'], new IndependentSessionModel())
@@ -70,7 +74,7 @@ afterEach(async () => {
   await rm(reportPath, { force: true })
 })
 
-it('runs a native CSV import through official CUA and the standard tool pipeline', async () => {
+it.skipIf(!NATIVE_HELPER_AVAILABLE)('runs a native CSV import through official CUA and the standard tool pipeline', async () => {
   const provider = ctx.plugin(Provider, {
     helperPath: HELPER,
     allowedApps: [pathGrant(fixturePath)],
@@ -110,7 +114,7 @@ it('runs a native CSV import through official CUA and the standard tool pipeline
   expect(ctx.computerUse.providerName).toBeUndefined()
 })
 
-it('stops after the input token budget is reached without another native decision', async () => {
+it.skipIf(!NATIVE_HELPER_AVAILABLE)('stops after the input token budget is reached without another native decision', async () => {
   await ctx.plugin(Provider, {
     helperPath: HELPER,
     allowedApps: [pathGrant(fixturePath)],
@@ -141,7 +145,7 @@ it('stops after the input token budget is reached without another native decisio
   })
 })
 
-it('evolves a stale published native Skill after a bounded D1 repair', async () => {
+it.skipIf(!NATIVE_HELPER_AVAILABLE)('evolves a stale published native Skill after a bounded D1 repair', async () => {
   const skillStorePath = join(tempRoot, 'skills.json')
   const store = new SkillStore(skillStorePath)
   const stale = await store.createCandidate({
@@ -149,9 +153,13 @@ it('evolves a stale published native Skill after a bounded D1 repair', async () 
     verify: [{ type: 'text_visible', text: 'Import complete' }],
     steps: [{ type: 'click', target: 'Retired Import Button' }],
   })
-  await store.recordVerification(stale.id, evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1))
-  const latest = (await store.get(stale.id))!.history.at(-1)!
-  await store.publish(stale.id, latest.id, 'user')
+  // CR-02: evidence is minted by a single-use verification session, and the
+  // publish call takes the one-shot nonce that the approval produced.
+  const session = await store.beginVerification(stale.id)
+  await store.finishVerification(session.token, { status: 'passed', summary: 'independently_verified_after_skill' })
+  const nonce = store.mintPublishNonce(stale.id, { approved: true })
+  expect(nonce).toBeTypeOf('string')
+  await store.publish(stale.id, nonce)
 
   await ctx.plugin(Provider, {
     helperPath: HELPER,
@@ -191,7 +199,7 @@ it('evolves a stale published native Skill after a bounded D1 repair', async () 
   expect((await store.get(stale.id))?.state).toBe('verified')
 })
 
-it('executes a verified native import skill with zero model calls', async () => {
+it.skipIf(!NATIVE_HELPER_AVAILABLE)('executes a verified native import skill with zero model calls', async () => {
   await ctx.plugin(Provider, {
     helperPath: HELPER,
     allowedApps: [pathGrant(fixturePath)],
@@ -218,7 +226,7 @@ it('executes a verified native import skill with zero model calls', async () => 
   })
 })
 
-it('preserves continuous foreground input during dynamic and zero-model Skill execution', async () => {
+it.skipIf(!NATIVE_HELPER_AVAILABLE)('preserves continuous foreground input during dynamic and zero-model Skill execution', async () => {
   const children: ChildProcess[] = []
   const anchorState = join(tempRoot, 'anchor-state.json')
   const anchor = spawn(fixturePath, [anchorState, '--editing'], { stdio: ['ignore', 'pipe', 'inherit'] })

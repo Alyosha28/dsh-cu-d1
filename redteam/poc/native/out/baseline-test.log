@@ -1,0 +1,173 @@
+
+> @albaincompleta/dsh-cu-computer-use-d1@0.2.8 test
+> vitest run
+
+
+ RUN  v4.1.12 /Users/albaincompleta/DSH_CU/packages/dsh-computer-use-d1
+
+ ✓ tests/permissions.spec.ts (2 tests) 41ms
+ ✓ tests/controller.spec.ts (8 tests) 9ms
+ ✓ tests/skill-runner.spec.ts (7 tests) 9ms
+ ✓ tests/menu-bar.spec.ts (1 test) 186ms
+ ✓ tests/composition.spec.ts (1 test) 18ms
+ ❯ tests/visual.spec.ts (1 test | 1 failed) 1107ms
+   × uses a screenshot box for native input when AX is unavailable 1106ms
+ ❯ tests/multiwindow.spec.ts (1 test | 1 failed) 1293ms
+   × requires an explicit window before allowing native input 1292ms
+ ✓ tests/approval.spec.ts (1 test) 1429ms
+   ✓ publishes a Skill through DSH user approval and exposes native control  1428ms
+ ❯ tests/provider.spec.ts (5 tests | 5 failed) 6830ms
+   × runs a native CSV import through official CUA and the standard tool pipeline 1559ms
+   × stops after the input token budget is reached without another native decision 755ms
+   × evolves a stale published native Skill after a bounded D1 repair 760ms
+   × executes a verified native import skill with zero model calls 755ms
+   × preserves continuous foreground input during dynamic and zero-model Skill execution 3000ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/multiwindow.spec.ts > requires an explicit window before allowing native input
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/multiwindow.spec.ts:87:29
+     85|     signal: new AbortController().signal,
+     86|   })
+     87|   expect(ambiguous.isError).toBe(false)
+       |                             ^
+     88|   const value = JSON.parse((ambiguous.content[0] as { text: string }).…
+     89|   expect(value).toMatchObject({ status: 'escalated', reason: 'window_s…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/provider.spec.ts > runs a native CSV import through official CUA and the standard tool pipeline
+AssertionError: [{"type":"text","text":"Error: Error: NATIVE_IO: Writing a helper request failed"}]: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/provider.spec.ts:104:58
+    102|     signal: new AbortController().signal,
+    103|   })
+    104|   expect(result.isError, JSON.stringify(result.content)).toBe(false)
+       |                                                          ^
+    105|   const value = JSON.parse((result.content[0] as { text: string }).tex…
+    106|   expect(value).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/provider.spec.ts > stops after the input token budget is reached without another native decision
+AssertionError: [{"type":"text","text":"Error: Error: NATIVE_IO: Writing a helper request failed"}]: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/provider.spec.ts:136:58
+    134|     signal: new AbortController().signal,
+    135|   })
+    136|   expect(result.isError, JSON.stringify(result.content)).toBe(false)
+       |                                                          ^
+    137|   const value = JSON.parse((result.content[0] as { text: string }).tex…
+    138|   expect(value).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/provider.spec.ts > evolves a stale published native Skill after a bounded D1 repair
+AssertionError: [{"type":"text","text":"Error: Error: NATIVE_IO: Writing a helper request failed"}]: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/provider.spec.ts:180:58
+    178|     signal: new AbortController().signal,
+    179|   })
+    180|   expect(result.isError, JSON.stringify(result.content)).toBe(false)
+       |                                                          ^
+    181|   const value = JSON.parse((result.content[0] as { text: string }).tex…
+    182|   expect(value).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/provider.spec.ts > executes a verified native import skill with zero model calls
+AssertionError: [{"type":"text","text":"Error: Error: NATIVE_IO: Writing a helper request failed"}]: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/provider.spec.ts:214:58
+    212|     signal: new AbortController().signal,
+    213|   })
+    214|   expect(result.isError, JSON.stringify(result.content)).toBe(false)
+       |                                                          ^
+    215|   const value = JSON.parse((result.content[0] as { text: string }).tex…
+    216|   expect(value).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/provider.spec.ts > preserves continuous foreground input during dynamic and zero-model Skill execution
+AssertionError: [{"type":"text","text":"Error: Error: NATIVE_IO: Writing a helper request failed"}]: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/provider.spec.ts:296:62
+    294|       })
+    295|       await typing
+    296|       expect(result.isError, JSON.stringify(result.content)).toBe(fals…
+       |                                                              ^
+    297|       const value = JSON.parse((result.content[0] as { text: string })…
+    298|       expect(value).toMatchObject({ status: 'success', route, actionsE…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  tests/visual.spec.ts > uses a screenshot box for native input when AX is unavailable
+AssertionError: [{"type":"text","text":"Error: Error: NATIVE_IO: Writing a helper request failed"}]: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/visual.spec.ts:102:58
+    100|     signal: new AbortController().signal,
+    101|   })
+    102|   expect(result.isError, JSON.stringify(result.content)).toBe(false)
+       |                                                          ^
+    103|   const value = JSON.parse((result.content[0] as { text: string }).tex…
+    104|   expect(value).toMatchObject({ status: 'success', decisionRequests: 2…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  3 failed | 6 passed (9)
+      Tests  7 failed | 20 passed (27)
+   Start at  00:53:59
+   Duration  7.10s (transform 467ms, setup 0ms, import 1.49s, tests 10.92s, environment 0ms)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /Users/albaincompleta/DSH_CU/packages/dsh-computer-use-d1
+npm error workspace @albaincompleta/dsh-cu-computer-use-d1@0.2.8
+npm error location /Users/albaincompleta/DSH_CU/packages/dsh-computer-use-d1
+npm error command failed
+npm error command sh -c vitest run

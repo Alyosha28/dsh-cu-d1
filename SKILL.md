@@ -46,18 +46,21 @@ Choose `REASON` by the decision you are making:
 
 Use the extract tool at call time only with explicit locators and required result types. In review mode, `ALLOW` names extraction only when the requested value has an explicit locator; otherwise `ESCALATE` for the missing locator.
 
+Sensitive field values are read-only in a narrower sense: an observation and an extraction return `•••` / `[redacted]` for password, payment, one-time-code and CSRF-like fields, and only a provider-config opt-in or a one-field approval releases the real value. A redacted field is `ok: true` with `reason: "sensitive_redacted"`, not a missing value; report it as redacted.
+
 ## Hard rules
 
 1. Every action subgoal needs at least one independent `verify` assertion. A missing assertion is a refusal, not a detail to invent.
 2. A missing or ambiguous extraction locator must stop. Never select the first match, guess a CSS selector, or silently retry with a different target. A blank value from an existing element is `empty`, not `missing`: for a `string` field it is `""`, and a blank `number`, `boolean`, or `url` field is a failed coercion (`empty_value`).
 3. Tab selection moves the owned page. Call `browser_tabs` only while no run is active; after `select`, `open`, or `close`, re-read the tab list instead of reusing an index, and re-check the page origin before any Skill replay.
 4. Never replay a URL Skill at another origin. Check the current page origin before replay and after navigations. Legacy Skills without origin or persisted postconditions are not replayable.
-5. Consequential actions and login require explicit user approval. Never treat the model's confidence as approval. Uploading local files is consequential: call the upload tool and let the approval name the paths; never reimplement an upload through `d1_browser_subgoal` to avoid the prompt.
-6. Never claim unattended control of real credentials, payments, deletion, messaging, or irreversible actions.
-7. Publish a Skill only after the latest independent rerun passed and the user explicitly approved that exact candidate. A candidate is not a published Skill.
-8. Report `blocked`, `escalated`, or `confirmation_required` honestly. Do not describe a refused action as completed.
-9. Browser and native execution may use visible controlled windows, but dynamic execution and Verified Skill replay must not steal the user's focus, system pointer, or keyboard. Every controlled interface must show a model-independent software cursor and current run state. Completion, stop, failure, takeover, and client disconnect must release input and remove the cursor; a completed result card may remain until the user dismisses it. Foreground-only actions stop with `foreground_required` unless the user explicitly takes over.
-10. When the user authorizes reuse of login state, expose only the necessary state to a private isolated profile and remove it after the task.
+5. Consequential actions and login require explicit user approval. Never treat the model's confidence as approval. Uploading local files is consequential: call the upload tool and let the approval name the paths; never reimplement an upload through `d1_browser_subgoal` to avoid the prompt. Pre-authorization is an operator setting (`minRisk`, `preauthorizeConsequential`, `preauthorizeLogin` in the provider config); the `policy` tool argument only carries `risk` and `credentialsAvailable`, and can only tighten a run, never grant one.
+6. A published Skill is not a standing authorization. Replay runs the same gates as the dynamic path — consequential and sensitive-input steps ask per action, an absent approval channel ends with `confirmation_required` and zero actions, and a Skill scoped to a window or application never replays inside the other provider.
+7. Never claim unattended control of real credentials, payments, deletion, messaging, or irreversible actions.
+8. Publish a Skill only after the latest independent rerun passed and the user explicitly approved that exact candidate. A candidate is not a published Skill. The candidate's postconditions and steps are what the approval names; approval of a count is not approval of a behavior.
+9. Report `blocked`, `escalated`, or `confirmation_required` honestly. Do not describe a refused action as completed.
+10. Browser and native execution may use visible controlled windows, but dynamic execution and Verified Skill replay must not steal the user's focus, system pointer, or keyboard. Every controlled interface must show a model-independent software cursor and current run state. Completion, stop, failure, takeover, and client disconnect must release input and remove the cursor; a completed result card may remain until the user dismisses it. Foreground-only actions stop with `foreground_required` unless the user explicitly takes over. A controlled window that becomes invisible or loses its owner revokes input; the run stops instead of continuing blind.
+11. When the user authorizes reuse of login state, expose only the necessary state to a private isolated profile and remove it after the task.
 
 ## Decision meanings
 

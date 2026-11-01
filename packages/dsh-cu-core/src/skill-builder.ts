@@ -75,12 +75,34 @@ export function stepsFromTrajectory(trace: TrajectoryStep[]): SkillStep[] | null
   return steps.length > 0 ? steps : null
 }
 
+function isInputStep(step: TrajectoryStep): boolean {
+  return step.operation === 'TYPE_TEXT' || step.operation === 'PASTE_TEXT'
+}
+
+/**
+ * Values that must never be persisted in a Skill. The builder collects every
+ * text it dispatched (TYPE_TEXT *and* PASTE_TEXT) plus the caller's structured
+ * inputs, so a value that never made it into `capturedValues` still has to be
+ * replaced by a placeholder before the candidate is written (CR-09).
+ */
+function secretsInTrajectory(trajectory: SkillTrajectory): string[] {
+  const secrets: string[] = []
+  for (const step of trajectory.trace) {
+    if (!isInputStep(step) || step.dispatched === false) continue
+    if (typeof step.text === 'string' && step.text !== '') secrets.push(step.text)
+  }
+  for (const value of Object.values(trajectory.inputs ?? {})) {
+    if (value !== '') secrets.push(value)
+  }
+  return secrets
+}
+
 function capturedInputsForTrajectory(trajectory: SkillTrajectory): Record<string, string> | null {
   const inputs = Object.create(null) as Record<string, string>
   const inputKeys = inputKeysFromTrajectory(trajectory.trace)
   let captureIndex = 0
   for (const step of trajectory.trace) {
-    if (step.operation !== 'TYPE_TEXT' && step.operation !== 'PASTE_TEXT') continue
+    if (!isInputStep(step)) continue
     const target = step.targetName?.trim()
     const key = inputKeys[captureIndex]
     const captured = trajectory.capturedValues?.[captureIndex]
@@ -117,8 +139,12 @@ export async function createCandidateFromTrajectory(
     return storedMetadata.some(text => text?.includes(value) || (encoded !== value && text?.includes(encoded)))
   })
   if (containsRawInput) return undefined
-  const verify = sanitizeSkillVerifications(trajectory.verify, inputs)
+  const secrets = [...new Set([...Object.values(inputs), ...secretsInTrajectory(trajectory)].filter(value => value !== ''))]
+  const verify = sanitizeSkillVerifications(trajectory.verify, inputs, secrets)
   if (verify === null) return undefined
+  // Refuse to persist a candidate while any dispatched value survives in the
+  // assertions: it would be written to skills.json in clear text (CR-09).
+  if (containsVerbatim(verify, [...secrets, ...Object.values(inputs)])) return undefined
   return store.createCandidate({
     match: trajectory.match,
     fallback: 'd1',
@@ -128,6 +154,17 @@ export async function createCandidateFromTrajectory(
   }, trajectory.evolveFrom === undefined ? undefined : { evolveFrom: trajectory.evolveFrom })
 }
 
+function containsVerbatim(value: unknown, secrets: string[]): boolean {
+  if (secrets.length === 0) return false
+  const text = JSON.stringify(value)
+  return secrets.some(secret => secret !== '' && text.includes(secret))
+}
+
+/**
+ * @deprecated Evidence can no longer be asserted by a caller: mint it through
+ * `SkillStore.beginVerification` / `finishVerification` (CR-02). This helper
+ * only classifies an already-observed rerun outcome for tests and logs.
+ */
 export function evidenceFromRun(
   status: string,
   reason: string,
@@ -139,6 +176,6 @@ export function evidenceFromRun(
     status: status === 'success' && modelForwardCalls === 0 && independent && actionsExecuted > 0 ? 'passed' : 'failed',
     independent: true,
     at: new Date().toISOString(),
-    summary: reason,
+    summary: /^[a-z][a-z0-9_.:-]{0,99}$/u.test(reason) ? reason : 'verification_summary_invalid',
   }
 }

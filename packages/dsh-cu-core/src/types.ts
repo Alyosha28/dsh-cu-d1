@@ -1,15 +1,17 @@
 export interface ObservedElement {
   id: string
   role: string
-  name: string
+  /** DOM-derived: `null` at runtime for elements without an accessible name. */
+  name: string | null
   value: string | null
   actions: string[]
   enabled: boolean
   focused: boolean
-  inputType?: string
-  context?: string
+  /** `null` for non-input elements: the snapshot never omits this field. */
+  inputType?: string | null
+  context?: string | null
   bounds?: [number, number, number, number]
-  identifier?: string
+  identifier?: string | null
   selected?: boolean | string | number | null
   declaredActions?: string[]
 }

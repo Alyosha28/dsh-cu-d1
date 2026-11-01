@@ -9,14 +9,27 @@ import { compileSwiftHelper } from '@albaincompleta/dsh-cu-core/helper-cache'
 import { uiStrings, type PanelStrings } from '@albaincompleta/dsh-cu-core/locale'
 
 const helperEvent = z.object({
-  type: z.enum(['ready', 'started', 'control', 'expired', 'menu']),
+  type: z.enum(['ready', 'started', 'control', 'expired', 'menu', 'unavailable']),
   visible: z.boolean().optional(),
   runId: z.string().optional(),
   action: z.enum(['pause', 'resume', 'stop', 'takeover', 'dismiss']).optional(),
-  reason: z.literal('takeover_detected').optional(),
+  reason: z.string().min(1).optional(),
 }).strict()
 
 export type NativeControlCallback = (action: ControlAction, reason?: 'takeover_detected') => void
+
+/**
+ * Why the indicator stopped being a truthful view of the run (NR-02). Any of
+ * these means the cursor/state panel is no longer on screen, so the run must
+ * lose input authority instead of continuing invisibly.
+ */
+export type IndicatorUnavailableReason =
+  | 'window_gone'
+  | 'window_offscreen'
+  | 'panel_dismissed'
+  | 'heartbeat_expired'
+  | 'helper_exited'
+  | 'helper_unavailable'
 
 export interface NativeIndicatorTarget {
   pid: number
@@ -37,6 +50,12 @@ export interface NativeIndicator extends ActivitySink {
   finish(outcome?: NativeRunOutcome): Promise<void>
   dismiss(): Promise<void>
   close(): Promise<void>
+  /**
+   * Set when the indicator is running without any visible cursor or panel, so
+   * the caller can mark the result instead of reporting an unimpaired run
+   * (NR-08). Absent means the indicator is fully live.
+   */
+  readonly degraded?: { reason: string }
 }
 
 export const DEFAULT_PANEL_STRINGS: PanelStrings = uiStrings('zh')
@@ -63,6 +82,11 @@ export class NativeControlIndicator implements NativeIndicator {
   private heartbeat?: NodeJS.Timeout
   private readonly waiters = new Set<Waiter>()
   private closed = false
+  /** True only between `started` and the moment the helper lost the panel. */
+  private observedVisible = false
+  /** Reported at most once per run: the first reason wins. */
+  private unavailableReason?: string
+  readonly degraded: { reason: string } | undefined = undefined
 
   get pid(): number | undefined {
     return this.child?.pid
@@ -72,13 +96,13 @@ export class NativeControlIndicator implements NativeIndicator {
     private readonly helperPath: string,
     private readonly strings: PanelStrings,
     private readonly onControl: NativeControlCallback,
-    private readonly onUnavailable: () => void,
+    private readonly onUnavailable: (reason: IndicatorUnavailableReason) => void,
   ) {}
 
   static async create(
     helperPath: string | undefined,
     onControl: NativeControlCallback,
-    onUnavailable: () => void,
+    onUnavailable: (reason: IndicatorUnavailableReason) => void,
     strings: PanelStrings = DEFAULT_PANEL_STRINGS,
   ): Promise<NativeControlIndicator> {
     if (helperPath !== undefined) return new NativeControlIndicator(helperPath, strings, onControl, onUnavailable)
@@ -119,24 +143,68 @@ export class NativeControlIndicator implements NativeIndicator {
     })
   }
 
+  /**
+   * One stdout line from the helper. Malformed or unknown lines are dropped
+   * instead of becoming an uncaught exception in the host process (NR-08): the
+   * helper owns its own stdout, and a stray `print` must never kill a run.
+   */
+  private parseLine(raw: string): z.infer<typeof helperEvent> | undefined {
+    let value: unknown
+    try {
+      value = JSON.parse(raw)
+    } catch {
+      if (process.env.DEBUG_CUA === '1') console.error('CUA_INDICATOR_LINE_DROPPED', raw.slice(0, 120))
+      return undefined
+    }
+    const parsed = helperEvent.safeParse(value)
+    return parsed.success ? parsed.data : undefined
+  }
+
+  /**
+   * The indicator stopped being a truthful view of this run: revoke the run's
+   * input authority once, and make every later `activity()` fail closed.
+   */
+  private reportUnavailable(reason: IndicatorUnavailableReason | string): void {
+    if (this.unavailableReason !== undefined) return
+    this.unavailableReason = reason
+    this.observedVisible = false
+    this.runId = undefined
+    if (this.heartbeat !== undefined) clearInterval(this.heartbeat)
+    this.heartbeat = undefined
+    // A pending start/finish must observe the loss immediately instead of timing out.
+    for (const waiter of [...this.waiters]) waiter.reject(new Error(`native_indicator_unavailable: ${reason}`))
+    this.onUnavailable(reason as IndicatorUnavailableReason)
+  }
+
   private handleEvent(raw: string): void {
-    const parsed = helperEvent.safeParse(JSON.parse(raw))
-    if (!parsed.success) return
-    const event = parsed.data
+    const event = this.parseLine(raw)
+    if (event === undefined) return
     for (const waiter of [...this.waiters]) {
       if (waiter.type === event.type && waiter.runId === event.runId) waiter.resolve()
     }
+    if (event.type === 'started' && event.runId === this.runId) {
+      this.observedVisible = true
+      return
+    }
+    if (event.type === 'unavailable') {
+      // A reason for another run is stale; the helper must name this run or none.
+      if (event.runId !== undefined && event.runId !== this.runId) return
+      this.reportUnavailable(event.reason ?? 'helper_unavailable')
+      return
+    }
     if (event.type === 'control' && event.runId === this.runId && event.action !== undefined) {
       if (event.action === 'dismiss') {
-        this.runId = undefined
+        // A dismissed panel is no longer a visible run: stop, then keep the legacy
+        // callback so old helpers still clear their own panel.
+        this.reportUnavailable('panel_dismissed')
         this.onControl('dismiss')
         return
       }
-      this.onControl(event.action, event.reason)
+      this.onControl(event.action, event.reason === 'takeover_detected' ? 'takeover_detected' : undefined)
+      return
     }
     if (event.type === 'expired' && event.runId === this.runId) {
-      this.runId = undefined
-      this.onUnavailable()
+      this.reportUnavailable('heartbeat_expired')
     }
   }
 
@@ -155,10 +223,7 @@ export class NativeControlIndicator implements NativeIndicator {
       if (this.child === child) this.child = undefined
       lines.close()
       for (const waiter of [...this.waiters]) waiter.reject(new Error('native_indicator_unavailable'))
-      if (!this.closed && this.runId !== undefined) {
-        this.runId = undefined
-        this.onUnavailable()
-      }
+      if (!this.closed && this.runId !== undefined) this.reportUnavailable('helper_exited')
     })
     await ready
   }
@@ -175,6 +240,8 @@ export class NativeControlIndicator implements NativeIndicator {
     await this.ensureProcess()
     const started = this.waitFor('started', runId, 5000)
     this.runId = runId
+    this.observedVisible = false
+    this.unavailableReason = undefined
     try {
       this.send({ type: 'start', runId, labels: this.strings, ...target })
       this.heartbeat = setInterval(() => {
@@ -191,7 +258,10 @@ export class NativeControlIndicator implements NativeIndicator {
   }
 
   async activity(event: ActivityEvent): Promise<void> {
+    // Fail closed: no live, visibly indicated run means no activity to report.
+    if (this.unavailableReason !== undefined) throw new Error(`native_indicator_unavailable: ${this.unavailableReason}`)
     if (this.runId === undefined) throw new Error('native_indicator_not_running')
+    if (!this.observedVisible) throw new Error('native_indicator_not_visible')
     this.send({
       type: 'activity',
       runId: this.runId,
@@ -207,6 +277,7 @@ export class NativeControlIndicator implements NativeIndicator {
   async finish(outcome?: NativeRunOutcome): Promise<void> {
     const runId = this.runId
     this.runId = undefined
+    this.observedVisible = false
     if (this.heartbeat !== undefined) clearInterval(this.heartbeat)
     this.heartbeat = undefined
     if (runId === undefined || this.child?.stdin?.writable !== true) return
@@ -246,8 +317,19 @@ export class NativeControlIndicator implements NativeIndicator {
   }
 }
 
-/** Keeps the run usable when the optional visual helper cannot be prepared. */
+/**
+ * Keeps the run usable when the optional visual helper cannot be prepared, and
+ * never pretends a cursor exists (NR-08). `degraded` is mandatory reading for
+ * callers: a run that executed without it must be reported as indicated=false,
+ * never as a fully visible run.
+ */
 export class NoopNativeIndicator implements NativeIndicator {
+  readonly degraded: { reason: string }
+
+  constructor(reason = 'native_indicator_unavailable') {
+    this.degraded = { reason }
+  }
+
   async start(): Promise<void> {}
   async activity(): Promise<void> {}
   async finish(): Promise<void> {}

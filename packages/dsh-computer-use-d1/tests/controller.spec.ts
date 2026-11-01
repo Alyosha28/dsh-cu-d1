@@ -29,7 +29,7 @@ it('verifies visible AX text without matching element indices or metadata', asyn
     const caller = {
       async call() { return { tree, windows: [], pid: 1, truncated: false } },
     } as unknown as NativeCaller
-    return verifyNative(caller, {}, [{ type: 'text_visible', text }], new AbortController().signal)
+    return verifyNative(caller, { windowId: 1 }, [{ type: 'text_visible', text }], new AbortController().signal)
   }
 
   expect(await visible('- [15] AXButton description="Two" id="Two" actions=["AXPress"]', '15')).toBe(false)
@@ -80,7 +80,10 @@ it('maps native paste to one target focus and one official Paste call', async ()
     truncated: false, can_scroll_up: false, can_scroll_down: false,
     windowBounds: { x: 100, y: 200, width: 1000, height: 800 },
     elements: [{ id: '4', role: 'AXDocument', name: 'Body', value: '', actions: ['paste'], enabled: true, focused: false, bounds: [150, 260, 400, 100] }],
-  }, { operation: 'PASTE_TEXT', target: '4', text: 'Literal document body' }, new AbortController().signal)
+  }, { operation: 'PASTE_TEXT', target: '4', text: 'Literal document body' }, new AbortController().signal,
+  // The frame re-read right before dispatch: unchanged, so the fractional
+  // screenshot-space mapping is valid and the click is window-relative.
+  undefined, { x: 100, y: 200, width: 1000, height: 800 })
   expect(calls).toEqual([
     { method: 'click', params: { appHandle: 'app-1', snapshotId: 'snapshot-1', windowId: 2, x: 250, y: 137, relative: true } },
     { method: 'paste', params: { appHandle: 'app-1', text: 'Literal document body' } },

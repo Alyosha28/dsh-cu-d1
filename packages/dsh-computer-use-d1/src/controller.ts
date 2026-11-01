@@ -6,12 +6,17 @@ import { validateDecision } from '@albaincompleta/dsh-cu-core/actions'
 import { subgoalInput } from '@albaincompleta/dsh-cu-core/contract'
 import type { RunStatus, Verification } from '@albaincompleta/dsh-cu-core/contract'
 import type { D1DecisionClient } from '@albaincompleta/dsh-cu-core/decision'
-import { checkPagePolicy, checkTargetAmbiguity, taskPolicySchema } from '@albaincompleta/dsh-cu-core/policy'
+import { checkPagePolicy, checkTargetAmbiguity, resolvePolicy } from '@albaincompleta/dsh-cu-core/policy'
 import { selectSkill, SkillError } from '@albaincompleta/dsh-cu-core/skills'
 import type { SkillStore } from '@albaincompleta/dsh-cu-core/skill-store'
 import type { Decision, Observation } from '@albaincompleta/dsh-cu-core/types'
 import { z } from 'zod'
-import { runNativeVerification } from './verification.ts'
+import {
+  EMPTY_VERIFICATION_REGISTRY, evaluateNativeVerification, parseAxElements,
+  type NativeVerificationRegistry, type NativeVerificationResult, type WindowRect,
+} from './verification.ts'
+export { parseAxElements, visibleAxText } from './verification.ts'
+export type { NativeVerificationRegistry } from './verification.ts'
 import { createCandidateFromTrajectory } from '@albaincompleta/dsh-cu-core/skill-builder'
 import type { ExecutionHandle } from '@albaincompleta/dsh-cu-core/run-controller'
 import type { ApprovalGateway } from '@albaincompleta/dsh-cu-core/approvals'
@@ -139,63 +144,6 @@ export async function getNativeApp(caller: NativeCaller, selector: string, signa
   }
 }
 
-function nativeActions(element: any): string[] {
-  const actions = new Set<string>()
-  const declared: string[] = element.actions ?? []
-  if (declared.some(action => /^(?:AX)?Press$/u.test(action))) actions.add('click')
-  if (declared.some(action => /^(?:AX)?Increment$/u.test(action))) actions.add('increment')
-  if (declared.some(action => /^(?:AX)?Decrement$/u.test(action))) actions.add('decrement')
-  if (/TextField|TextArea|TextView|SearchField|ComboBox/iu.test(element.role)) actions.add('type')
-  if (/TextField|TextArea|TextView|SearchField|ComboBox|Document/iu.test(element.role)) actions.add('paste')
-  if (/Button|CheckBox|RadioButton|MenuItem|PopUpButton/iu.test(element.role)) actions.add('click')
-  return [...actions]
-}
-
-export function parseAxElements(tree: string, window: any): Observation['elements'] {
-  const elements: Observation['elements'] = []
-  for (const line of tree.split('\n')) {
-    const match = line.match(/^\s*- \[(\d+)\]\s+(\S+)(?:\s+(.*))?$/u)
-    if (match === null) continue
-    const [, index, role, content = ''] = match
-    const title = content.match(/"([^"]*)"/u)?.[1] ?? ''
-    const declared = content.match(/actions=\[([^\]]+)\]/u)?.[1]
-    const actions = declared === undefined ? [] : [...declared.matchAll(/"([^"]+)"/gu)].map(match => match[1])
-    const boundsText = content.match(/bounds=\[([^\]]+)\]/u)?.[1]
-    const bounds = boundsText === undefined ? undefined : boundsText.split(',').map(value => Number(value.trim())) as [number, number, number, number]
-    elements.push({
-      id: index,
-      role,
-      name: content.match(/placeholder="([^"]+)"/u)?.[1] || title || content.match(/(?:identifier|id)="([^"]+)"/u)?.[1] || '',
-      value: content.match(/\s=\s"([^"]*)"/u)?.[1] ?? content.match(/ value="([^"]*)"/u)?.[1] ?? null,
-      actions: nativeActions({ role, actions }),
-      enabled: !/\bdisabled\b/u.test(content),
-      focused: /\bfocused\b/u.test(content),
-      inputType: /SecureTextField/iu.test(role) ? 'password' : undefined,
-      context: window.title ?? '',
-      bounds,
-      identifier: content.match(/(?:identifier|id)="([^"]+)"/u)?.[1],
-      declaredActions: actions,
-    })
-  }
-  return elements
-}
-
-export function visibleAxText(tree: string): string {
-  const texts: string[] = []
-  for (const line of tree.split('\n')) {
-    const content = line.match(/^\s*- (?:\[\d+\]\s+)?\S+(?:\s+(.*))?$/u)?.[1] ?? ''
-    if (content === '') continue
-    const title = content.match(/^"([^"]*)"/u)?.[1]
-    const value = content.match(/(?:^|\s)=\s"([^"]*)"/u)?.[1]
-    if (title !== undefined) texts.push(title)
-    if (value !== undefined) texts.push(value)
-    for (const match of content.matchAll(/(?:^|\s)(?:description|placeholder|title|help|value)="([^"]*)"/gu)) {
-      texts.push(match[1])
-    }
-  }
-  return texts.join('\n')
-}
-
 function observationFromState(state: any, window: any, screenshot?: any): Observation {
   const elements = parseAxElements(state.tree, window)
   return {
@@ -220,36 +168,85 @@ function observationFromState(state: any, window: any, screenshot?: any): Observ
   }
 }
 
-export async function verifyNative(caller: NativeCaller, params: Record<string, unknown>, assertions: Verification[], signal: AbortSignal): Promise<boolean> {
+/**
+ * Evaluates the assertions against one fresh AX read.
+ *
+ * The provider owns the read: the caller supplies assertions only, and the
+ * window is the one this run selected. Evidence for every assertion is returned
+ * so a failure can name the element that was (not) found.
+ */
+export async function verifyNativeDetailed(
+  caller: NativeCaller,
+  params: Record<string, unknown>,
+  assertions: Verification[],
+  signal: AbortSignal,
+  registry: NativeVerificationRegistry = EMPTY_VERIFICATION_REGISTRY,
+): Promise<NativeVerificationResult> {
   try {
     const state = await readNativeState(caller, params, signal)
-    const window = state.windows.find((window: any) => window.windowId === params.windowId) ?? params
-    const elements = parseAxElements(state.tree, window)
-    const visibleText = visibleAxText(state.tree)
+    const selectedId = typeof params.windowId === 'number'
+      ? params.windowId
+      : typeof state?.focusedWindowId === 'number' ? state.focusedWindowId : null
+    const window = Array.isArray(state?.windows)
+      ? state.windows.find((entry: any) => entry?.windowId === selectedId)
+      : undefined
+    const customArgs: Record<string, Record<string, unknown>> = {}
     for (const assertion of assertions) {
-      if (assertion.type === 'custom' && !await runNativeVerification(
-        assertion.name,
-        assertion.args ?? {},
-        { caller, params, signal },
-      )) return false
-      if (assertion.type === 'text_visible' && !visibleText.includes(assertion.text)) return false
-      if (assertion.type === 'url_contains' && !`app://${state.pid}/${params.windowId ?? state.focusedWindowId ?? ''}`.includes(assertion.value)) return false
-      if (assertion.type === 'input_value' && !elements.some(element =>
-        (element.name === assertion.label || element.identifier === assertion.label)
-        && element.value === assertion.value)) return false
-      if (assertion.type === 'checkbox' && !elements.some(element =>
-        (element.name === assertion.label || element.identifier === assertion.label)
-        && ([true, 1, '1', 'true', 'checked'].includes(element.selected ?? element.value ?? '') === assertion.checked))) return false
+      if (assertion.type === 'custom') {
+        customArgs[assertion.name] = assertion.args === undefined
+          ? {}
+          : assertion.args as Record<string, unknown>
+      }
     }
-    return true
+    return await evaluateNativeVerification({
+      tree: typeof state?.tree === 'string' ? state.tree : '',
+      pid: typeof state?.pid === 'number' ? state.pid : -1,
+      windowId: selectedId,
+      window,
+      assertions,
+      registry,
+      caller,
+      signal,
+      customArgs,
+      params,
+    })
   } catch (error) {
     if (process.env.DEBUG_CUA === '1') console.error('CUA_VERIFY_ERROR', error instanceof Error ? error.name : 'Error')
-    return false
+    return {
+      ok: false, reason: 'verification_state_unavailable',
+      evidence: { pid: -1, windowId: null, geometry: 'structural', assertions: [] },
+    }
   }
 }
 
+/** Boolean view of {@link verifyNativeDetailed}; kept for the Skill route. */
+export async function verifyNative(
+  caller: NativeCaller,
+  params: Record<string, unknown>,
+  assertions: Verification[],
+  signal: AbortSignal,
+  registry?: NativeVerificationRegistry,
+): Promise<boolean> {
+  return (await verifyNativeDetailed(caller, params, assertions, signal, registry)).ok
+}
+
+/** Hard cap on how long one step may wait for a pending indicator. */
+export const PENDING_PROBE_MAX_MS = 1500
+/** Hard cap on how many AX reads one pending wait may perform. */
+export const PENDING_PROBE_MAX_READS = 8
+
+/**
+ * True only for structural "still working" evidence.
+ *
+ * The previous implementation matched free text anywhere in the tree, so an
+ * application that merely displays the word "Waiting" (a chat transcript, a log
+ * window, a document) kept every step blocked until the async budget expired.
+ * Pending work is now recognised by a progress/busy indicator, never by content.
+ */
 export function hasPendingState(state: any): boolean {
-  return /loading|waiting|please wait|加载|等待/iu.test(state.tree)
+  const tree = typeof state?.tree === 'string' ? state.tree : ''
+  return /(?:^|\s)-(?:\s*\[\d+\])?\s+(?:AX)?(?:ProgressIndicator|BusyIndicator)(?=\s|$)/u.test(tree)
+    || /(?:^|\s)(?:AX)?busy=(?:"?true"?|1)(?=\s|$)/iu.test(tree)
 }
 
 async function runComputerSubgoalInner(
@@ -262,9 +259,15 @@ async function runComputerSubgoalInner(
   execution?: ExecutionHandle,
   approvals?: ApprovalGateway,
   indicator?: NativeIndicator,
+  verifier: NativeVerificationRegistry = EMPTY_VERIFICATION_REGISTRY,
 ): Promise<RunState> {
   const args = computerSubgoalInput.parse(rawArgs)
-  let policy = taskPolicySchema.parse(args.policy ?? {})
+  // The model may only raise the risk; pre-authorization is host configuration.
+  const policy = resolvePolicy(args.policy, {
+    minRisk: config.minRisk,
+    preauthorizeConsequential: config.preauthorizeConsequential,
+    preauthorizeLogin: config.preauthorizeLogin,
+  })
   const signal = execution === undefined ? parentSignal : AbortSignal.any([parentSignal, execution.signal])
   const state: RunState = {
     status: 'escalated', reason: 'step_budget_exhausted', decisionRequests: 0,
@@ -345,7 +348,7 @@ async function runComputerSubgoalInner(
       const { runNativeSkill } = await import('./skill-runner.ts')
       const result = await runNativeSkill(
         caller, skill, args, selected, params, config, signal, app.bundleId,
-        budget, Math.min(args.maxSteps ?? config.maxSteps, config.maxSteps), indicator, execution,
+        budget, Math.min(args.maxSteps ?? config.maxSteps, config.maxSteps), indicator, execution, approvals,
       )
       if (result !== null) {
         const budgetStop = result.status === 'success' ? budget.checkClock() : null
@@ -387,7 +390,7 @@ async function runComputerSubgoalInner(
       state.reason = admissionStop.reason
       return state
     }
-    if (await verifyNative(caller, params, args.verify, signal)) {
+    if (await verifyNative(caller, params, args.verify, signal, verifier)) {
       state.status = 'success'
       state.reason = 'independently_verified'
       return state
@@ -478,9 +481,10 @@ async function runComputerSubgoalInner(
       if (ambiguityStop.details !== undefined) state.details = ambiguityStop.details
       return state
     }
-    const targetName = observation.elements.find(element => element.id === decision.target)?.name
-      || observation.elements.find(element => element.id === decision.target)?.identifier
-    const targetIdentifier = observation.elements.find(element => element.id === decision.target)?.identifier
+    // `name` is null at runtime for elements without an accessible name.
+    const target = observation.elements.find(element => element.id === decision.target)
+    const targetName = target?.name ?? target?.identifier ?? undefined
+    const targetIdentifier = target?.identifier ?? undefined
     state.trace.push({
       snapshotId: observation.snapshot_id,
       operation: decision.operation,
@@ -492,10 +496,15 @@ async function runComputerSubgoalInner(
       dispatched: false,
     })
     if (decision.operation === 'DONE') {
-      if (await verifyNative(caller, params, args.verify, signal)) {
+      const verified = await verifyNativeDetailed(caller, params, args.verify, signal, verifier)
+      if (verified.ok) {
         state.status = 'success'
         state.reason = 'independently_verified'
-      } else state.reason = 'premature_done_rejected_by_verifier'
+      } else {
+        state.reason = 'premature_done_rejected_by_verifier'
+        // Element identity only; assertion text and AX values stay out of the result.
+        state.details = { verification: verified.evidence }
+      }
       return state
     }
     if (decision.operation === 'BLOCKED') {
@@ -569,7 +578,10 @@ async function runComputerSubgoalInner(
     }
 
     try {
-      await executeNative(caller, params, observation, decision, signal, indicator)
+      // Re-read the frame after the decision: the window may have moved, been
+      // resized, or changed display while the model was thinking.
+      const live = await readLiveWindow(caller, params, signal)
+      await executeNative(caller, params, observation, decision, signal, indicator, live?.bounds)
       state.actionsExecuted += 1
       state.trace.at(-1)!.dispatched = true
       if (['TYPE_TEXT', 'PASTE_TEXT'].includes(decision.operation) && targetName !== undefined && decision.text !== undefined) {
@@ -581,7 +593,7 @@ async function runComputerSubgoalInner(
           state.actionsExecuted += 1
           state.trace.at(-1)!.dispatched = true
         }
-        if (await verifyNative(caller, params, args.verify, signal)) {
+        if (await verifyNative(caller, params, args.verify, signal, verifier)) {
           state.status = 'success'
           state.reason = 'independently_verified_after_uncertain_paste'
         } else {
@@ -601,7 +613,7 @@ async function runComputerSubgoalInner(
     const shortDeadline = Date.now() + config.verificationTimeoutMs
     do {
       signal.throwIfAborted()
-      if (await verifyNative(caller, params, args.verify, signal)) {
+      if (await verifyNative(caller, params, args.verify, signal, verifier)) {
         state.status = 'success'
         state.reason = 'independently_verified_after_action'
         return state
@@ -612,14 +624,19 @@ async function runComputerSubgoalInner(
 
     let current = await readNativeState(caller, params, signal)
     if (!hasPendingState(current)) continue
-    const asyncDeadline = Date.now() + config.asyncTimeoutMs
+    // Bounded probe: a structural pending indicator may cost at most
+    // PENDING_PROBE_MAX_MS and PENDING_PROBE_MAX_READS, whatever the config says.
+    const asyncDeadline = Date.now() + Math.min(config.asyncTimeoutMs, PENDING_PROBE_MAX_MS)
+    let reads = 0
     do {
       signal.throwIfAborted()
-      if (await verifyNative(caller, params, args.verify, signal)) {
+      if (await verifyNative(caller, params, args.verify, signal, verifier)) {
         state.status = 'success'
         state.reason = 'independently_verified_after_async_update'
         return state
       }
+      reads += 1
+      if (reads >= PENDING_PROBE_MAX_READS) break
       current = await readNativeState(caller, params, signal)
       if (!hasPendingState(current)) break
       if (Date.now() >= asyncDeadline) {
@@ -637,6 +654,14 @@ async function runComputerSubgoalInner(
       state.reason = controlStop.reason
       return state
     }
+    if (error instanceof Error && error.message.includes('WINDOW_GEOMETRY_UNAVAILABLE')) {
+      state.status = 'escalated'
+      state.reason = 'window_geometry_unavailable'
+      state.details = {
+        recovery: 'Re-observe the window (listWindows/getState) before retrying the visual action; the snapshot frame is not reused.',
+      }
+      return state
+    }
     if (error instanceof Error && error.message.includes('FOREGROUND_REQUIRED')) {
       state.route = 'human'
       state.status = 'escalated'
@@ -647,24 +672,142 @@ async function runComputerSubgoalInner(
   }
 }
 
-function visualPoint(observation: Observation, box: NonNullable<Decision['box']>): [number, number] {
-  const screenshot = observation.screenshot!
-  const width = screenshot.coordinateSpace === 'screenshot-pixels' ? screenshot.pixelWidth : screenshot.bounds.width
-  const height = screenshot.coordinateSpace === 'screenshot-pixels' ? screenshot.pixelHeight : screenshot.bounds.height
-  return [
-    (box.left + box.right) * width / 2,
-    (box.top + box.bottom) * height / 2,
-  ]
+/** Window-relative point; the space the native click/scroll calls consume. */
+export interface Point {
+  x: number
+  y: number
 }
 
-function nativeElementPoint(observation: Observation, target: Observation['elements'][number] | undefined): [number, number] | undefined {
-  const bounds = target?.bounds
-  const window = observation.windowBounds
-  if (bounds === undefined || window === undefined || ![...bounds, window.x, window.y, window.width, window.height].every(Number.isFinite)) return undefined
-  const x = bounds[0] + bounds[2] / 2 - window.x
-  const y = bounds[1] + bounds[3] / 2 - window.y
-  if (bounds[2] <= 0 || bounds[3] <= 0 || x < 0 || y < 0 || x > window.width || y > window.height) return undefined
-  return [x, y]
+function finite(...values: number[]): boolean {
+  return values.every(Number.isFinite)
+}
+
+/**
+ * True when two frames describe the same rectangle.
+ *
+ * Sub-point tolerance: AX reports fractional points (a window at x=399.6 is
+ * normal), so an exact comparison would reject an unchanged window.
+ */
+export function sameWindowFrame(a: WindowRect | undefined, b: WindowRect | undefined): boolean {
+  if (a === undefined || b === undefined) return false
+  if (!finite(a.x, a.y, a.width, a.height, b.x, b.y, b.width, b.height)) return false
+  return Math.abs(a.x - b.x) < 0.5 && Math.abs(a.y - b.y) < 0.5
+    && Math.abs(a.width - b.width) < 0.5 && Math.abs(a.height - b.height) < 0.5
+}
+
+function validWindow(window: WindowRect | undefined): window is WindowRect {
+  return window !== undefined && finite(window.x, window.y, window.width, window.height)
+    && window.width > 0 && window.height > 0
+}
+
+/**
+ * Centre of a normalized screenshot box, in AX screen points.
+ *
+ * The box is a fraction of the window, so the conversion uses the window frame
+ * only. Screenshot pixel dimensions are deliberately ignored: on a 2x display
+ * `pixelWidth` is twice `bounds.width`, and scaling by it put every visual click
+ * at twice its intended offset.
+ */
+export function boxCenterPoint(box: NonNullable<Decision['box']>, window: WindowRect): Point | undefined {
+  if (!validWindow(window)) return undefined
+  const clamp = (value: number): number => Math.min(1, Math.max(0, Number.isFinite(value) ? value : 0))
+  return {
+    x: window.x + ((clamp(box.left) + clamp(box.right)) / 2) * window.width,
+    y: window.y + ((clamp(box.top) + clamp(box.bottom)) / 2) * window.height,
+  }
+}
+
+/** Centre of an AX frame (screen points) in AX screen points. */
+export function frameCenter(bounds: readonly number[] | undefined): Point | undefined {
+  if (bounds === undefined || bounds.length < 4) return undefined
+  const [x, y, width, height] = bounds
+  if (!finite(x!, y!, width!, height!) || width! <= 0 || height! <= 0) return undefined
+  return { x: x! + width! / 2, y: y! + height! / 2 }
+}
+
+/** AX screen point -> window-relative point, or undefined when it is outside. */
+export function windowRelativePoint(point: Point, window: WindowRect | undefined): Point | undefined {
+  if (!validWindow(window) || !finite(point.x, point.y)) return undefined
+  const x = point.x - window.x
+  const y = point.y - window.y
+  if (x < 0 || y < 0 || x > window.width || y > window.height) return undefined
+  return { x, y }
+}
+
+/** AX screen point -> 0..999 basis used by `click { relative: true }`. */
+export function basisPoint(point: Point, window: WindowRect | undefined): Point | undefined {
+  const relative = windowRelativePoint(point, window)
+  if (relative === undefined || window === undefined) return undefined
+  return {
+    x: Math.min(999, Math.max(0, Math.round(relative.x * 999 / window.width))),
+    y: Math.min(999, Math.max(0, Math.round(relative.y * 999 / window.height))),
+  }
+}
+
+export interface DispatchPoint {
+  /** AX screen point; what the on-screen indicator should highlight. */
+  ax?: Point
+  /** Window-relative point; the `click`/`scroll` wire space. */
+  relative?: Point
+  /** 0..999 basis for `click { relative: true }`. */
+  basis?: Point
+}
+
+/**
+ * One coordinate system for the whole chain: everything is derived from AX
+ * screen points, and the window frame passed in must be the *current* one.
+ */
+export function resolveDispatchPoint(
+  observation: Observation,
+  decision: Decision,
+  window: WindowRect | undefined,
+): DispatchPoint {
+  const target = observation.elements.find(element => element.id === decision.target)
+  const ax = decision.target === null
+    ? decision.box === undefined || window === undefined ? undefined : boxCenterPoint(decision.box, window)
+    : frameCenter(target?.bounds)
+  if (ax === undefined) return {}
+  return {
+    ax,
+    ...windowRelativePoint(ax, window) === undefined ? {} : { relative: windowRelativePoint(ax, window)! },
+    ...basisPoint(ax, window) === undefined ? {} : { basis: basisPoint(ax, window)! },
+  }
+}
+
+export interface LiveWindow {
+  windowId: number
+  title?: string
+  bounds?: WindowRect
+  isOnScreen?: boolean
+}
+
+/**
+ * Re-reads the selected window's frame right before dispatch.
+ *
+ * The snapshot's `windowBounds` is evidence from decision time; a window can be
+ * moved, resized, or sent to another display while the model is thinking, so a
+ * click derived from it lands somewhere else. `listWindows` is the cheap,
+ * always-fresh source for the frame.
+ */
+export async function readLiveWindow(
+  caller: NativeCaller,
+  params: Record<string, unknown>,
+  signal: AbortSignal,
+): Promise<LiveWindow | undefined> {
+  try {
+    const windows = await caller.call('listWindows', { appHandle: params.appHandle }, signal) as any
+    if (!Array.isArray(windows)) return undefined
+    const entry = windows.find((window: any) => window?.windowId === params.windowId)
+    if (entry === undefined) return undefined
+    return {
+      windowId: entry.windowId,
+      ...typeof entry.title === 'string' ? { title: entry.title } : {},
+      ...entry.bounds === undefined ? {} : { bounds: entry.bounds as WindowRect },
+      ...entry.isOnScreen === undefined ? {} : { isOnScreen: entry.isOnScreen === true },
+    }
+  } catch {
+    return undefined
+  }
 }
 
 export async function runComputerSubgoal(
@@ -677,9 +820,12 @@ export async function runComputerSubgoal(
   execution?: ExecutionHandle,
   approvals?: ApprovalGateway,
   indicator?: NativeIndicator,
+  verifier: NativeVerificationRegistry = EMPTY_VERIFICATION_REGISTRY,
 ): Promise<RunState> {
   try {
-    const result = await runComputerSubgoalInner(caller, decisionClient, config, rawArgs, signal, skillStore, execution, approvals, indicator)
+    const result = await runComputerSubgoalInner(
+      caller, decisionClient, config, rawArgs, signal, skillStore, execution, approvals, indicator, verifier,
+    )
     if (config.captureSkills && skillStore !== undefined && result.route === 'd1' && result.status === 'success') {
       const args = computerSubgoalInput.parse(rawArgs)
       await createCandidateFromTrajectory(skillStore, {
@@ -690,7 +836,13 @@ export async function runComputerSubgoal(
         inputs: args.inputs,
         capturedValues: captureInputs.get(result),
         match: result.appBundleId === undefined ? { windowTitle: result.windowTitle } : { appBundleId: result.appBundleId },
-        risk: args.policy?.risk,
+        // The captured risk is the *resolved* one: a Skill may never store less
+        // risk than the provider floor demanded for the run that produced it.
+        risk: resolvePolicy(args.policy, {
+          minRisk: config.minRisk,
+          preauthorizeConsequential: config.preauthorizeConsequential,
+          preauthorizeLogin: config.preauthorizeLogin,
+        }).risk,
         evolveFrom: result.evolvedFromSkillId,
       }).then(candidate => { if (candidate !== undefined) result.candidateId = candidate.id })
     }
@@ -707,18 +859,6 @@ export function isUncertainNativePaste(error: unknown): boolean {
   return error instanceof Error && /PASTE_NOT_CONSUMED|CLIPBOARD_CHANGED/u.test(error.message)
 }
 
-function nativeActivityPoint(observation: Observation, decision: Decision): { x: number; y: number } | undefined {
-  const bounds = observation.elements.find(element => element.id === decision.target)?.bounds
-  if (bounds !== undefined && bounds.every(Number.isFinite) && bounds[2] > 0 && bounds[3] > 0) {
-    return { x: bounds[0] + bounds[2] / 2, y: bounds[1] + bounds[3] / 2 }
-  }
-  if (decision.target === null && observation.screenshot !== undefined && decision.box !== undefined && observation.windowBounds !== undefined) {
-    const [x, y] = visualPoint(observation, decision.box)
-    return { x: observation.windowBounds.x + x, y: observation.windowBounds.y + y }
-  }
-  return undefined
-}
-
 export async function executeNative(
   caller: NativeCaller,
   params: Record<string, unknown>,
@@ -726,14 +866,30 @@ export async function executeNative(
   decision: Decision,
   signal: AbortSignal,
   indicator?: ActivitySink,
+  /**
+   * Current window frame, re-read by the caller right before dispatch. Without
+   * it, coordinate-based operations fail closed instead of using the frame the
+   * snapshot was taken with.
+   */
+  window?: WindowRect,
 ): Promise<void> {
   await indicator?.activity({
     phase: decision.operation === 'WAIT' ? 'waiting' : 'acting',
     operation: decision.operation,
-    point: nativeActivityPoint(observation, decision),
+    point: resolveDispatchPoint(observation, decision, window).ax,
   })
+  if (process.env.DEBUG_CUA === '1') {
+    // Coordinates only: no AX values, no typed text.
+    console.error('CUA_DISPATCH', JSON.stringify({
+      operation: decision.operation,
+      snapshotFrame: observation.windowBounds,
+      liveFrame: window,
+      screenshotBounds: observation.screenshot?.bounds,
+      point: resolveDispatchPoint(observation, decision, window).relative,
+    }))
+  }
   try {
-    await executeNativeAction(caller, params, observation, decision, signal)
+    await executeNativeAction(caller, params, observation, decision, signal, window)
   } catch (error) {
     await indicator?.activity({ phase: 'verifying', operation: decision.operation }).catch(() => undefined)
     throw error
@@ -747,30 +903,50 @@ async function executeNativeAction(
   observation: Observation,
   decision: Decision,
   signal: AbortSignal,
+  window?: WindowRect,
 ): Promise<void> {
   const target = observation.elements.find(element => element.id === decision.target)
   const { maxElements: _maxElements, maxDepth: _maxDepth, details: _details, ...operationParams } = params
   const base = { ...operationParams, snapshotId: observation.snapshot_id }
   const elementBase = { appHandle: params.appHandle, snapshotId: observation.snapshot_id }
+  const point = (): DispatchPoint => resolveDispatchPoint(observation, decision, window)
+  /**
+   * A visual click is expressed as a fraction of the window the *screenshot* was
+   * taken in. When the live frame differs from the snapshot frame, that mapping
+   * is stale and the click is refused instead of landing at a wrong offset.
+   */
+  const frameIsStale = !sameWindowFrame(observation.windowBounds, window)
+  const requireVisualPoint = (): Point => {
+    if (frameIsStale) throw new Error('WINDOW_GEOMETRY_UNAVAILABLE: the window moved or resized after the screenshot; observe again')
+    const resolved = point().relative
+    if (resolved === undefined) throw new Error('WINDOW_GEOMETRY_UNAVAILABLE: re-read the window before dispatching a visual click')
+    return resolved
+  }
   if (decision.operation === 'WAIT') {
     await new Promise(resolve => setTimeout(resolve, 250))
     return
   }
   if (decision.operation === 'SCROLL_UP' || decision.operation === 'SCROLL_DOWN') {
-    const bounds = target?.bounds ?? [0, 0, 1, 1]
+    const resolved = frameIsStale
+      ? undefined
+      : target === undefined
+        ? point().relative
+        : windowRelativePoint(frameCenter(target.bounds) ?? { x: NaN, y: NaN }, window)
+    if (resolved === undefined) throw new Error('WINDOW_GEOMETRY_UNAVAILABLE: scroll needs an unchanged window frame')
     await caller.call('scroll', {
       ...base,
       windowId: params.windowId,
-      x: bounds[0] + bounds[2] / 2,
-      y: bounds[1] + bounds[3] / 2,
+      x: resolved.x,
+      y: resolved.y,
       deltaLinesY: decision.operation === 'SCROLL_UP' ? 1 : -1,
     }, signal)
     return
   }
   if (decision.operation === 'CLICK') {
     if (decision.target === null && observation.screenshot !== undefined && decision.box !== undefined) {
-      const [x, y] = visualPoint(observation, decision.box)
-      await caller.call('click', { ...base, windowId: params.windowId, x, y }, signal)
+      const resolved = requireVisualPoint()
+      const dispatched = await caller.call('click', { ...base, windowId: params.windowId, x: resolved.x, y: resolved.y }, signal)
+      if (process.env.DEBUG_CUA === '1') console.error('CUA_CLICK_RESULT', JSON.stringify(dispatched))
     } else {
       await caller.call('click', { ...elementBase, elementIndex: Number(decision.target) }, signal)
     }
@@ -778,15 +954,14 @@ async function executeNativeAction(
   }
   if (decision.operation === 'PASTE_TEXT') {
     if (decision.target === null && observation.screenshot !== undefined && decision.box !== undefined) {
-      const [x, y] = visualPoint(observation, decision.box)
-      await caller.call('click', { ...base, windowId: params.windowId, x, y }, signal)
+      const resolved = requireVisualPoint()
+      await caller.call('click', { ...base, windowId: params.windowId, x: resolved.x, y: resolved.y }, signal)
     } else {
-      const point = nativeElementPoint(observation, target)
-      if (point !== undefined) {
-        const window = observation.windowBounds!
-        const x = Math.min(999, Math.max(0, Math.round(point[0] * 999 / window.width)))
-        const y = Math.min(999, Math.max(0, Math.round(point[1] * 999 / window.height)))
-        await caller.call('click', { ...base, windowId: params.windowId, x, y, relative: true }, signal)
+      // An element focus click is coordinate-based only while the frame is
+      // unchanged; otherwise the AX index is the safe, coordinate-free path.
+      const basis = frameIsStale ? undefined : point().basis
+      if (basis !== undefined) {
+        await caller.call('click', { ...base, windowId: params.windowId, x: basis.x, y: basis.y, relative: true }, signal)
       } else {
         await caller.call('click', { ...elementBase, elementIndex: Number(decision.target) }, signal)
       }
@@ -796,8 +971,8 @@ async function executeNativeAction(
   }
   if (decision.operation === 'TYPE_TEXT') {
     if (decision.target === null && observation.screenshot !== undefined && decision.box !== undefined) {
-      const [x, y] = visualPoint(observation, decision.box)
-      await caller.call('click', { ...base, windowId: params.windowId, x, y }, signal)
+      const resolved = requireVisualPoint()
+      await caller.call('click', { ...base, windowId: params.windowId, x: resolved.x, y: resolved.y }, signal)
       await caller.call('typeText', { appHandle: params.appHandle, text: decision.text }, signal)
     } else if (target !== undefined && /TextField|TextArea|TextView|SearchField|ComboBox/iu.test(target.role)) {
       await caller.call('setValue', { ...elementBase, elementIndex: Number(decision.target), value: decision.text }, signal)

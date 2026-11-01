@@ -59,5 +59,9 @@
     "@albaincompleta/dsh-cu-client": "0.2.8",
     "@albaincompleta/dsh-cu-computer-use-d1": "0.2.8",
     "@albaincompleta/dsh-cu-core": "0.2.8"
+  },
+  "scripts": {
+    "prepublishOnly": "node ../../scripts/verify-dist.mts",
+    "test": "vitest run"
   }
 }

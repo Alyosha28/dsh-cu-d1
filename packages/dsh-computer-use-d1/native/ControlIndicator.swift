@@ -64,6 +64,8 @@ final class ControlController: NSObject {
     private var lastKeyboardEvent: Double?
     private var lastPointerEvent: Double?
     private var paused = false
+    /// True once this run has been reported as no longer visible to the host.
+    private var unavailableReported = false
     private var statusItem: NSStatusItem?
     private var statusMenuStop: NSMenuItem?
 
@@ -210,6 +212,7 @@ final class ControlController: NSObject {
     @objc private func control(_ sender: NSButton) {
         guard let action = sender.identifier?.rawValue else { return }
         if action == "dismiss" {
+            reportUnavailable("panel_dismissed")
             finish()
             return
         }
@@ -224,6 +227,7 @@ final class ControlController: NSObject {
             guard let runId = command.runId, let pid = command.pid, let windowId = command.windowId else { return }
             finish()
             self.runId = runId
+            unavailableReported = false
             targetPid = pid
             targetWindowId = windowId
             targetBounds = command.bounds
@@ -298,6 +302,7 @@ final class ControlController: NSObject {
                 finish()
             }
         case "dismiss":
+            reportUnavailable("panel_dismissed")
             finish()
         case "stop":
             NSApplication.shared.terminate(nil)
@@ -340,9 +345,7 @@ final class ControlController: NSObject {
               let rect = CGRect(dictionaryRepresentation: boundsDictionary as CFDictionary),
               let owner = info[kCGWindowOwnerPID as String] as? Int32,
               owner == targetPid else {
-            targetOnscreen = false
-            cursorPanel.orderOut(nil)
-            statusPanel.orderOut(nil)
+            reportUnavailable("window_gone")
             return
         }
         targetBounds = WindowBounds(x: rect.origin.x, y: rect.origin.y, width: rect.width, height: rect.height)
@@ -352,9 +355,7 @@ final class ControlController: NSObject {
             statusPanel.orderFrontRegardless()
             if let lastPoint { showCursor(at: lastPoint) }
         } else {
-            targetOnscreen = false
-            cursorPanel.orderOut(nil)
-            statusPanel.orderOut(nil)
+            reportUnavailable("window_offscreen")
         }
     }
 
@@ -384,6 +385,16 @@ final class ControlController: NSObject {
                 && location.y >= panelTopLeftY && location.y <= panelTopLeftY + Double(panelFrame.height)
             if !insidePanel { requestTakeover() }
         }
+    }
+
+    /// Tells the host that this run can no longer be shown (window gone, window
+    /// offscreen, panel dismissed). Input authority must be revoked by the host;
+    /// locally every reference is dropped so no stale geometry survives.
+    private func reportUnavailable(_ reason: String) {
+        guard let runId, !unavailableReported else { return }
+        unavailableReported = true
+        emit(["type": "unavailable", "runId": runId, "reason": reason])
+        finish()
     }
 
     private func requestTakeover() {

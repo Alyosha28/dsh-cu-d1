@@ -7,7 +7,7 @@
  * owns the manifest and would overwrite it on exit.
  */
 import { execFile } from 'node:child_process'
-import { copyFile, readFile, writeFile } from 'node:fs/promises'
+import { copyFile, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
@@ -32,6 +32,19 @@ async function appRunning(): Promise<boolean> {
 
 async function main(): Promise<void> {
   const dryRun = process.argv.includes('--dry-run')
+  const command = ['add', ...PACKAGES]
+  if (dryRun) {
+    // Preview before touching anything: a running app does not block a plan, and
+    // a profile that does not exist yet still prints what would be done.
+    process.stdout.write(`profile: ${PROFILE}\n`)
+    process.stdout.write(`would run: pnpm ${command.join(' ')}\n`)
+    process.stdout.write('would add @albaincompleta/dsh-cu-bundle to dsh.profile.bundles\n')
+    if (await appRunning()) {
+      process.stdout.write('note: DeepSeek Harness is running; quit it before the real install (the app rewrites this profile on exit).\n')
+    }
+    process.stdout.write('dry run: nothing changed\n')
+    return
+  }
   if (await appRunning()) {
     process.stderr.write('DeepSeek Harness is running. Quit the app first: the application owns this profile and rewrites it on exit.\n')
     process.exitCode = 2
@@ -48,27 +61,47 @@ async function main(): Promise<void> {
     return
   }
 
-  const command = ['add', ...PACKAGES]
-  if (dryRun) {
-    process.stdout.write(`would run: pnpm ${command.join(' ')}\n`)
-    process.stdout.write('would add @albaincompleta/dsh-cu-bundle to dsh.profile.bundles\n')
+  const backup = `${manifestPath}.bak`
+  // One backup, not one per run, and it is restored if pnpm or the manifest
+  // patch fails: a half-installed desktop profile breaks the app on next start.
+  await copyFile(manifestPath, backup)
+  process.stdout.write(`manifest backup: ${backup}\n`)
+
+  const restore = async (): Promise<void> => {
+    await copyFile(backup, manifestPath).catch(() => undefined)
+    process.stderr.write(`manifest restored from ${backup}\n`)
+  }
+
+  try {
+    await run('pnpm', command, { cwd: PROFILE, maxBuffer: 32 * 1024 * 1024 })
+  } catch (error) {
+    await restore()
+    process.stderr.write(`pnpm add failed: ${error instanceof Error ? error.message.split('\n')[0] : String(error)}\n`)
+    process.exitCode = 1
     return
   }
 
-  const backup = `${manifestPath}.bak-${new Date().toISOString().replace(/[:.]/gu, '-')}`
-  await copyFile(manifestPath, backup)
-  process.stdout.write(`manifest backup: ${backup}\n`)
-  await run('pnpm', command, { cwd: PROFILE, maxBuffer: 32 * 1024 * 1024 })
-
-  manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
-  const bundles = manifest.dsh?.profile?.bundles ?? []
-  if (!bundles.includes('@albaincompleta/dsh-cu-bundle')) {
-    manifest.dsh = manifest.dsh ?? {}
-    manifest.dsh.profile = manifest.dsh.profile ?? {}
-    manifest.dsh.profile.bundles = [...bundles, '@albaincompleta/dsh-cu-bundle']
-    await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
+  try {
+    manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
+    const bundles = manifest.dsh?.profile?.bundles ?? []
+    if (!bundles.includes('@albaincompleta/dsh-cu-bundle')) {
+      manifest.dsh = manifest.dsh ?? {}
+      manifest.dsh.profile = manifest.dsh.profile ?? {}
+      manifest.dsh.profile.bundles = [...bundles, '@albaincompleta/dsh-cu-bundle']
+      // Temporary file + rename: no truncated package.json if this is interrupted.
+      const temporary = `${manifestPath}.${process.pid}.tmp`
+      await writeFile(temporary, `${JSON.stringify(manifest, null, 2)}\n`, { mode: 0o600 })
+      await rename(temporary, manifestPath)
+    }
+    process.stdout.write(`bundles: ${(manifest.dsh.profile.bundles ?? []).join(', ')}\n`)
+  } catch (error) {
+    await restore()
+    process.stderr.write(`manifest patch failed: ${error instanceof Error ? error.message.split('\n')[0] : String(error)}\n`)
+    process.exitCode = 1
+    return
   }
-  process.stdout.write(`bundles: ${(manifest.dsh.profile.bundles ?? []).join(', ')}\n`)
+
+  await rm(backup, { force: true }).catch(() => undefined)
   process.stdout.write('Restart DeepSeek Harness, then check 插件 for dsh-cu-client / dsh-cu-browser entries.\n')
 }
 

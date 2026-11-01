@@ -33,10 +33,20 @@ export interface Config {
   auditRetentionDays?: number
   controlToken?: string
   controlPort?: number
+  /**
+   * Risk floor owned by the host. The effective risk of a run is the maximum of
+   * this value and the caller's requested risk, so a tool argument can only
+   * tighten it, never lower it.
+   */
+  minRisk?: 'read_only' | 'reversible' | 'consequential'
+  /** Host-level pre-authorization for consequential actions. Never model-settable. */
+  preauthorizeConsequential?: boolean
+  /** Host-level pre-authorization for credential submission and sign-in clicks. */
+  preauthorizeLogin?: boolean
 }
 
 export type ResolvedConfig = Config & Required<Pick<Config,
-  'headless' | 'locale' | 'decisionTimeoutMs' | 'textStrategy' | 'maxSteps' | 'maxWallClockMs' | 'maxInputTokens' | 'maxOutputTokens' | 'operationTimeoutMs' | 'verificationTimeoutMs' | 'asyncTimeoutMs' | 'captureSkills' | 'toolPrefix' | 'auditRetentionDays'
+  'headless' | 'locale' | 'decisionTimeoutMs' | 'textStrategy' | 'maxSteps' | 'maxWallClockMs' | 'maxInputTokens' | 'maxOutputTokens' | 'operationTimeoutMs' | 'verificationTimeoutMs' | 'asyncTimeoutMs' | 'captureSkills' | 'toolPrefix' | 'auditRetentionDays' | 'minRisk' | 'preauthorizeConsequential' | 'preauthorizeLogin'
 >>
 
 export const Config: Schema<Config, ResolvedConfig> = Schema.object({
@@ -67,6 +77,9 @@ export const Config: Schema<Config, ResolvedConfig> = Schema.object({
   auditRetentionDays: Schema.number().min(0.001).max(3650).default(30),
   controlToken: Schema.string().role('secret').pattern(/\S/u),
   controlPort: Schema.number().step(1).min(0).max(65535),
+  minRisk: Schema.union(['read_only', 'reversible', 'consequential']).default('reversible'),
+  preauthorizeConsequential: Schema.boolean().default(false),
+  preauthorizeLogin: Schema.boolean().default(false),
 })
 
 export function validateConfig(config: ResolvedConfig): void {

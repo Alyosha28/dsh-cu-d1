@@ -25,6 +25,11 @@ export function needsConsequentialApproval(policy: TaskPolicy): boolean {
   return policy.risk === 'consequential' && policy.allowConsequential !== true
 }
 
+/**
+ * True when the decision needs a credential/payment/sign-in approval. `policy`
+ * is the internal resolved policy: `resolvePolicy` / `skillPolicy` are the only
+ * producers of `allowLogin`, so a tool argument cannot suppress this gate.
+ */
 export function needsLoginApproval(observation: Observation, decision: Decision, policy: TaskPolicy): boolean {
   if (policy.allowLogin === true) return false
   return isCredentialInput(observation, decision) || isSignInAction(observation, decision)

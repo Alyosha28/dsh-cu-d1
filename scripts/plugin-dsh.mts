@@ -25,7 +25,7 @@ import WorkingDirectory from '@deepseek-ai/dsh-working-directory'
 import { executeToolFixture } from '@albaincompleta/dsh-cu-testkit'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { join, relative, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { close, fixtureServer, listen } from '../packages/dsh-browser-use-d1/tests/fixtures.ts'
 
@@ -101,7 +101,20 @@ async function main(): Promise<void> {
     await ctx.loader.await()
     process.stdout.write('step: loader ready\n')
 
-    check('plugin entry imports', true, ENTRY)
+    // A real import of the packaged entry: the previous version asserted the
+    // literal `true` here, so this line could never fail (SR-08).
+    let entryModule: { apply?: unknown; name?: unknown } | undefined
+    let entryError = ''
+    try {
+      entryModule = await import(pathToFileURL(ENTRY).href) as { apply?: unknown; name?: unknown }
+    } catch (error) {
+      entryError = error instanceof Error ? error.message.split('\n')[0] ?? 'import failed' : String(error)
+    }
+    check(
+      'plugin entry imports',
+      entryError === '' && typeof entryModule?.apply === 'function',
+      entryError === '' ? `${ENTRY} (name=${String(entryModule?.name)}, apply=${typeof entryModule?.apply})` : entryError,
+    )
     check('browser-use provider registered', ctx.browserUse.providerName === 'd1-system-one', String(ctx.browserUse.providerName))
     const names = ctx.tools.schemas().map(tool => tool.name)
     const expected = ['d1_browser_subgoal', 'browser_observe', 'browser_extract', 'browser_navigate', 'browser_tabs', 'browser_upload', 'browser_downloads', 'browser_control', 'browser_skill_publish']
@@ -186,8 +199,20 @@ async function main(): Promise<void> {
     check('invalid config fails closed', rejected, 'captureSkills without skillStorePath')
 
     const failed = checks.filter(entry => !entry.ok)
-    const report = { generatedAt: new Date().toISOString(), entry: ENTRY, checks }
-    await writeFile(join(ROOT, 'results', 'PLUGIN_DSH_TEST.json'), `${JSON.stringify(report, null, 2)}\n`)
+    // Evidence is written where the caller asks for it, never over a tracked
+    // file by default: `npm run test:plugin` used to dirty `results/` on every
+    // run, so the checked-in report could not be a baseline (SR-08).
+    const report = { generatedAt: new Date().toISOString(), entry: relative(ROOT, ENTRY), checks }
+    const reportArg = process.argv.find(argument => argument.startsWith('--report='))?.split('=')[1]
+    if (reportArg !== undefined) {
+      const target = resolve(ROOT, reportArg)
+      await writeFile(target, `${JSON.stringify(report, null, 2)}\n`)
+      process.stdout.write(`report: ${target}\n`)
+    } else {
+      const scratch = join(root, 'PLUGIN_DSH_TEST.json')
+      await writeFile(scratch, `${JSON.stringify(report, null, 2)}\n`)
+      process.stdout.write(`report: ${scratch} (pass --report=<path> to keep it)\n`)
+    }
     process.stdout.write(`\n${checks.length - failed.length}/${checks.length} plugin checks passed\n`)
     if (failed.length > 0) process.exitCode = 1
   } finally {

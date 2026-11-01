@@ -19,7 +19,6 @@ import { setTimeout as delay } from 'node:timers/promises'
 import { expect, it } from 'vitest'
 import { z } from 'zod'
 import * as Provider from '../src/index.ts'
-import { registerNativeVerification } from '../src/verification.ts'
 import { close, HELPER, listen, pathGrant, ROOT } from './fixtures.ts'
 
 const ENABLED = process.env.DSH_CU_THIRD_PARTY_APPS === '1'
@@ -147,8 +146,27 @@ it.skipIf(!ENABLED)('accepts third-party downloaded applications', { timeout: 24
   let callSequence = 0
   let agent: any
   let cua: any
+  // Injected at construction time: there is no process-global handler map.
+  const verificationHandlers = {
+    acceptance_screenshot_text: async (args: Record<string, unknown>, context: {
+      caller?: { call(method: string, params: Record<string, unknown>, signal: AbortSignal): Promise<unknown> }
+      params: Readonly<Record<string, unknown>>
+      signal: AbortSignal
+    }) => {
+      const expected = typeof args.text === 'string' ? args.text : ''
+      if (expected === '') return false
+      const { caller, params, signal } = context
+      if (caller === undefined) return false
+      const screenshot = await caller.call('screenshot', {
+        appHandle: params.appHandle, windowId: params.windowId,
+      }, signal) as { data: string }
+      await writeFile(screenshotPath, Buffer.from(screenshot.data, 'base64'), { mode: 0o600 })
+      return (await recognizeText(ocrPath, screenshotPath, signal)).includes(expected)
+    },
+  }
   const config = {
     helperPath: HELPER,
+    verificationHandlers,
     allowedApps: [pathGrant(LIBREOFFICE), pathGrant(WPS), pathGrant(VSCODE), pathGrant(CHROME)],
     decisionEndpoint: decisionUrl,
     decisionToken: token,
@@ -294,16 +312,7 @@ it.skipIf(!ENABLED)('accepts third-party downloaded applications', { timeout: 24
       anchor.once('exit', (code: number) => reject(new Error(`Foreground anchor exited ${code}`)))
     })
     processIds.push(anchor.pid)
-    registerNativeVerification('acceptance_screenshot_text', async (args, { caller, params, signal }) => {
-      const expected = typeof args.text === 'string' ? args.text : ''
-      if (expected === '') return false
-      const screenshot = await caller.call('screenshot', {
-        appHandle: params.appHandle, windowId: params.windowId,
-      }, signal) as { data: string }
-      await writeFile(screenshotPath, Buffer.from(screenshot.data, 'base64'), { mode: 0o600 })
-      return (await recognizeText(ocrPath, screenshotPath, signal)).includes(expected)
-    })
-    await mountAgentLoopTestDependencies(ctx)
+      await mountAgentLoopTestDependencies(ctx)
     await ctx.plugin(SubprocessLocal)
     await ctx.plugin(ComputerUseRegistry)
     await ctx.plugin(AttachmentLocal, { dshHome: tempRoot })

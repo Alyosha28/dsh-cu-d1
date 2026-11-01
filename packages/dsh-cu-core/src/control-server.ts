@@ -1,5 +1,5 @@
 import { createServer } from 'node:http'
-import { randomUUID } from 'node:crypto'
+import { createHash, randomUUID, timingSafeEqual } from 'node:crypto'
 import type { IncomingMessage, Server, ServerResponse } from 'node:http'
 import type { Agent } from '@deepseek-ai/dsh-agent'
 import type { RunController } from './run-controller.ts'
@@ -88,7 +88,12 @@ const tokenInput=document.getElementById('token');
 const connection=document.getElementById('connection');
 let token=sessionStorage.getItem('dsh-cu-token')||'';
 const hash=new URLSearchParams(location.hash.slice(1));
-if(hash.get('token')){token=hash.get('token');sessionStorage.setItem('dsh-cu-token',token);history.replaceState(null,'',location.pathname+location.search)}
+const query=new URLSearchParams(location.search);
+const supplied=hash.get('token')||query.get('token');
+if(supplied){token=supplied;sessionStorage.setItem('dsh-cu-token',token);history.replaceState(null,'',location.pathname)}
+// The page token is a one-time view credential from the URL fragment; if the API
+// rejects it, fall back to the credential the user pasted.
+if(!token)history.replaceState(null,'',location.pathname+location.search)
 tokenInput.value=token;
 function esc(value){return value===undefined||value===null?'':String(value)}
 function el(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node}
@@ -158,35 +163,86 @@ setInterval(refresh,1000);refresh();refreshPermissions();
 </script></body></html>`
 }
 
+/** Raised for a body over the limit so the caller can answer 413 instead of resetting the socket (CR-07). */
+export class BodyTooLargeError extends Error {
+  constructor(readonly limit: number) {
+    super('request body too large')
+    this.name = 'BodyTooLargeError'
+  }
+}
+
 function bodyJson(request: IncomingMessage, limit = 8192): Promise<Record<string, unknown>> {
   return new Promise((resolve, reject) => {
     let size = 0
+    let settled = false
     const chunks: Buffer[] = []
+    const finish = (error: unknown, value?: Record<string, unknown>): void => {
+      if (settled) return
+      settled = true
+      if (error === undefined) resolve(value ?? {})
+      else reject(error)
+    }
     request.on('data', (chunk: Buffer) => {
+      if (settled) return
       size += chunk.length
       if (size > limit) {
-        reject(new Error('request body too large'))
-        request.destroy()
+        // Keep draining so the peer receives the 413 response instead of an
+        // ECONNRESET; the buffered chunks are dropped.
+        chunks.length = 0
+        finish(new BodyTooLargeError(limit))
         return
       }
       chunks.push(chunk)
     })
     request.on('end', () => {
-      if (chunks.length === 0) return resolve({})
+      if (chunks.length === 0) return finish(undefined, {})
       try {
         const value = JSON.parse(Buffer.concat(chunks).toString('utf8'))
-        resolve(value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {})
+        finish(undefined, value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {})
       } catch (error) {
-        reject(error)
+        finish(error)
       }
     })
-    request.on('error', reject)
+    request.on('error', error => finish(error))
   })
+}
+
+const LOOPBACK_HOSTS = new Set(['127.0.0.1', 'localhost', '::1', '[::1]'])
+
+/**
+ * True when the `Host` header names a loopback authority. A DNS-rebinding
+ * request carries the attacker's own host name, so a mismatch is refused
+ * outright (CR-07).
+ */
+export function isLoopbackHost(header: string | undefined): boolean {
+  if (header === undefined || header === '') return true
+  let hostname: string
+  try {
+    hostname = new URL(`http://${header}`).hostname.toLowerCase()
+  } catch {
+    return false
+  }
+  return LOOPBACK_HOSTS.has(hostname)
+}
+
+function digest(value: string): Buffer {
+  return createHash('sha256').update(value).digest()
+}
+
+/** Constant-time comparison of two bearer values. */
+export function safeTokenEqual(actual: string | undefined, expected: string): boolean {
+  if (actual === undefined) return false
+  return timingSafeEqual(digest(actual), digest(expected))
 }
 
 export class ControlServer {
   /** Per-server page credential; the configured control token never enters a tool result URL. */
   readonly pageToken = randomUUID()
+  /** Page-token lifetime; the panel re-reads the fragment or falls back to the configured token (CR-07). */
+  readonly pageTokenTtlMs = 30 * 60 * 1000
+  /** Clock used for the page-token TTL, injectable for tests. */
+  now: () => number = Date.now
+  private readonly pageTokenIssuedAt = Date.now()
   private server?: Server
   private url?: string
   private readonly locale: Locale
@@ -205,8 +261,19 @@ export class ControlServer {
     const html = renderHtml(this.locale)
     this.server = createServer(async (request, response) => {
       try {
-        if (request.url === '/' && request.method === 'GET') {
-          response.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' })
+        if (!isLoopbackHost(request.headers.host)) {
+          this.json(response, 403, { error: 'host_not_allowed' })
+          return
+        }
+        // The credential-entry shell is public by design: it is the only way a
+        // user can paste a token, so it must load before any credential exists.
+        // It carries no token, no run state and no Skill data - only the locale
+        // strings that a `GET /api/*` call would otherwise require.
+        if ((request.url === '/' || request.url?.startsWith('/?')) && request.method === 'GET') {
+          response.writeHead(200, {
+            'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store',
+            'referrer-policy': 'no-referrer', 'x-content-type-options': 'nosniff',
+          })
           response.end(html)
           return
         }
@@ -214,8 +281,8 @@ export class ControlServer {
           response.writeHead(204, { 'cache-control': 'no-store' }).end()
           return
         }
-        if (request.headers.authorization !== `Bearer ${this.token}` && request.headers.authorization !== `Bearer ${this.pageToken}`) {
-          response.writeHead(401).end()
+        if (!this.authorized(request)) {
+          response.writeHead(401, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }).end()
           return
         }
         if (request.url === '/api/status' && request.method === 'GET') {
@@ -260,7 +327,14 @@ export class ControlServer {
             this.json(response, 400, { error: 'invalid_skill_id' })
             return
           }
-          this.json(response, 200, { removed: await this.options.removeSkill(body.id) })
+          const removed = await this.options.removeSkill(body.id)
+          // Privilege changes are audited, and the Skill id itself never is (CR-07).
+          this.controller.recordControlEvent({
+            agentId: this.agent.id,
+            kind: 'skill_removed',
+            detail: { action: 'remove_skill', status: removed ? 'removed' : 'absent' },
+          })
+          this.json(response, 200, { removed })
           return
         }
         const actions: Record<string, () => void> = {
@@ -277,7 +351,14 @@ export class ControlServer {
         }
         this.json(response, 404, { error: 'not_found' })
       } catch (error) {
-        this.json(response, 500, { error: error instanceof Error ? error.message : String(error) })
+        if (error instanceof BodyTooLargeError) {
+          this.json(response, 413, { error: 'payload_too_large' })
+          return
+        }
+        // The body is a stable code; the detail stays on the server log (CR-07).
+        console.error('dsh-cu control request failed', request.method,
+          error instanceof Error ? `${error.name}: ${error.message}` : 'Error')
+        this.json(response, 500, { error: 'internal_error' })
       }
     })
     await new Promise<void>((resolve, reject) => {
@@ -296,9 +377,22 @@ export class ControlServer {
     response.end(body)
   }
 
+  /**
+   * `/` returns a credential-entry shell and never data; everything under
+   * `/api/*` requires a bearer. `/` also drops any token from the address bar,
+   * so a `#token=` fragment is a one-time view credential, not a stored one.
+   */
+  /** True when the bearer is the configured token, or an unexpired page token. */
+  private authorized(request: IncomingMessage): boolean {
+    const header = request.headers.authorization
+    if (safeTokenEqual(header, `Bearer ${this.token}`)) return true
+    if (this.now() - this.pageTokenIssuedAt > this.pageTokenTtlMs) return false
+    return safeTokenEqual(header, `Bearer ${this.pageToken}`)
+  }
+
   async close(): Promise<void> {
     if (this.server === undefined) return
-    this.server.closeAllConnections()
     await new Promise<void>((resolve, reject) => this.server!.close(error => error ? reject(error) : resolve()))
+    this.server = undefined
   }
 }

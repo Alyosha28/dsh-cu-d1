@@ -1,5 +1,63 @@
 # Changelog
 
+## Unreleased — 供应链与文档契约修正
+
+Security and documentation corrections from the supply-chain audit
+(`redteam/findings/supply.md`, blue-team fixes SR-01…SR-06, SR-08, SR-09, SR-11).
+No runtime behavior of the tools changed.
+
+- **Publish gate (SR-01).** New `scripts/verify-dist.mts` checks that `main`,
+  `types`, and every `exports` target exist on disk and in the `npm pack`
+  listing, and that a tarball holds more than two files. Every published package
+  runs it through `prepublishOnly`; `publish:plugin` runs the same gate before
+  each `npm publish`, so a publish from a clean checkout can no longer ship a
+  two-file package.
+- **Internal dependency gate (SR-02).** `publish:plugin` matched internal
+  dependencies with a hard-coded `@dsh-cu/` prefix, which stopped matching when
+  the packages were renamed to `@albaincompleta/dsh-cu-*`; the gate could never
+  fire. It now matches the repository's own workspace package names and refuses
+  a downstream package whose internal dependency is not on the registry.
+- **Doctor tells the truth (SR-03 / SR-04).** `plugin:doctor` resolves and
+  imports the bundle, core, the browser provider and the browser-use registry
+  from the profile: a missing or unimportable package is a FAIL, not a green
+  run. A version mismatch is a FAIL instead of a WARN that still exited 0.
+  Duplicate `- id:` rows are reported (the parser no longer lets a later row
+  overwrite an earlier one), entry counts are real `- id:` line counts, and a
+  `decisionToken`/`controlToken` that resolves to the bundle's published
+  defaults is a FAIL with the variables to set instead.
+- **Installer containment and rollback (SR-05 / SR-06).** `install:plugin
+  --profile` accepts only `^[a-z0-9][a-z0-9._-]{0,63}$` and must resolve under
+  `DSH_HOME/profiles/` after `realpath`, so `../..` and symlinked profiles are
+  refused before anything is written. The manifest is written through a
+  temporary file and renamed, exactly one `package.json.bak` is kept, and a
+  failed install or doctor restores the backup. `install:desktop-profile` gets
+  the same rollback, a single backup, and an atomic manifest write; its
+  `--dry-run` now prints the plan before the app-running guard and the missing
+  manifest guard.
+- **Plugin acceptance (SR-08).** `npm run test:plugin` asserted the literal
+  `true` for "plugin entry imports"; it now imports the built entry and asserts
+  `apply` is a function. The JSON report goes to a temporary directory unless
+  `--report=<path>` is passed, so a test run no longer rewrites a tracked file
+  under `results/`.
+- **Publish token (SR-11).** The temporary npmrc that carries `NPM_TOKEN` lives
+  in a private `mkdtemp` directory and is removed on every exit path, including
+  `process.exit` and SIGINT/SIGTERM, instead of leaking a token file when a
+  publish fails.
+- **Decision service limits (SR-09).** `Image.MAX_IMAGE_PIXELS` is capped at 40
+  million pixels with an explicit header check, a decoded screenshot above
+  8 MiB is refused (the unreachable 8 MiB branch behind a 1 MiB body cap is
+  gone), the handler has a 15 s socket timeout, and failures are logged through
+  a real logger instead of the `hasattr` no-op.
+- **Bundle entry.** `packages/dsh-cu-bundle/index.js` contained a TypeScript
+  return annotation (`apply(): void`) in a file shipped as plain JavaScript, so
+  `import()` of the package failed with `SyntaxError: Unexpected token ':'`.
+  Fixed; the doctor's import check now catches this class of defect.
+- **Docs.** `README.md` states what the doctor actually checks and does not
+  check, what the installer and publish gates guarantee, that a model cannot
+  pre-authorize a consequential action through tool arguments, and that the
+  bundle's built-in tokens are public. `results/MATURITY.md` no longer cites
+  incompatible denominators or a fixed unit-test count.
+
 ## 0.2.8 — 2026-10-31
 
 - Rename every package from `@dsh-cu/*` to `@alyosha28/dsh-cu-*` so the packages

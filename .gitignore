@@ -8,3 +8,7 @@ results/*.pid
 node_modules/
 dist/
 *.tsbuildinfo
+# Local helper builds and SwiftPM scratch directories (never shipped, never committed).
+.cache/
+.build/
+*.swiftmodule

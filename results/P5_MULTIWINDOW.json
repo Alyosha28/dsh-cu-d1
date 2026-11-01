@@ -15,11 +15,11 @@
     "details": {
       "windows": [
         {
-          "windowId": 23857,
+          "windowId": 27310,
           "title": "DSH Workflow Secondary"
         },
         {
-          "windowId": 23855,
+          "windowId": 27307,
           "title": "DSH Workflow Fixture"
         }
       ],
@@ -40,7 +40,7 @@
     "outputTokens": 0,
     "trace": [
       {
-        "snapshotId": "B7E6B917-A473-420E-9A8E-2F977AF852D9:snapshot:3",
+        "snapshotId": "1B89D8DE-EED1-460F-B58B-854194622881:snapshot:3",
         "operation": "TYPE_TEXT",
         "target": "1",
         "targetName": "Report path",
@@ -50,7 +50,7 @@
         "dispatched": true
       },
       {
-        "snapshotId": "B7E6B917-A473-420E-9A8E-2F977AF852D9:snapshot:10",
+        "snapshotId": "1B89D8DE-EED1-460F-B58B-854194622881:snapshot:13",
         "operation": "CLICK",
         "target": "2",
         "targetName": "Import report",

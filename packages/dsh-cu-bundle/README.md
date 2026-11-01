@@ -40,10 +40,15 @@ The bundle reads the environment at profile load:
 | Variable | Default | Meaning |
 |---|---|---|
 | `DSH_CU_DECISION_ENDPOINT` | `http://127.0.0.1:8765` | Local D1 decision service |
-| `DSH_CU_DECISION_TOKEN` | `dsh-cu-local` | Bearer token for that service |
-| `DSH_CU_CONTROL_TOKEN` | `dsh-cu-control` | Token for the loopback control page |
+| `DSH_CU_DECISION_TOKEN` | `dsh-cu-local` (**published default: set your own**) | Bearer token for that service |
+| `DSH_CU_CONTROL_TOKEN` | `dsh-cu-control` (**published default: set your own**) | Token for the loopback control page |
 | `DSH_CU_HEADLESS` | unset | `1` forces the headless browser path |
 | `DSH_CU_CAPTURE_SKILLS` | unset | `1` enables Skill candidate capture (needs `skillStorePath`) |
+
+Both token defaults are public: they are in this file and in the published
+tarball, so any process on the machine knows them until you override both. `npm
+run plugin:doctor` fails with `control token — ... falls back to ...` while a
+default is in effect.
 
 Per-profile overrides belong in `~/.dsh/profiles/<name>/cordis.patch.yml`, not in
 this package: a patch entry with `id: dsh-cu-browser` replaces the bundled config.

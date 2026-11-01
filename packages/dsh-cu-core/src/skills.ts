@@ -1,7 +1,8 @@
 import { z } from 'zod'
-import { verificationSchema } from './contract.ts'
+import { MAX_VERIFICATIONS, verificationSchema } from './contract.ts'
 import type { Verification } from './contract.ts'
 import type { Decision, Observation } from './types.ts'
+import { maxRisk, type PolicyConfig, type TaskPolicy, type TaskPolicyInput } from './policy.ts'
 import type { SkillStore } from './skill-store.ts'
 
 
@@ -47,7 +48,7 @@ export const verifiedSkillSchema = z.object({
   fallback: z.enum(['d1', 'human']),
   risk: z.enum(['read_only', 'reversible', 'consequential']),
   /** Optional only so legacy records can load; publication and replay require it. */
-  verify: z.array(verificationSchema).max(12).optional(),
+  verify: z.array(verificationSchema).max(MAX_VERIFICATIONS).optional(),
   steps: z.array(skillStepSchema).min(1),
 }).strict()
 export type VerifiedSkill = z.infer<typeof verifiedSkillSchema>
@@ -57,6 +58,54 @@ export class SkillError extends Error {
     super(message)
     this.name = 'SkillError'
   }
+}
+
+/** Providers that may replay a Skill. Each owns exactly one match scope kind. */
+export type SkillProvider = 'browser' | 'native'
+
+/**
+ * Refuses a Skill whose match scope belongs to the other provider, so a Skill
+ * verified against a native window can never replay inside a web page and vice
+ * versa (CR-03).
+ */
+export function assertSkillProvider(skill: VerifiedSkill, provider: SkillProvider): void {
+  const urlScoped = skill.match.urlPath !== undefined
+  const nativeScoped = skill.match.windowTitle !== undefined || skill.match.appBundleId !== undefined
+  if (provider === 'browser' && !urlScoped) {
+    throw new SkillError('skill_provider_mismatch', `Skill is not URL-scoped and cannot replay in a browser: ${skill.id}`)
+  }
+  if (provider === 'native' && !nativeScoped) {
+    throw new SkillError('skill_provider_mismatch', `Skill is not window/application-scoped and cannot replay natively: ${skill.id}`)
+  }
+}
+
+/** Steps that change state; a read_only Skill may only wait. */
+function mutatingSteps(skill: VerifiedSkill): SkillStep[] {
+  return skill.steps.filter(step => step.type !== 'wait')
+}
+
+/**
+ * Resolves the policy a Skill replay runs under (CR-01). The effective risk is
+ * the maximum of the caller's request, the Skill's own risk and the provider
+ * floor - a Skill can never lower the caller's requirement - and `allow*` comes
+ * from provider config alone. A `read_only` Skill carrying mutating steps is a
+ * contradictory declaration and is refused.
+ */
+export function skillPolicy(
+  input: TaskPolicyInput | undefined,
+  skill: VerifiedSkill,
+  config: PolicyConfig = {},
+): TaskPolicy {
+  // A Skill that declares itself read-only while carrying mutating steps is a
+  // contradictory declaration and is refused outright (CR-01).
+  if (skill.risk === 'read_only' && mutatingSteps(skill).length > 0) {
+    throw new SkillError('skill_read_only_mutation', `Read-only Skill declares mutating steps: ${skill.id}`)
+  }
+  const policy: TaskPolicy = { risk: maxRisk(input?.risk ?? 'reversible', skill.risk, config.minRisk) }
+  if (input?.credentialsAvailable !== undefined) policy.credentialsAvailable = input.credentialsAvailable
+  if (config.preauthorizeConsequential === true) policy.allowConsequential = true
+  if (config.preauthorizeLogin === true) policy.allowLogin = true
+  return policy
 }
 
 export const fixtureSkills: VerifiedSkill[] = [
@@ -132,8 +181,10 @@ function placeholder(key: string): string {
 export function sanitizeSkillVerifications(
   rawVerify: unknown,
   inputs: Record<string, string> = {},
+  /** Additional values (e.g. dispatched text that never reached `capturedValues`) that must be redacted. */
+  extraSecrets: string[] = [],
 ): Verification[] | null {
-  const assertions = z.array(verificationSchema).min(1).max(12).parse(rawVerify)
+  const assertions = z.array(verificationSchema).min(1).max(MAX_VERIFICATIONS).parse(rawVerify)
   if (!isWellFormedJson(assertions) || !isWellFormedJson(inputs)) return null
   const strings: string[] = []
   mapStrings(assertions, text => {
@@ -142,20 +193,34 @@ export function sanitizeSkillVerifications(
   })
   if (strings.some(text => text.includes('{{inputs:'))) return null
   const replacements = new Map<string, string>()
-  for (const [key, value] of Object.entries(inputs)) {
+  for (const value of extraSecrets) {
     if (value === '') continue
     const encoded = encodeURIComponent(value)
     if (encoded !== value && strings.some(text => text.includes(encoded))) return null
+  }
+  const keysForValue = new Map<string, string>()
+  for (const [key, value] of Object.entries(inputs)) {
+    if (value === '') continue
+    const encoded = encodeURIComponent(value)
+    // A percent-encoded occurrence must never be persisted as clear text.
+    if (encoded !== value && strings.some(text => text.includes(encoded))) return null
     if (!strings.some(text => text.includes(value))) continue
-    const existing = replacements.get(value)
-    if (existing !== undefined && existing !== key) return null
+    const existingKey = keysForValue.get(value)
+    if (existingKey !== undefined && existingKey !== key) return null
+    keysForValue.set(value, key)
+  }
+  for (const value of new Set([...Object.values(inputs), ...extraSecrets])) {
+    if (value === '') continue
+    if (!strings.some(text => text.includes(value))) continue
+    const key = keysForValue.get(value)
+    if (key === undefined) return null
     replacements.set(value, key)
   }
   if (replacements.size === 0) return assertions
   const values = [...replacements.keys()].sort((a, b) => b.length - a.length)
   const pattern = new RegExp(values.map(escapeRegExp).join('|'), 'gu')
   const sanitized = mapStrings(assertions, text => text.replace(pattern, value => placeholder(replacements.get(value)!)))
-  return z.array(verificationSchema).min(1).max(12).parse(sanitized)
+  return z.array(verificationSchema).min(1).max(MAX_VERIFICATIONS).parse(sanitized)
 }
 
 function structuredInput(inputs: Record<string, string> | undefined, key: string): string | undefined {
@@ -185,10 +250,12 @@ export function verificationForSkill(
     }
     return value
   }))
-  return [
-    ...z.array(verificationSchema).min(1).max(12).parse(hydrated),
+  // The merged set is validated again: Skill assertions are capped at 12 and
+  // the caller's postconditions were previously appended outside the cap (CR-09).
+  return z.array(verificationSchema).min(1).max(MAX_VERIFICATIONS).parse([
+    ...(hydrated as Verification[]),
     ...callerVerify,
-  ]
+  ])
 }
 
 export function decisionForSkillStep(

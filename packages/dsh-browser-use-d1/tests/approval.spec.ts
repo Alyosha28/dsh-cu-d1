@@ -11,7 +11,7 @@ import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import * as Provider from '../src/index.ts'
-import { createCandidateFromTrajectory, evidenceFromRun } from '@albaincompleta/dsh-cu-core/skill-builder'
+import { createCandidateFromTrajectory } from '@albaincompleta/dsh-cu-core/skill-builder'
 import { SkillStore } from '@albaincompleta/dsh-cu-core/skill-store'
 import { CHROME, close, decisionServer, fixtureServer, listen } from './fixtures.ts'
 import { FakeUserQuestions } from './approval-fixtures.ts'
@@ -100,7 +100,10 @@ it('requires interactive approval before publishing a Skill', async () => {
     verify: [{ type: 'text_visible', text: 'Done' }],
     trace: [{ operation: 'CLICK', targetName: 'Search flights', target: 'e7' }],
   })
-  await store.recordVerification(candidate!.id, evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1))
+  // CR-02: evidence comes from a store-minted verification session, not a
+  // caller-authored record.
+  const session = await store.beginVerification(candidate!.id)
+  await store.finishVerification(session.token, { status: 'passed', summary: 'independently_verified_after_skill' })
   const approved = new FakeUserQuestions(true)
   ctx.provide('userQuestions', approved)
   await ctx.plugin(Provider, config())

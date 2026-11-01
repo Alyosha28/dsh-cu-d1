@@ -23,15 +23,38 @@ const DEFAULT_RETENTION_DAYS = 30
 const MAX_DETAIL_STRING_LENGTH = 200
 const queues = new Map<string, Promise<void>>()
 const SAFE_DETAIL_KEYS = new Set([
-  'kind', 'status', 'reason', 'route', 'action', 'operation',
+  'kind', 'status', 'reason', 'route', 'action', 'operation', 'removed',
   'decisionRequests', 'modelForwardCalls', 'actionsExecuted',
   'inputTokens', 'outputTokens', 'elapsedMs', 'limit',
 ])
 
-function safeString(value: string): string {
+/**
+ * Key names that introduce a secret. Written as an alternation of *substrings*
+ * (not word-anchored) so `access_token`, `refreshToken` and `client_secret` all
+ * match, and paired with `:`/`=`/full-width `：`/`＝` as separators (CR-05).
+ */
+const SECRET_KEY = String.raw`(?:[a-z0-9_.-]*(?:password|passwd|passphrase|secret|token|apikey|credential|cookie|authorization|auth|privatekey|sessionkey)[a-z0-9_.-]*|api[_-]?key|private[_-]?key|session[_-]?key|x-auth[a-z-]*)`
+const SECRET_SEPARATOR = String.raw`\s*[:=\uff1a\uff1d]\s*`
+/**
+ * After the separator, consume the whole value: no `,`/`;`/space boundary is
+ * trusted, because `token=abc def` and `password=abc,retry=1` both used to leak
+ * the tail of the secret.
+ */
+const SECRET_VALUE = String.raw`[^\n\r]*`
+
+const SEPARATOR_PATTERN = /[:=\uff1a\uff1d]/u
+
+function redactSecrets(value: string): string {
   return value
-    .replace(/\b(Bearer\s+)[^\s,;]+/giu, '$1[redacted]')
-    .replace(/\b(password|passwd|token|secret|credential|cookie)(\s*[:=]\s*)[^\s,;]+/giu, '$1$2[redacted]')
+    .replace(/\b(Bearer|Basic|Digest|Token)\s+[^\s,;]+/giu, '$1 [redacted]')
+    .replace(new RegExp(`${SECRET_KEY}${SECRET_SEPARATOR}${SECRET_VALUE}`, 'giu'), match => {
+      const index = match.search(SEPARATOR_PATTERN)
+      return `${match.slice(0, index)}${match[index]}[redacted]`
+    })
+}
+
+function safeString(value: string): string {
+  return redactSecrets(value)
     .replace(/[\u0000-\u001f\u007f]/gu, ' ')
     .slice(0, MAX_DETAIL_STRING_LENGTH)
 }
@@ -52,6 +75,9 @@ export function sanitizeAuditDetail(detail: Record<string, unknown> | undefined)
 export class AuditStore {
   private readonly retentionDays: number
   private readonly now: () => Date
+  /** Count of lines dropped by the tolerant reader (CR-08). */
+  quarantinedLines = 0
+  private quarantined = 0
 
   constructor(private readonly path: string, options: AuditStoreOptions = {}) {
     this.retentionDays = options.retentionDays ?? DEFAULT_RETENTION_DAYS
@@ -68,13 +94,53 @@ export class AuditStore {
     return result
   }
 
+  /**
+   * Tolerant read (CR-08): an unparseable or schema-invalid line is quarantined
+   * - copied aside and dropped from the live file - so one bad line can never
+   * make the whole audit chain permanently unreadable.
+   */
   private async read(): Promise<AuditEvent[]> {
+    let text: string
     try {
-      const text = await readFile(this.path, 'utf8')
-      return text.trim() === '' ? [] : text.trim().split('\n').map(line => auditEventSchema.parse(JSON.parse(line)))
+      text = await readFile(this.path, 'utf8')
     } catch (error) {
       if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') return []
       throw error
+    }
+    if (text.trim() === '') return []
+    const events: AuditEvent[] = []
+    const corrupt: string[] = []
+    for (const line of text.split('\n')) {
+      if (line.trim() === '') continue
+      try {
+        events.push(auditEventSchema.parse(JSON.parse(line)))
+      } catch {
+        corrupt.push(line)
+      }
+    }
+    if (corrupt.length > 0) {
+      this.quarantined = this.quarantined + corrupt.length
+    this.quarantinedLines = this.quarantined
+      await this.quarantine(corrupt)
+    }
+    return events
+  }
+
+  private async quarantine(lines: string[]): Promise<void> {
+    try {
+      await writeFile(`${this.path}.corrupt`, lines.join('\n') + '\n', { mode: 0o600 })
+      // The live file is rewritten from the records that parsed; `read()`
+      // already holds them, and `append()` rewrites the file right after.
+      const kept: AuditEvent[] = []
+      for (const line of (await readFile(this.path, 'utf8')).split('\n')) {
+        if (line.trim() === '' || lines.includes(line)) continue
+        try {
+          kept.push(auditEventSchema.parse(JSON.parse(line)))
+        } catch { /* already quarantined */ }
+      }
+      await this.write(kept)
+    } catch {
+      // Quarantine is best effort; the readable records still go out.
     }
   }
 
@@ -102,6 +168,11 @@ export class AuditStore {
       await this.write(events)
       return complete
     })
+  }
+
+  /** Number of lines dropped by the tolerant reader. */
+  get quarantinedLineCount(): number {
+    return this.quarantined
   }
 
   async list(limit = 50): Promise<AuditEvent[]> {

@@ -9,6 +9,17 @@ import { SkillStore } from '../src/skill-store.ts'
 const cleanups: Array<() => Promise<void>> = []
 afterEach(async () => { await Promise.allSettled(cleanups.splice(0).map(cleanup => cleanup())) })
 
+/** Runs a store-minted verification rerun (CR-02: evidence cannot be asserted by the caller). */
+async function verify(store: SkillStore, skillId: string, status: 'passed' | 'failed' = 'passed', summary = 'rerun_ok') {
+  const session = await store.beginVerification(skillId)
+  return store.finishVerification(session.token, { status, summary })
+}
+
+/** Mints the publish nonce the way a provider does after a real user approval. */
+function approve(store: SkillStore, skillId: string): string {
+  return store.mintPublishNonce(skillId, { approved: true })!
+}
+
 async function fixture() {
   const directory = await mkdtemp(join(tmpdir(), 'dsh-cu-skill-store-'))
   cleanups.push(() => rm(directory, { recursive: true, force: true }))
@@ -37,15 +48,17 @@ it('requires independent verification, user approval, and an exact replay origin
     { type: 'text_visible', text: '{{inputs:From}} to {{inputs:To}} · {{inputs:Departure%20date}}' },
   ])
   expect((await store.list('verified')).find(skill => skill.id === candidate.id)).toBeUndefined()
-  await expect(store.publish(candidate.id, 'missing', 'user')).rejects.toThrow('verification_required')
+  // CR-02: a caller-asserted approval is no longer an approval.
+  await expect(store.publish(candidate.id, 'missing', 'user')).rejects.toMatchObject({ code: 'approval_required' })
+  await expect(store.publish(candidate.id, approve(store, candidate.id))).rejects.toThrow('verification_required')
 
-  const evidence = evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1)
-  await store.recordVerification(candidate.id, evidence)
-  await expect(store.publish(candidate.id, 'not-latest', 'user')).rejects.toThrow('verification_required')
-  await expect(store.publish(candidate.id, 'not-latest', 'system')).rejects.toThrow('approval_required')
+  const evidence = await verify(store, candidate.id)
+  expect(evidence.independent).toBe(true)
+  // A nonce minted for another skill, and the legacy `'user'` literal, are refused.
+  await expect(store.publish(candidate.id, 'not-latest', 'user')).rejects.toMatchObject({ code: 'approval_required' })
 
   const latest = (await store.get(candidate.id))!.history.at(-1)!
-  const published = await store.publish(candidate.id, latest.id, 'user')
+  const published = await store.publish(candidate.id, approve(store, candidate.id))
   expect(published.state).toBe('verified')
   expect(published.verifiedAt).toBe(latest.at)
   const reloaded = new SkillStore(join(directory, 'skills.json'))
@@ -55,7 +68,7 @@ it('requires independent verification, user approval, and an exact replay origin
   await expect(selectSkill({ skillId: candidate.id, url: 'https://other.test/flights.html' }, reloaded))
     .rejects.toMatchObject({ code: 'skill_origin_mismatch' })
   expect(await selectSkill({ url: 'https://other.test/flights.html' }, reloaded)).toBeNull()
-  await expect(reloaded.recordVerification(candidate.id, evidence)).rejects.toThrow('immutable')
+  await expect(reloaded.recordVerification(candidate.id)).rejects.toThrow('immutable')
   expect(await readFile(join(directory, 'skills.json'), 'utf8')).not.toContain('Zürich')
   expect(await readFile(join(directory, 'skills.json'), 'utf8')).not.toContain('London')
   expect((await stat(join(directory, 'skills.json'))).mode & 0o777).toBe(0o600)
@@ -63,10 +76,8 @@ it('requires independent verification, user approval, and an exact replay origin
 
 it('evolves a published skill into a new versioned candidate that requires fresh approval', async () => {
   const { store, candidate } = await fixture()
-  const evidence = evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1)
-  await store.recordVerification(candidate.id, evidence)
-  const latest = (await store.get(candidate.id))!.history.at(-1)!
-  const published = await store.publish(candidate.id, latest.id, 'user')
+  await verify(store, candidate.id)
+  const published = await store.publish(candidate.id, approve(store, candidate.id))
   expect(published.version).toBe(1)
 
   const repaired = await createCandidateFromTrajectory(store, {
@@ -92,15 +103,14 @@ it('evolves a published skill into a new versioned candidate that requires fresh
   const original = await store.get(candidate.id)
   expect(original?.state).toBe('verified')
   expect(original?.version).toBe(1)
-  await expect(store.recordVerification(candidate.id, evidence)).rejects.toThrow('immutable')
+  await expect(store.recordVerification(candidate.id)).rejects.toThrow('immutable')
 
   // The repaired candidate is not yet replayable and must pass the standard publish gate.
   await expect(selectSkill({ skillId: repaired!.id, url: 'https://example.test/flights.html' }, store))
     .rejects.toThrow('Unknown verified skill')
-  await expect(store.publish(repaired!.id, 'missing', 'user')).rejects.toThrow('verification_required')
-  await store.recordVerification(repaired!.id, evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1))
-  const repairedLatest = (await store.get(repaired!.id))!.history.at(-1)!
-  const republished = await store.publish(repaired!.id, repairedLatest.id, 'user')
+  await expect(store.publish(repaired!.id, approve(store, repaired!.id))).rejects.toThrow('verification_required')
+  await verify(store, repaired!.id)
+  const republished = await store.publish(repaired!.id, approve(store, repaired!.id))
   expect(republished.state).toBe('verified')
   expect(republished.version).toBe(2)
   expect((await store.list('verified')).map(skill => skill.id).sort()).toEqual([candidate.id, repaired!.id].sort())
@@ -207,10 +217,8 @@ it('redacts repeated inputs and special target names with per-step replay keys',
 
 it('does not treat fixture-like store IDs as built-in identity', async () => {
   const { store, candidate, directory } = await fixture()
-  const evidence = evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1)
-  await store.recordVerification(candidate.id, evidence)
-  const latest = (await store.get(candidate.id))!.history.at(-1)!
-  await store.publish(candidate.id, latest.id, 'user')
+  await verify(store, candidate.id)
+  await store.publish(candidate.id, approve(store, candidate.id))
   const path = join(directory, 'skills.json')
   const file = JSON.parse(await readFile(path, 'utf8'))
   file.skills[0].id = 'fixture.filters'
@@ -224,6 +232,7 @@ it('does not treat fixture-like store IDs as built-in identity', async () => {
 
 it('rejects zero-action evidence, malformed Unicode and ambiguous target capture', async () => {
   expect(evidenceFromRun('success', 'independently_verified', 0, true, 0).status).toBe('failed')
+  expect(evidenceFromRun('success', '  bad summary  ', 0, true, 1).summary).toBe('verification_summary_invalid')
   expect(stepsFromTrajectory([
     { operation: 'TYPE_TEXT', targetName: 'Report path', targetIdentifier: 'field-unique', target: '2', dispatched: true },
   ])).toEqual([{ type: 'type', target: 'field-unique', input: 'Report path' }])
@@ -241,11 +250,13 @@ it('rejects zero-action evidence, malformed Unicode and ambiguous target capture
 
 it('serializes verification and publication mutations without losing the latest evidence', async () => {
   const { store, candidate } = await fixture()
-  const passed = evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1)
-  await store.recordVerification(candidate.id, passed)
-  const latest = (await store.get(candidate.id))!.history.at(-1)!
-  const failedWrite = store.recordVerification(candidate.id, evidenceFromRun('failed', 'independent_failure', 0, true, 1))
-  const publication = store.publish(candidate.id, latest.id, 'user')
+  await verify(store, candidate.id)
+  const session = await store.beginVerification(candidate.id)
+  const nonce = approve(store, candidate.id)
+  // The rerun finishes before the publication is applied: the newest evidence
+  // is a failure, so the queued publish must refuse.
+  const failedWrite = store.finishVerification(session.token, { status: 'failed', summary: 'rerun_failed' })
+  const publication = store.publish(candidate.id, nonce)
   await failedWrite
   await expect(publication).rejects.toThrow('verification_required')
   const current = await store.get(candidate.id)
@@ -255,10 +266,8 @@ it('serializes verification and publication mutations without losing the latest 
 
 it('loads but never replays legacy records without an origin or postconditions', async () => {
   const { store, candidate, directory } = await fixture()
-  const evidence = evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1)
-  await store.recordVerification(candidate.id, evidence)
-  const latest = (await store.get(candidate.id))!.history.at(-1)!
-  await store.publish(candidate.id, latest.id, 'user')
+  await verify(store, candidate.id)
+  await store.publish(candidate.id, approve(store, candidate.id))
   const path = join(directory, 'skills.json')
   const file = JSON.parse(await readFile(path, 'utf8'))
   delete file.skills[0].match.origin

@@ -51,7 +51,8 @@ The packages target DeepSeek Harness **0.2.1-rc.5** (`engines.dsh: >=0.2.1-rc.5 
 npm install --include=dev && npm run build
 
 # Install into a profile: links the packages, mounts the bundle, backs up the
-# manifest, and runs the doctor. --dry-run prints the steps only.
+# manifest, runs the doctor, and restores the manifest if either step fails.
+# --dry-run prints the plan before reading anything and exits 0.
 npm run install:plugin -- --profile=dsh-cu
 
 # Or run each step by hand:
@@ -67,11 +68,25 @@ Electron-owned `desktop` profile is optional and not required for the plugin to
 be a DSH plugin; if you ever do it, quit DSH first so the running app cannot
 overwrite the manifest on exit.
 
-`plugin:doctor` composes the profile with `dsh --dump-config`, checks that both entries exist and are enabled, fails on a competing browser provider, and compares the plugin's DSH package version with the host. It never starts a browser, a helper, or a model.
+`plugin:doctor` answers one question: would this profile boot with the D1 providers in it? It has two sources of truth and exits non-zero on any FAIL.
+
+- `dsh --dump-config` (no plugin is imported by that command): the entry rows exist, are enabled, name the expected package, hold the single browser-provider slot, and no `- id:` appears twice — a second layer re-pointing `dsh-cu-browser` at another package is a FAIL, not the last row winning.
+- Resolution and import from the profile: `@albaincompleta/dsh-cu-bundle`, `-core`, `-browser-use-d1` and `@deepseek-ai/dsh-browser-use` must resolve, and the bundle and both providers are imported once (not mounted). A profile that composes the right rows but cannot import the provider is a FAIL.
+- Version alignment with the host `@deepseek-ai/dsh` is a FAIL on mismatch or on an unresolved peer, not a WARN.
+- `decisionToken` / `controlToken` that resolve to the bundle's published defaults (`dsh-cu-local`, `dsh-cu-control`) is a FAIL, with the environment variables to set instead.
+
+What it does not check: it does not mount the plugin, start a browser, a helper, or a model, prove a native run will succeed, or inspect the host application's own profile. WARN is reserved for what cannot stop the plugin from mounting the browser provider (the optional native pair, macOS grants, an absent client package).
 
 The bundle disables the native provider by default. Enable both native entries only after granting macOS Accessibility and Screen Recording and reading the native section below. When a native run needs a missing grant, the provider opens the macOS privacy dialog once (`promptPermissions`, default true), returns `prompted` plus a deep link to the exact System Settings pane, and the control page's permission button does the same. `npm run plugin:doctor` prints the current Accessibility and Screen Recording state, so the gap is visible before a run fails. `DSH_CU_DECISION_ENDPOINT`, `DSH_CU_DECISION_TOKEN`, `DSH_CU_CONTROL_TOKEN`, and `DSH_CU_HEADLESS` configure the browser entry at profile load; see [`packages/dsh-cu-bundle/README.md`](packages/dsh-cu-bundle/README.md).
 
 Without Playwright's own browser build, the provider launches an installed Google Chrome or Edge and reports `browser_unavailable` with a recovery step when neither exists, so a fresh machine does not need `npx playwright install` first.
+
+### What the installer and the publish path guarantee
+
+- `install:plugin -- --profile=<name>` accepts one directory name: `^[a-z0-9][a-z0-9._-]{0,63}$`. Anything with a separator, a leading dot, or a `..` segment is refused before the filesystem is touched, and the resolved directory must stay under `DSH_HOME/profiles/` — re-checked after `realpath`, so a symlinked profile cannot escape either.
+- The manifest is written through a temporary file and renamed, and exactly one backup (`package.json.bak`) is kept. A failed `dsh plugin add` or a failing doctor restores the backup and exits non-zero.
+- `npm publish` for every package runs `scripts/verify-dist.mts` through `prepublishOnly`: `main`/`types`/`exports` targets must exist on disk and in the `npm pack` listing, and the tarball must have more than two files. `npm run publish:plugin` runs the same gate before each publish, refuses a downstream package whose internal dependency is not on the registry yet, and removes the temporary npmrc that carries `NPM_TOKEN` on every exit path, including `process.exit` and SIGINT (verified with a placeholder token: no `dsh-cu-npmrc-*` file survives a failed run).
+- These gates cover the repository's own publish path. They do not cover an npm token produced outside this repository, a registry-side compromise, or a consumer installing a version published before these gates existed.
 
 ## Reuse-first execution
 
@@ -283,5 +298,11 @@ Results and limitations are in [`results/SKILL_EVAL.md`](results/SKILL_EVAL.md).
 ## Safety and model license
 
 D1 is not a permission or completion authority. Fresh-state checks, application ownership, verification, and escalation remain outside the model. Current results do not justify unattended desktop control.
+
+Three boundaries are worth stating as contracts, because each one has been read as stronger than it is:
+
+- **The model cannot authorize itself.** Approval for a consequential action comes from the DSH `userQuestions` service, from a person, per action. A tool argument that claims approval ("approved": true, a `verify` assertion, a plan, a prefixed instruction) is not approval: the tool still asks, and with no approval channel it fails closed rather than proceeding. Replay of a published Verified Skill is not a bypass of that rule; whether a replay may skip the prompt for the exact approved steps is being decided in the core/approval workstream — treat "Skill replay is exempt from approval" as **not** the current contract until it is documented there.
+- **The doctor is an install-time check, not a runtime guarantee.** It reports what it can resolve and import right now (see above); it cannot see a package added to the profile after it ran, a host-side override, or a runtime failure inside the provider.
+- **The decisions in this repository are sandbox-grade.** The decision service binds to loopback and takes a bearer token, but the token that ships in the bundle patch is public: anyone on the same machine can reach the control surface and the decision endpoint until `DSH_CU_DECISION_TOKEN` and `DSH_CU_CONTROL_TOKEN` are set. The doctor fails when they are not.
 
 `d1-2B` uses the LFM Open License v1.0, not Apache-2.0 or MIT. Review the [license](https://huggingface.co/LiquidAI/d1-2B/blob/main/LICENSE) before redistribution or commercial use; it includes a commercial-use revenue threshold condition.

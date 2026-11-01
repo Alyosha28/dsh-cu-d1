@@ -30,13 +30,20 @@ it('saves a page download and reports its path and size', async () => {
   const sink = new DownloadSink(dir)
   await sink.ready()
   sink.attach(page)
+  // BR-13: nothing is written without an approved wait. The approval is granted
+  // while the wait is in flight, then the click starts the download.
+  const pending = sink.awaitApproved({ async request() { return { approved: true } } } as never,
+    { id: 'downloads-agent' } as never, { timeoutMs: 5000 }, new AbortController().signal)
+  await new Promise(resolve => setTimeout(resolve, 50))
   await page.click('#report')
 
-  const record = await sink.waitForLatest(5000)
+  const result = await pending
+  expect(result.status).toBe('success')
+  const record = result.download!
   expect(record).toMatchObject({ name: 'report.bin', state: 'saved' })
-  expect(record?.bytes).toBe(Buffer.byteLength(BODY))
-  expect(record?.path).toBeDefined()
-  expect(await readFile(record!.path!, 'utf8')).toBe(BODY)
+  expect(record.bytes).toBe(Buffer.byteLength(BODY))
+  expect(record.path).toBeDefined()
+  expect(await readFile(record.path!, 'utf8')).toBe(BODY)
   expect(sink.list()).toHaveLength(1)
   await context.close()
 })

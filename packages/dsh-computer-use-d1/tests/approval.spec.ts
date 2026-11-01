@@ -14,7 +14,7 @@ import { join } from 'node:path'
 import { spawn } from 'node:child_process'
 import type { ChildProcess } from 'node:child_process'
 import * as Provider from '../src/index.ts'
-import { createCandidateFromTrajectory, evidenceFromRun } from '@albaincompleta/dsh-cu-core/skill-builder'
+import { createCandidateFromTrajectory } from '@albaincompleta/dsh-cu-core/skill-builder'
 import { SkillStore } from '@albaincompleta/dsh-cu-core/skill-store'
 import { HELPER, pathGrant, REPORT_PATH, ROOT } from './fixtures.ts'
 import { FakeUserQuestions } from './approval-fixtures.ts'
@@ -69,7 +69,9 @@ it('publishes a Skill through DSH user approval and exposes native control', asy
     verify: [{ type: 'text_visible', text: 'Import complete' }],
     trace: [{ operation: 'CLICK', targetName: 'Import report', target: '2' }],
   })
-  await store.recordVerification(candidate!.id, evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1))
+  // CR-02: evidence can only be minted by the store, through a single-use session token.
+  const session = await store.beginVerification(candidate!.id)
+  await store.finishVerification(session.token, { status: 'passed', summary: 'independently_verified_after_skill' })
   const approved = new FakeUserQuestions(true)
   ctx.provide('userQuestions', approved)
   await ctx.plugin(Provider, {
@@ -82,7 +84,7 @@ it('publishes a Skill through DSH user approval and exposes native control', asy
     agent, name: 'computer_skill_publish', arguments: { skillId: candidate!.id },
     callId: ToolCallId('native-publish'), signal: new AbortController().signal,
   })
-  expect(published.isError).toBe(false)
+  expect(published.isError, JSON.stringify(published.content)).toBe(false)
   expect((await store.get(candidate!.id))?.state).toBe('verified')
 
   const status = await executeToolFixture(ctx, {
@@ -91,7 +93,20 @@ it('publishes a Skill through DSH user approval and exposes native control', asy
   })
   expect(status.isError).toBe(false)
   const value = JSON.parse((status.content[0] as { text: string }).text) as Record<string, unknown>
-  const page = await fetch(value.controlUrl as string)
+  // The page shell is public; every /api route is authenticated by the token in
+  // the URL fragment, which the page script turns into an Authorization header.
+  const controlUrl = new URL(value.controlUrl as string)
+  const pageToken = new URLSearchParams(controlUrl.hash.replace(/^#/, '')).get('token')
+  expect(pageToken).toBeTruthy()
+  const page = await fetch(`${controlUrl.origin}/`)
   expect(page.status).toBe(200)
+  const anonymousApi = await fetch(`${controlUrl.origin}/api/status`)
+  expect(anonymousApi.status).toBe(401)
+  const authorizedApi = await fetch(`${controlUrl.origin}/api/status`, {
+    headers: { authorization: `Bearer ${pageToken}` },
+  })
+  expect(authorizedApi.status).toBe(200)
+  const apiStatus = await authorizedApi.json() as { active?: unknown }
+  expect(apiStatus).toBeTypeOf('object')
   expect(await page.text()).toContain('接管')
 })

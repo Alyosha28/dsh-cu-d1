@@ -16,7 +16,7 @@ import type { Browser } from 'playwright'
 import * as Provider from '../src/index.ts'
 import { runBrowserSkill } from '../src/skill-runner.ts'
 import { RunBudget } from '@albaincompleta/dsh-cu-core/budget'
-import { createCandidateFromTrajectory, evidenceFromRun } from '@albaincompleta/dsh-cu-core/skill-builder'
+import { createCandidateFromTrajectory } from '@albaincompleta/dsh-cu-core/skill-builder'
 import { selectSkill } from '@albaincompleta/dsh-cu-core/skills'
 import type { VerifiedSkill } from '@albaincompleta/dsh-cu-core/skills'
 import { SkillStore } from '@albaincompleta/dsh-cu-core/skill-store'
@@ -118,11 +118,17 @@ it('captures, verifies, approves, and reuses a trajectory as a verified Skill', 
   }, Provider.Config(config()), new AbortController().signal)
   await page.close()
   expect(verification).toMatchObject({ status: 'success', route: 'skill', modelForwardCalls: 0, actionsExecuted: 4 })
-  const evidence = evidenceFromRun(verification!.status, verification!.reason, verification!.modelForwardCalls, true, verification!.actionsExecuted)
-  await store.recordVerification(candidateId, evidence)
-  const latest = (await store.get(candidateId))!.history.at(-1)!
-  await expect(store.publish(candidateId, latest.id, 'system')).rejects.toThrow('approval_required')
-  await store.publish(candidateId, latest.id, 'user')
+  // CR-02: the rerun above is the independent evidence; it is recorded through a
+  // store-minted session, and publication requires a nonce minted from a real
+  // approval answer (a string literal is refused).
+  expect(verification).toMatchObject({ modelForwardCalls: 0 })
+  const session = await store.beginVerification(candidateId)
+  await store.finishVerification(session.token, {
+    status: verification!.status === 'success' ? 'passed' : 'failed',
+    summary: 'independently_verified_after_skill',
+  })
+  await expect(store.publish(candidateId, 'not-an-approval')).rejects.toThrow('approval_required')
+  await store.publish(candidateId, store.mintPublishNonce(candidateId, { approved: true })!)
 
   const reloaded = new SkillStore(storePath)
   expect((await selectSkill({ skillId: candidateId, url: `${fixtureUrl}/flights.html` }, reloaded))?.state).toBe('verified')
@@ -162,9 +168,9 @@ it('evolves a stale published skill through a bounded D1 repair into a new candi
     verify: [{ type: 'text_visible', text: '{{inputs:From}} to {{inputs:To}} · {{inputs:Departure%20date}}' }],
     steps: [{ type: 'click', target: 'Retired Search Button' }],
   })
-  await store.recordVerification(stale.id, evidenceFromRun('success', 'independently_verified_after_skill', 0, true, 1))
-  const latest = (await store.get(stale.id))!.history.at(-1)!
-  await store.publish(stale.id, latest.id, 'user')
+  const session = await store.beginVerification(stale.id)
+  await store.finishVerification(session.token, { status: 'passed', summary: 'independently_verified_after_skill' })
+  await store.publish(stale.id, store.mintPublishNonce(stale.id, { approved: true })!)
 
   const result = payload(await execute({
     goal: 'Find one-way flights from Zürich to London on 2026-11-01.',

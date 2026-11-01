@@ -121,3 +121,32 @@ it('renders a preparing state before the call settles', async () => {
   expect(html).toContain('data-dsh-cu-status="running"')
   expect(html).toContain('准备执行')
 })
+
+it('renders untrusted tool payload text as escaped text, never as markup', async () => {
+  await prepare()
+  const card = mountCards().find(item => item.options.key === 'browser_navigate')
+  if (card === undefined) throw new Error('browser_navigate card not registered')
+  // A window title or URL is attacker-controlled data; it must never reach an HTML sink.
+  const hostile = '<img src=x onerror="globalThis.__dshCuPwned=1">'
+  const html = renderToStaticMarkup(createElement(card.component as never, {
+    toolName: 'browser_navigate',
+    phase: 'settled',
+    block: {
+      kind: 'settled',
+      content: [{ type: 'text', text: JSON.stringify({ status: 'success', url: hostile, reason: hostile }) }],
+    },
+  }))
+  expect(html).toContain('&lt;img src=x onerror=')
+  expect(html).not.toContain('<img src=x')
+  expect(html).not.toContain('onerror="globalThis')
+})
+
+it('never reads page credentials and never uses an HTML injection sink', () => {
+  const source = readFileSync(join(ROOT, 'packages/dsh-cu-client/lib/client.js'), 'utf8')
+  for (const sink of ['dangerouslySetInnerHTML', 'innerHTML', 'outerHTML', 'document.write', 'eval(', 'new Function(']) {
+    expect(source).not.toContain(sink)
+  }
+  for (const credential of ['localStorage', 'sessionStorage', 'document.cookie', 'location.hash', 'location.search', 'authorization']) {
+    expect(source).not.toContain(credential)
+  }
+})
